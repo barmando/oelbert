@@ -1,763 +1,390 @@
-<nav id="topnav" style="position:sticky;top:0;background:rgba(255,253,249,.9);backdrop-filter:saturate(1.2) blur(6px);z-index:50;border-bottom:1px solid #e5e7eb">
-  <div style="max-width:900px;margin:0 auto;padding:8px 16px;display:flex;gap:8px;flex-wrap:wrap">
-    <button type="button" onclick="nextSection('periodisering')">Periodisering</button>
-    <button type="button" onclick="nextSection('tijdvak1')">Tijdvak 1</button>
-    <button type="button" onclick="nextSection('tijdvak2')">Tijdvak 2</button>
-    <button type="button" onclick="nextSection('eindtoets')">Eindtoets</button>
-  </div>
-</nav>
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Geschiedenis Trainer V4 (compact)</title>
 <style>
   :root{--bg:#fffdf9;--ink:#222;--muted:#6b7280;--accent:#4f8a8b;--accent-600:#3f6f70;--card:#fff;--border:#e5e7eb;--good:#1b873e;--bad:#b91c1c;--focus:#f59e0b}
   html{scroll-behavior:smooth}
-  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); color:var(--ink); line-height:1.65; margin:0}
-  main{max-width:900px;margin:0 auto;padding:24px}
-  h1,h2,h3{color:var(--accent);margin:0 0 12px}
-  h1{font-size:clamp(1.6rem,2.5vw,2rem)} h2{font-size:clamp(1.4rem,2.2vw,1.6rem)} h3{font-size:1.1rem;color:#355a5b}
-  p,li,details{font-size:1.05rem}
-  .samenvatting,.reflectie,.tijdlijn,.verbanden,.continuiteit,.inleving,.bronnen,.flashcards,.question,.period-table,details{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin:12px 0; box-shadow:0 1px 0 rgba(0,0,0,.02)}
-  details summary{cursor:pointer;font-weight:600}
-  details[open]{border-color:#d8dee4}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--ink);line-height:1.6;margin:0}
+  main{max-width:920px;margin:0 auto;padding:20px}
+  h1,h2,h3{color:var(--accent)}
+  h1{margin:6px 0 12px}
+  h2{margin:18px 0 10px}
+  h3{margin:14px 0 8px;color:#355a5b}
+  nav#top{position:sticky;top:0;background:rgba(255,253,249,.92);backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid var(--border);z-index:50}
+  nav#top .wrap{max-width:920px;margin:0 auto;padding:8px 16px;display:flex;gap:10px;flex-wrap:wrap}
+  nav#top a{padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--border);text-decoration:none;color:var(--accent)}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:12px 0}
   table{width:100%;border-collapse:collapse}
   th,td{border:1px solid var(--border);padding:8px;text-align:left}
   thead th{background:#f7faf9}
-  select,textarea,input[type="text"],button{font:inherit}
-  textarea,select,input[type="text"]{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#fff}
-  select:focus,textarea:focus,input:focus{outline:3px solid var(--focus);outline-offset:1px}
-  button{display:block;margin:18px auto 6px;padding:12px 20px;background:var(--accent);color:#fff;border:none;border-radius:999px;cursor:pointer;transition:.15s}
-  button:hover{transform:translateY(-1px);background:var(--accent-600)}
-  button:focus{outline:3px solid var(--focus)}
-  .question{position:relative}
-  .feedback{display:inline-block;margin-left:10px;font-weight:600}
-  .feedback.good{color:var(--good)} .feedback.bad{color:var(--bad)}
-  .sortable{list-style:none;padding:0;margin:0}
-  .sortable li{background:#fff;border:1px solid var(--border);padding:10px 12px;margin:8px 0;border-radius:10px}
-  .sortable li.dragging{opacity:.6}
-  .flashcards p{margin:10px 0 0}
+  select,button{font:inherit}
+  button{padding:10px 14px;border:none;border-radius:999px;background:var(--accent);color:#fff;cursor:pointer}
+  button:hover{background:var(--accent-600)}
+  .feedback{display:inline-block;margin-left:8px;font-weight:600}
+  .good{color:var(--good)} .bad{color:var(--bad)}
   .muted{color:var(--muted)}
+  details{border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff}
+  details>summary{cursor:pointer;font-weight:600}
+  .twocol{display:grid;grid-template-columns:1fr;gap:12px}
+  @media (min-width:840px){ .twocol{grid-template-columns:1fr 1fr} }
+  .hidden{display:none}
 </style>
-<section id="periodisering">
-  <h2>Periodisering – Overzicht (leerjaar 1)</h2>
-  <div class="stepnav" style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px">
-    <button type="button" onclick="goStep('periodisering',0)">Overzicht</button>
-    <button type="button" onclick="goStep('periodisering',1)">Flashcards</button>
-    <button type="button" onclick="goStep('periodisering',2)">Oefenen</button>
+</head>
+<body>
+<nav id="top">
+  <div class="wrap">
+    <a href="#periodisering">Periodisering</a>
+    <a href="#tijdvak1">Tijdvak 1</a>
+    <a href="#tijdvak2">Tijdvak 2</a>
+    <a href="#eindtoets">Eindtoets</a>
   </div>
+</nav>
 
-  <div class="step">
-    <p>De geschiedenis is ingedeeld in <strong>periodes</strong> met <strong>tijdvakken</strong>. De jaartallen horen bij de tijdvakken.</p>
-    <table class="period-table" style="width:100%;border-collapse:collapse">
-      <thead>
-        <tr>
-          <th>#</th><th>Tijdvak</th><th>Periode</th><th>Jaartallen (±)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>1</td><td>Jagers en Boeren</td><td>Prehistorie</td><td>tot ca. 3000 v.Chr.</td></tr>
-        <tr><td>2</td><td>Grieken en Romeinen</td><td>Oudheid</td><td>3000 v.Chr. – 500 n.Chr.</td></tr>
-        <tr><td>3</td><td>Monniken en Ridders</td><td>Middeleeuwen</td><td>500 – 1000</td></tr>
-        <tr><td>4</td><td>Steden en Staten</td><td>Middeleeuwen</td><td>1000 – 1500</td></tr>
-        <tr><td>5</td><td>Ontdekkers en Hervormers</td><td>Vroegmoderne tijd</td><td>1500 – 1600</td></tr>
-        <tr><td>6</td><td>Regenten en Vorsten</td><td>Vroegmoderne tijd</td><td>1600 – 1700</td></tr>
-        <tr><td>7</td><td>Pruiken en Revoluties</td><td>Vroegmoderne tijd</td><td>1700 – 1800</td></tr>
-        <tr><td>8</td><td>Burgers en Stoommachines</td><td>Moderne tijd</td><td>1800 – 1900</td></tr>
-        <tr><td>9</td><td>Wereldoorlogen</td><td>Moderne tijd</td><td>1900 – 1950</td></tr>
-        <tr><td>10</td><td>Televisie en Computer</td><td>Moderne tijd</td><td>1950 – heden</td></tr>
-      </tbody>
-    </table>
-  </div>
+<main>
+  <h1>Geschiedenis Trainer – V4 (compact)</h1>
+  <p class="muted">Lineaire leerlijn voor leerjaar 1 gymnasium. Directe feedback bij elk antwoord. Gebruik de ankers in de kopbalk om te navigeren.</p>
 
-  <div class="step hidden">
-    <div class="flashcards">
-      <h3>🎴 Flashcards – Periodisering</h3>
-      <p class="muted">Klik op “Toon” voor een kaart. Nog een keer = nieuwe kaart.</p>
-      <button onclick="showFlashcard('per')">Toon kaart</button>
-      <p id="per-flashcard"></p>
+  <!-- Periodisering -->
+  <section id="periodisering" class="card">
+    <h2>Periodisering – Tijden en Tijdvakken</h2>
+    <p>Jaartallen horen bij <strong>tijdvakken</strong> (niet bij periodes).</p>
+    <div id="periode-tabel" class="card"></div>
+
+    <details>
+      <summary>🎴 Flashcards – Periodisering</summary>
+      <div id="per-flash" class="card"></div>
+      <button onclick="nextFlash('per')">Toon kaart</button>
+    </details>
+
+    <details>
+      <summary>Oefenen – Periodisering</summary>
+      <div id="per-quiz" class="card"></div>
+    </details>
+  </section>
+
+  <!-- Tijdvak 1 -->
+  <section id="tijdvak1" class="card">
+    <h2>Tijdvak 1 – Jagers en Boeren</h2>
+
+    <details open>
+      <summary>🎴 Flashcards – Tijdvak 1</summary>
+      <div id="tv1-flash" class="card"></div>
+      <button onclick="nextFlash('tv1')">Toon kaart</button>
+    </details>
+
+    <details>
+      <summary>Kern & Kenmerkende aspecten</summary>
+      <div id="tv1-kern" class="card"></div>
+    </details>
+
+    <details>
+      <summary>Leerdoelen – met uitleg en kernantwoord</summary>
+      <div id="tv1-goals" class="card"></div>
+    </details>
+
+    <details>
+      <summary>Vragen – Tijdvak 1</summary>
+      <div id="tv1-quiz" class="card"></div>
+    </details>
+  </section>
+
+  <!-- Tijdvak 2 -->
+  <section id="tijdvak2" class="card">
+    <h2>Tijdvak 2 – Grieken en Romeinen</h2>
+
+    <details open>
+      <summary>🎴 Flashcards – Tijdvak 2</summary>
+      <div id="tv2-flash" class="card"></div>
+      <button onclick="nextFlash('tv2')">Toon kaart</button>
+    </details>
+
+    <details>
+      <summary>Kern & Kenmerkende aspecten</summary>
+      <div id="tv2-kern" class="card"></div>
+    </details>
+
+    <details>
+      <summary>Leerdoelen – met uitleg en kernantwoord</summary>
+      <div id="tv2-goals" class="card"></div>
+    </details>
+
+    <details>
+      <summary>Vragen – Tijdvak 2</summary>
+      <div id="tv2-quiz" class="card"></div>
+    </details>
+  </section>
+
+  <!-- Eindtoets -->
+  <section id="eindtoets" class="card">
+    <h2>Eindtoets – gemengd</h2>
+    <p class="muted">Beantwoord alle vragen. Je ziet meteen feedback. Klik op <em>Uitslag</em> voor score + rapport.</p>
+    <div id="final-quiz" class="card"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button onclick="gradeFinal()">Uitslag</button>
+      <button onclick="resetFinal()">Herstart</button>
     </div>
-  </div>
-
-  <div class="step hidden">
-    <h3>Meerkeuze – directe feedback</h3>
-    <div class="question">1. Juiste volgorde (vroeg → laat)?<br>
-      <select data-cat="per" onchange="checkAnswer(this, 'Prehistorie → Oudheid → Middeleeuwen')">
-        <option>–</option>
-        <option>Oudheid → Prehistorie → Middeleeuwen</option>
-        <option>Prehistorie → Oudheid → Middeleeuwen</option>
-        <option>Middeleeuwen → Prehistorie → Oudheid</option>
-      </select><span class="feedback"></span>
-    </div>
-    <div class="question">2. Bij welk tijdvak hoort 3000 v.Chr. – 500 n.Chr.?<br>
-      <select data-cat="per" onchange="checkAnswer(this, '2. Grieken en Romeinen')">
-        <option>–</option>
-        <option>1. Jagers en Boeren</option>
-        <option>2. Grieken en Romeinen</option>
-        <option>3. Monniken en Ridders</option>
-      </select><span class="feedback"></span>
-    </div>
-    <div class="question">3. Wanneer eindigt de Prehistorie?<br>
-      <select data-cat="per" onchange="checkAnswer(this, 'Bij het ontstaan van schrift')">
-        <option>–</option>
-        <option>Bij het ontstaan van landbouw</option>
-        <option>Bij het ontstaan van schrift</option>
-        <option>Bij het ontstaan van steden</option>
-      </select><span class="feedback"></span>
-    </div>
-  </div>
-
-  <button onclick="goNext('periodisering','tijdvak1')">Volgende</button>
-</section>
-
-<section id="periodisering">
-  <h2>Periodisering – Overzicht (leerjaar 1)</h2>
-  <p>De geschiedenis is ingedeeld in <strong>periodes</strong> met <strong>tijdvakken</strong>. Onthoud de volgorde en de globale jaartallen.</p>
-  <table class="period-table" style="width:100%;border-collapse:collapse">
-    <thead><tr><th style="border:1px solid #e5e5e5;padding:6px">Periode</th><th style="border:1px solid #e5e5e5;padding:6px">Jaartallen (±)</th><th style="border:1px solid #e5e5e5;padding:6px">Tijdvakken</th></tr></thead>
-    <tbody>
-      <tr><td style="border:1px solid #e5e5e5;padding:6px">Prehistorie</td><td style="border:1px solid #e5e5e5;padding:6px">tot ca. 3000 v.Chr.</td><td style="border:1px solid #e5e5e5;padding:6px">1. Jagers en Boeren</td></tr>
-      <tr><td style="border:1px solid #e5e5e5;padding:6px">Oudheid</td><td style="border:1px solid #e5e5e5;padding:6px">3000 v.Chr. – 500 n.Chr.</td><td style="border:1px solid #e5e5e5;padding:6px">2. Grieken en Romeinen</td></tr>
-      <tr><td style="border:1px solid #e5e5e5;padding:6px">Middeleeuwen</td><td style="border:1px solid #e5e5e5;padding:6px">500 – 1500</td><td style="border:1px solid #e5e5e5;padding:6px">3. Monniken en Ridders · 4. Steden en Staten</td></tr>
-      <tr><td style="border:1px solid #e5e5e5;padding:6px">Vroegmoderne tijd</td><td style="border:1px solid #e5e5e5;padding:6px">1500 – 1800</td><td style="border:1px solid #e5e5e5;padding:6px">5. Ontdekkers en Hervormers · 6. Regenten en Vorsten · 7. Pruiken en Revoluties</td></tr>
-      <tr><td style="border:1px solid #e5e5e5;padding:6px">Moderne tijd</td><td style="border:1px solid #e5e5e5;padding:6px">1800 – heden</td><td style="border:1px solid #e5e5e5;padding:6px">8. Burgers en Stoommachines · 9. Wereldoorlogen · 10. Televisie en Computer</td></tr>
-    </tbody>
-  </table>
-
-  <div class="flashcards">
-    <h3>🎴 Flashcards – Periodisering</h3>
-    <button onclick="showFlashcard('per')">Toon volgende kaart</button>
-    <p id="per-flashcard"></p>
-  </div>
-  <script>
-    const flashcardsPer = [
-      { q:'Welke periode hoort bij Tijdvak 1?', a:'Prehistorie.' },
-      { q:'Welke periode volgt op de Middeleeuwen?', a:'Vroegmoderne tijd (1500–1800).' },
-      { q:'Wanneer eindigt de Prehistorie?', a:'Rond 3000 v.Chr., bij het ontstaan van schrift.' },
-      { q:'Noem twee tijdvakken van de moderne tijd.', a:'9. Wereldoorlogen en 10. Televisie en Computer.' },
-      { q:'Welke periode loopt ca. 3000 v.Chr. – 500 n.Chr.?', a:'De Oudheid (Tijdvak 2).'}
-    ];
-    </strong><br><em>${fc.a}</em>`; }
-    }
-  </script>
-
-  <h3>Meerkeuze – directe feedback</h3>
-  <div class="question">1. Juiste volgorde (vroeg → laat)?<br>
-    <select onchange="checkAnswer(this, 'Prehistorie → Oudheid → Middeleeuwen')">
-      <option>–</option>
-      <option>Oudheid → Prehistorie → Middeleeuwen</option>
-      <option>Prehistorie → Oudheid → Middeleeuwen</option>
-      <option>Middeleeuwen → Prehistorie → Oudheid</option>
-    </select><span class="feedback"></span>
-  </div>
-  <div class="question">2. Bij welk tijdvak hoort 3000 v.Chr. – 500 n.Chr.?<br>
-    <select onchange="checkAnswer(this, '2. Grieken en Romeinen')">
-      <option>–</option>
-      <option>1. Jagers en Boeren</option>
-      <option>2. Grieken en Romeinen</option>
-      <option>3. Monniken en Ridders</option>
-    </select><span class="feedback"></span>
-  </div>
-  <div class="question">3. Wanneer eindigt de Prehistorie?<br>
-    <select onchange="checkAnswer(this, 'Bij het ontstaan van schrift')">
-      <option>–</option>
-      <option>Bij het ontstaan van landbouw</option>
-      <option>Bij het ontstaan van schrift</option>
-      <option>Bij het ontstaan van steden</option>
-    </select><span class="feedback"></span>
-  </div>
-  <button onclick="nextSection('tijdvak1')">Volgende</button>
-</section>
-
-<section id="tijdvak1" class="hidden" data-step="0">
-  <h2>Tijdvak 1 – Jagers en Boeren</h2>
-  <div class="stepnav" style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px">
-    <button type="button" onclick="goStep('tijdvak1',0)">Flashcards</button>
-    <button type="button" onclick="goStep('tijdvak1',1)">Kern & KA</button>
-    <button type="button" onclick="goStep('tijdvak1',2)">Leerdoelen</button>
-    <button type="button" onclick="goStep('tijdvak1',3)">Vragen</button>
-  </div>
-
-  <!-- Stap 0: Flashcards eerst -->
-  <div class="step">
-    <div class="flashcards">
-      <h3>🎴 Flashcards – kernbegrippen Tijdvak 1</h3>
-      <button onclick="showFlashcard('tv1')">Toon kaart</button>
-      <p id="tv1-flashcard"></p>
-    </div>
-  </div>
-
-  <!-- Stap 1: Kern & KA -->
-  <div class="step hidden">
-    <p><strong>Periode:</strong> tot 3000 v. Chr. – De Prehistorie.<br>
-    <strong>Kern:</strong> eerste mensen, jagen/verzamelen → landbouw → dorpen/steden.</p>
-    <h3>Kenmerkende aspecten</h3>
-    <ol>
-      <li>De levenswijze van jagers en verzamelaars.</li>
-      <li>Het ontstaan van landbouw en landbouwsamenlevingen.</li>
-      <li>Het ontstaan van de eerste stedelijke gemeenschappen.</li>
-    </ol>
-  </div>
-
-  <!-- Stap 2: Leerdoelen -->
-  <div class="step hidden">
-    <h3>Leerdoelen (met uitleg en kernantwoorden)</h3>
-    <div id="tv1-goals">
-      <details open>
-        <summary><strong>1. Relatie jagen/verzamelen – wonen – godsdienst</strong></summary>
-        <p><em>Wat moet je weten:</em> Nomaden leefden van de natuur; natuurgodsdienst.<br><em>Kernantwoord:</em> Afhankelijk van natuur → verhalen/rituelen over natuurkrachten.</p>
-      </details>
-      <details>
-        <summary><strong>2. Waarom landbouw ontstond</strong></summary>
-        <p><em>Wat moet je weten:</em> Warmer klimaat; Vruchtbare Sikkel; verbouwen/hoeden.<br><em>Kernantwoord:</em> Betere omstandigheden + experiment → landbouw.</p>
-      </details>
-      <details>
-        <summary><strong>3. Waar landbouw ontstond</strong></summary>
-        <p><em>Wat moet je weten:</em> Midden‑Oosten (Vruchtbare Sikkel).<br><em>Kernantwoord:</em> Vruchtbare grond + water + wilde granen.</p>
-      </details>
-      <details>
-        <summary><strong>4. Gevolgen van landbouw</strong></summary>
-        <p><em>Wat moet je weten:</em> Sedentair, dorpen, bezit, taakverdeling, handel.<br><em>Kernantwoord:</em> Vast wonen → dorpen → sociale gelaagdheid.</p>
-      </details>
-      <details>
-        <summary><strong>5. Eerste steden</strong></summary>
-        <p><em>Wat moet je weten:</em> Overschotten → specialisatie/bestuur; schrift voor administratie.<br><em>Kernantwoord:</em> Overschot + taakverdeling → steden + schrift.</p>
-      </details>
-      <details>
-        <summary><strong>6. Verspreiding mensen</strong></summary>
-        <p><em>Wat moet je weten:</em> Vanuit Afrika naar andere continenten.<br><em>Kernantwoord:</em> Migraties op zoek naar voedsel/leefruimte.</p>
-      </details>
-      <details>
-        <summary><strong>7. Nomadisch</strong></summary>
-        <p><em>Wat moet je weten:</em> Geen vaste woonplaats; kleine groepen.<br><em>Kernantwoord:</em> Rondtrekken voor voedsel.</p>
-      </details>
-      <details>
-        <summary><strong>8. Weinig zekerheid prehistorie</strong></summary>
-        <p><em>Wat moet je weten:</em> Geen schrift; archeologische vondsten.<br><em>Kernantwoord:</em> Alleen materiële bronnen.</p>
-      </details>
-      <details>
-        <summary><strong>9. Waarom landbouwrevolutie Midden‑Oosten</strong></summary>
-        <p><em>Wat moet je weten:</em> Klimaat + rivieren → goede teeltcondities.<br><em>Kernantwoord:</em> Ideale omstandigheden.</p>
-      </details>
-      <details>
-        <summary><strong>10. Sedentair leven</strong></summary>
-        <p><em>Wat moet je weten:</em> Vaste woonplaats door landbouw.<br><em>Kernantwoord:</em> Boeren bleven op één plek.</p>
-      </details>
-      <details>
-        <summary><strong>11. Waarom boeren meer bezit</strong></summary>
-        <p><em>Wat moet je weten:</em> Voorraden/spullen; erven → ongelijkheid.<br><em>Kernantwoord:</em> Landbouw → bezit → verschillen.</p>
-      </details>
-      <details>
-        <summary><strong>12. Sociale gelaagdheid</strong></summary>
-        <p><em>Wat moet je weten:</em> Verschillende beroepen/macht.<br><em>Kernantwoord:</em> Rangorde door bezit/beroep.</p>
-      </details>
-      <details>
-        <summary><strong>13. Ontstaan schrift</strong></summary>
-        <p><em>Wat moet je weten:</em> Administratie handel/voorraden/bestuur.<br><em>Kernantwoord:</em> Schrift voor organisatie.</p>
-      </details>
-      <div class="goals-nav" style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
-        <button type="button" onclick="goalNav('tv1-goals','prev')">Vorige doel</button>
-        <button type="button" onclick="goalNav('tv1-goals','next')">Volgende doel</button>
-        <button type="button" onclick="goalToggleAll('tv1-goals')">Alles uitklappen</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Stap 3: Vragen -->
-  <div class="step hidden">
-    <h3>Meerkeuzevragen met directe feedback</h3>
-    <div class="question">1. Wat kenmerkt jagers‑verzamelaars?<br>
-      <select data-cat="tv1" onchange="checkAnswer(this, 'Nomadisch bestaan')"><option>–</option><option>Vast op één plek</option><option>Nomadisch bestaan</option><option>Wonen in steden</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">2. Wanneer eindigt de prehistorie?<br>
-      <select data-cat="tv1" onchange="checkAnswer(this, 'Wanneer mensen schrift gebruiken')"><option>–</option><option>Wanneer mensen landbouw gebruiken</option><option>Wanneer mensen schrift gebruiken</option><option>Wanneer steden ontstaan</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">3. Wat betekent agrarische revolutie?<br>
-      <select data-cat="tv1" onchange="checkAnswer(this, 'Overgang naar landbouw en veeteelt')"><option>–</option><option>Overgang naar landbouw en veeteelt</option><option>Opkomst van steden</option><option>Ontdekking van vuur</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">4. Gevolg van landbouw?<br>
-      <select data-cat="tv1" onchange="checkAnswer(this, 'Meer bezit en sociale verschillen')"><option>–</option><option>Minder voedsel</option><option>Meer bezit en sociale verschillen</option><option>Mensen trokken vaker rond</option></select><span class="feedback"></span>
-    </div>
-  </div>
-
-  <script>
-    const flashcardsTv1 = [
-      { q: 'Wat betekent prehistorie?', a: 'De periode vóórdat mensen schrift gebruikten.' },
-      { q: 'Wat is een nomadisch bestaan?', a: 'Leven zonder vaste woonplaats, steeds rondtrekken voor voedsel.' },
-      { q: 'Wat is de agrarische revolutie?', a: 'De overgang van jagen en verzamelen naar landbouw en veeteelt.' },
-      { q: 'Wat is sedentair leven?', a: 'Vaste woonplaats, boeren bleven op één plek wonen.' },
-      { q: 'Wat is sociale gelaagdheid?', a: 'Verschillen in macht en rijkdom tussen groepen mensen.' },
-      { q: 'Wat eindigt de prehistorie?', a: 'Het ontstaan van schrift en schriftelijke bronnen.' }
-    ];
-  </script>
-
-  <button onclick="goNext('tijdvak1','tijdvak2')">Volgende</button>
-</section>
-
-$1<h3>Kenmerkende aspecten</h3>
-  <ol>
-    <li>Ontwikkeling van wetenschappelijk denken en het denken over burgerschap en politiek in de Griekse stadstaat.</li>
-    <li>De klassieke vormentaal van de Grieks‑Romeinse cultuur.</li>
-    <li>De groei van het Romeinse imperium waardoor de Grieks‑Romeinse cultuur zich in Europa verspreidde.</li>
-    <li>De confrontatie tussen de Grieks‑Romeinse en de Germaanse cultuur van Noordwest‑Europa.</li>
-    <li>De ontwikkeling van het jodendom en het christendom als de eerste monotheïstische godsdiensten.</li>
-  </ol>
-  $2
-    <h3>🎴 Flashcards – kernbegrippen Tijdvak 2</h3>
-    <button onclick="showFlashcard('tv2')">Toon volgende kaart</button>
-    <p id="tv2-flashcard"></p>
-  </div>
-  <script>
-    const flashcardsTv2 = [
-      { q:'Wat is een polis?', a:'Een Griekse stadstaat met eigen bestuur en wetten.' },
-      { q:'Wie had burgerrecht in Athene?', a:'Vrije volwassen man met Atheense ouders.' },
-      { q:'Wat is de limes?', a:'De noordgrens van het Romeinse rijk langs Rijn en Donau.' },
-      { q:'Wat betekent romanisering?', a:'Volkeren nemen taal, recht, bouw en gewoonten van Rome over.' },
-      { q:'Wat is de Pax Romana?', a:'Lange periode van vrede en veiligheid → handel groeit.' },
-      { q:'Noem 3 zuilenordes.', a:'Dorisch, Ionisch, Korinthisch.' },
-      { q:'Wat is monotheïsme?', a:'Geloof in één God.' }
-    ];
-    </strong><br><em>${fc.a}</em>`; }
-    }
-  </script>
-
-  <h3>Leerdoelen (met uitleg en kernantwoorden)</h3>
-  <details open>
-    <summary><strong>1. Polis & burgerrecht (Athene)</strong></summary>
-    <p><em>Wat moet je weten:</em> Polis = stad + ommeland met eigen bestuur. In Athene besliste de volksvergadering. <em>Burger</em> = vrije volwassen man met Atheense ouders; rechten én plichten (dienstplicht).<br>
-    <em>Kernantwoord:</em> Polis = stadstaat; burgers beslissen mee en hebben plichten.</p>
-  </details>
-  <details>
-    <summary><strong>2. Bestuur: Athene vs. Sparta</strong></summary>
-    <p><em>Wat moet je weten:</em> Athene: (directe) democratie; Sparta: oligarchie/militair. <br>
-    <em>Kernantwoord:</em> Athene = meer inspraak; Sparta = macht bij kleine krijgers‑elite.</p>
-  </details>
-  <details>
-    <summary><strong>3. Filosofie & wetenschappelijk denken</strong></summary>
-    <p><em>Wat moet je weten:</em> Socrates, Plato, Aristoteles; vragen stellen, logisch redeneren, bewijs zoeken (niet alleen mythen).<br>
-    <em>Kernantwoord:</em> Met je verstand de wereld verklaren en argumenten gebruiken.</p>
-  </details>
-  <details>
-    <summary><strong>4. Groei Romeinse rijk & limes</strong></summary>
-    <p><em>Wat moet je weten:</em> Veroveringen, wegen en legers; grensverdediging = limes (forten langs Rijn/Donau).<br>
-    <em>Kernantwoord:</em> Het rijk breidde uit en bewaakte de grens met forten en wegen.</p>
-  </details>
-  <details>
-    <summary><strong>5. Romanisering</strong></summary>
-    <p><em>Wat moet je weten:</em> Overname van Latijn, recht, bestuur, bouwstijl; leger en steden spelen grote rol.<br>
-    <em>Kernantwoord:</em> Onderworpen volken namen Romeinse cultuur over.</p>
-  </details>
-  <details>
-    <summary><strong>6. Pax Romana & economie</strong></summary>
-    <p><em>Wat moet je weten:</em> Rust en veiligheid → handel en steden groeien; één munt en goede wegen helpen.<br>
-    <em>Kernantwoord:</em> Vrede + wegen = meer handel en welvaart.</p>
-  </details>
-  <details>
-    <summary><strong>7. Klassieke vormentaal</strong></summary>
-    <p><em>Wat moet je weten:</em> Zuilen (Dorisch/Ionisch/Korinthisch), realistische beelden, koepels/boogconstructies bij Romeinen.<br>
-    <em>Kernantwoord:</em> Herkenbare Grieks‑Romeinse stijl die Europa beïnvloedde.</p>
-  </details>
-  <details>
-    <summary><strong>8. Germanen & confrontatie</strong></summary>
-    <p><em>Wat moet je weten:</em> Botsingen aan de grens, invallen en opstanden; druk op het rijk.<br>
-    <em>Kernantwoord:</em> Confrontatie verzwakte delen van het rijk, vooral aan de limes.</p>
-  </details>
-  <details>
-    <summary><strong>9. Jodendom & christendom</strong></summary>
-    <p><em>Wat moet je weten:</em> Monotheïsme; christendom ontstond binnen jodendom; eerst vervolgd, later toegestaan/staatsgodsdienst; snelle verspreiding door wegen en talen (Grieks/Latijn).<br>
-    <em>Kernantwoord:</em> Geloof in één God; christendom verspreidde snel door rust en goede infrastructuur.</p>
-  </details>
-
-  <h3>Meerkeuzevragen met directe feedback</h3>
-  <div class="question">1. Wat is een polis?<br>
-    <select onchange="checkAnswer(this, 'Een Griekse stadstaat')"><option>–</option><option>Een Romeinse keizer</option><option>Een Griekse stadstaat</option><option>Een tempel</option></select><span class="feedback"></span>
-  </div>
-  <div class="question">2. Wie had burgerrecht in Athene?<br>
-    <select onchange="checkAnswer(this, 'Vrije volwassen man met Atheense ouders')"><option>–</option><option>Iedereen die belasting betaalde</option><option>Vrije volwassen man met Atheense ouders</option><option>Alle mannen en vrouwen</option></select><span class="feedback"></span>
-  </div>
-  <div class="question">3. Wat bedoelen we met klassieke vormentaal?<br>
-    <select onchange="checkAnswer(this, 'Kenmerkende Grieks‑Romeinse kunst en architectuur')"><option>–</option><option>Kenmerkende Grieks‑Romeinse kunst en architectuur</option><option>De Latijnse grammatica</option><option>Romeinse wetboeken</option></select><span class="feedback"></span>
-  </div>
-  <div class="question">4. De limes was…<br>
-    <select onchange="checkAnswer(this, 'De noordgrens van het rijk langs Rijn en Donau')"><option>–</option><option>Een Romeinse munteenheid</option><option>De noordgrens van het rijk langs Rijn en Donau</option><option>Een Griekse bouwstijl</option></select><span class="feedback"></span>
-  </div>
-  <div class="question">5. Wat is romanisering?<br>
-    <select onchange="checkAnswer(this, 'Overname van Romeinse cultuur door onderworpen volken')"><option>–</option><option>Vergrieksing van Rome</option><option>Overname van Romeinse cultuur door onderworpen volken</option><option>De groei van het christendom</option></select><span class="feedback"></span>
-  </div>
-
-  <button onclick="nextSection('eindtoets')">Volgende</button>
-</section>
-
-<section id="tijdvak2" class="hidden" data-step="0">
-  <h2>Tijdvak 2 – Grieken en Romeinen</h2>
-  <div class="stepnav" style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px">
-    <button type="button" onclick="goStep('tijdvak2',0)">Flashcards</button>
-    <button type="button" onclick="goStep('tijdvak2',1)">Kern & KA</button>
-    <button type="button" onclick="goStep('tijdvak2',2)">Leerdoelen</button>
-    <button type="button" onclick="goStep('tijdvak2',3)">Vragen</button>
-  </div>
-
-  <!-- Stap 0: Flashcards eerst -->
-  <div class="step">
-    <div class="flashcards">
-      <h3>🎴 Flashcards – kernbegrippen Tijdvak 2</h3>
-      <button onclick="showFlashcard('tv2')">Toon kaart</button>
-      <p id="tv2-flashcard"></p>
-    </div>
-  </div>
-
-  <!-- Stap 1: Kern & KA -->
-  <div class="step hidden">
-    <p><strong>Periode:</strong> ca. 3000 v.Chr. – 500 n.Chr. (Oudheid).<br>
-    <strong>Kern:</strong> <em>Polis</em>, burgerrecht en inspraak; <em>wetenschappelijk denken</em>; groei van het <strong>Romeinse rijk</strong> en <em>romanisering</em>; de <em>limes</em>; opkomst/verspreiding <em>jodendom</em> en <em>christendom</em> (monotheïsme).</p>
-    <h3>Kenmerkende aspecten</h3>
-    <ol>
-      <li>Wetenschappelijk denken en burgerschap/politiek in de Griekse stadstaat.</li>
-      <li>De klassieke vormentaal van de Grieks‑Romeinse cultuur.</li>
-      <li>De groei van het Romeinse imperium en de verspreiding van de Grieks‑Romeinse cultuur.</li>
-      <li>Confrontatie tussen Grieks‑Romeinse en Germaanse cultuur van NW‑Europa.</li>
-      <li>Ontwikkeling van jodendom en christendom als monotheïstische godsdiensten.</li>
-    </ol>
-  </div>
-
-  <!-- Stap 2: Leerdoelen -->
-  <div class="step hidden">
-    <h3>Leerdoelen (met uitleg en kernantwoorden)</h3>
-    <div id="tv2-goals">
-      <details open>
-        <summary><strong>1. Polis & burgerrecht (Athene)</strong></summary>
-        <p><em>Wat moet je weten:</em> Polis = stad + ommeland; eigen bestuur. In Athene besliste de volksvergadering. Burger = vrije volwassen man met Atheense ouders; rechten én plichten.<br><em>Kernantwoord:</em> Polis = stadstaat; burgers beslissen mee en hebben plichten.</p>
-      </details>
-      <details>
-        <summary><strong>2. Bestuur: Athene vs. Sparta</strong></summary>
-        <p><em>Wat moet je weten:</em> Athene: (directe) democratie; Sparta: oligarchie/militair.<br><em>Kernantwoord:</em> Athene = meer inspraak; Sparta = macht bij kleine krijgers‑elite.</p>
-      </details>
-      <details>
-        <summary><strong>3. Filosofie & wetenschappelijk denken</strong></summary>
-        <p><em>Wat moet je weten:</em> Socrates, Plato, Aristoteles; logisch redeneren, bewijs zoeken (niet alleen mythen).<br><em>Kernantwoord:</em> Rationeel verklaren en argumenten gebruiken.</p>
-      </details>
-      <details>
-        <summary><strong>4. Groei Romeinse rijk & limes</strong></summary>
-        <p><em>Wat moet je weten:</em> Veroveringen, wegen, legers; limes = grens met forten langs Rijn/Donau.<br><em>Kernantwoord:</em> Uitbreiding + grensbewaking met forten/wegen.</p>
-      </details>
-      <details>
-        <summary><strong>5. Romanisering</strong></summary>
-        <p><em>Wat moet je weten:</em> Overname van Latijn, recht, bestuur, bouwstijl; leger/steden spelen rol.<br><em>Kernantwoord:</em> Volkeren nemen Romeinse cultuur over.</p>
-      </details>
-      <details>
-        <summary><strong>6. Pax Romana & economie</strong></summary>
-        <p><em>Wat moet je weten:</em> Vrede/veiligheid → handel/steden groeien; één munt/wegen helpen.<br><em>Kernantwoord:</em> Rust + infrastructuur = welvaart.</p>
-      </details>
-      <details>
-        <summary><strong>7. Klassieke vormentaal</strong></summary>
-        <p><em>Wat moet je weten:</em> Zuilen (Dorisch/Ionisch/Korinthisch), realistische beelden, Romeinse boog/koepel.<br><em>Kernantwoord:</em> Herkenbare Grieks‑Romeinse stijl die Europa beïnvloedde.</p>
-      </details>
-      <details>
-        <summary><strong>8. Germanen & confrontatie</strong></summary>
-        <p><em>Wat moet je weten:</em> Botsingen aan de grens, invallen/opstanden; druk op het rijk.<br><em>Kernantwoord:</em> Confrontatie verzwakte rijksdelen bij de limes.</p>
-      </details>
-      <details>
-        <summary><strong>9. Jodendom & christendom</strong></summary>
-        <p><em>Wat moet je weten:</em> Monotheïsme; ontstaan/verspreiding; eerst vervolgd, later staatsgodsdienst; wegen en talen hielpen.<br><em>Kernantwoord:</em> Geloof in één God; snelle verspreiding door Pax Romana + wegen.</p>
-      </details>
-      <div class="goals-nav" style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
-        <button type="button" onclick="goalNav('tv2-goals','prev')">Vorige doel</button>
-        <button type="button" onclick="goalNav('tv2-goals','next')">Volgende doel</button>
-        <button type="button" onclick="goalToggleAll('tv2-goals')">Alles uitklappen</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Stap 3: Vragen -->
-  <div class="step hidden">
-    <h3>Meerkeuzevragen met directe feedback</h3>
-    <div class="question">1. Wat is een polis?<br>
-      <select data-cat="tv2" onchange="checkAnswer(this, 'Een Griekse stadstaat')"><option>–</option><option>Een Romeinse keizer</option><option>Een Griekse stadstaat</option><option>Een tempel</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">2. Wie had burgerrecht in Athene?<br>
-      <select data-cat="tv2" onchange="checkAnswer(this, 'Vrije volwassen man met Atheense ouders')"><option>–</option><option>Iedereen die belasting betaalde</option><option>Vrije volwassen man met Atheense ouders</option><option>Alle mannen en vrouwen</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">3. Wat is klassieke vormentaal?<br>
-      <select data-cat="tv2" onchange="checkAnswer(this, 'Kenmerkende Grieks‑Romeinse kunst en architectuur')"><option>–</option><option>Kenmerkende Grieks‑Romeinse kunst en architectuur</option><option>De Latijnse grammatica</option><option>Romeinse wetboeken</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">4. De limes was…<br>
-      <select data-cat="tv2" onchange="checkAnswer(this, 'De noordgrens van het rijk langs Rijn en Donau')"><option>–</option><option>Een Romeinse munteenheid</option><option>De noordgrens van het rijk langs Rijn en Donau</option><option>Een Griekse bouwstijl</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">5. Wat is romanisering?<br>
-      <select data-cat="tv2" onchange="checkAnswer(this, 'Overname van Romeinse cultuur door onderworpen volken')"><option>–</option><option>Vergrieksing van Rome</option><option>Overname van Romeinse cultuur door onderworpen volken</option><option>De groei van het christendom</option></select><span class="feedback"></span>
-    </div>
-  </div>
-
-  <script>
-    const flashcardsTv2 = [
-      { q:'Wat is een polis?', a:'Een Griekse stadstaat met eigen bestuur en wetten.' },
-      { q:'Wie had burgerrecht in Athene?', a:'Vrije volwassen man met Atheense ouders.' },
-      { q:'Wat is de limes?', a:'De noordgrens van het Romeinse rijk langs Rijn en Donau.' },
-      { q:'Wat betekent romanisering?', a:'Volkeren nemen taal, recht, bouw en gewoonten van Rome over.' },
-      { q:'Wat is de Pax Romana?', a:'Lange periode van vrede en veiligheid → handel groeit.' },
-      { q:'Noem 3 zuilenordes.', a:'Dorisch, Ionisch, Korinthisch.' },
-      { q:'Wat is monotheïsme?', a:'Geloof in één God.' }
-    ];
-  </script>
-
-  <button onclick="goNext('tijdvak2','eindtoets')">Volgende</button>
-</section>
+    <div id="final-out" class="card hidden"></div>
+  </section>
+</main>
 
 <script>
-  function nextSection(id){
-    document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
-    const el = document.getElementById(id);
-    if(el){ el.classList.remove('hidden'); window.scrollTo(0,0); }
-  }
+/* ---------- Data (compact) ---------- */
+const tijdvakken = [
+  {nr:1, naam:'Jagers en Boeren', periode:'Prehistorie', jaren:'tot ca. 3000 v.Chr.'},
+  {nr:2, naam:'Grieken en Romeinen', periode:'Oudheid', jaren:'3000 v.Chr. – 500 n.Chr.'},
+  {nr:3, naam:'Monniken en Ridders', periode:'Middeleeuwen', jaren:'500 – 1000'},
+  {nr:4, naam:'Steden en Staten', periode:'Middeleeuwen', jaren:'1000 – 1500'},
+  {nr:5, naam:'Ontdekkers en Hervormers', periode:'Vroegmoderne tijd', jaren:'1500 – 1600'},
+  {nr:6, naam:'Regenten en Vorsten', periode:'Vroegmoderne tijd', jaren:'1600 – 1700'},
+  {nr:7, naam:'Pruiken en Revoluties', periode:'Vroegmoderne tijd', jaren:'1700 – 1800'},
+  {nr:8, naam:'Burgers en Stoommachines', periode:'Moderne tijd', jaren:'1800 – 1900'},
+  {nr:9, naam:'Wereldoorlogen', periode:'Moderne tijd', jaren:'1900 – 1950'},
+  {nr:10, naam:'Televisie en Computer', periode:'Moderne tijd', jaren:'1950 – heden'}
+];
 
-  ;
-    const list = map[id] && map[id].length ? map[id] : (map['per']||[]);
-    const slotId = id==='per' ? 'per-flashcard' : (id==='tv1' ? 'tv1-flashcard' : 'tv2-flashcard');
-    const el = document.getElementById(slotId);
-    if(!el || !list.length){ return; }
-    const fc = list[Math.floor(Math.random()*list.length)];
-    el.innerHTML = `<strong>${fc.q}</strong><br><em>${fc.a}</em>`;
+const flash = {
+  per: [
+    ['Welke periode hoort bij Tijdvak 1?','Prehistorie'],
+    ['Wanneer eindigt de Prehistorie?','Rond 3000 v.Chr., bij het ontstaan van schrift.'],
+    ['Noem twee tijdvakken van de moderne tijd.','9. Wereldoorlogen en 10. Televisie en Computer.'],
+  ],
+  tv1: [
+    ['Wat betekent prehistorie?','Periode vóór het schrift.'],
+    ['Wat is nomadisch?','Leven zonder vaste woonplaats.'],
+    ['Wat is agrarische revolutie?','Overgang naar landbouw en veeteelt.'],
+    ['Wat is sedentair leven?','Vaste woonplaats, dorp.'],
+  ],
+  tv2: [
+    ['Wat is een polis?','Griekse stadstaat met eigen bestuur.'],
+    ['Wat is de limes?','Noordgrens van het Romeinse Rijk.'],
+    ['Wat betekent romanisering?','Overname van Romeinse cultuur door andere volken.'],
+    ['Wat is monotheïsme?','Geloof in één God.'],
+  ]
+};
+
+const kern = {
+  tv1: {
+    tekst: 'Eerste mensen: jagen en verzamelen → landbouw → dorpen/steden.',
+    ka: [
+      'Levenswijze van jagers en verzamelaars.',
+      'Ontstaan van landbouw en landbouwsamenlevingen.',
+      'Ontstaan van de eerste stedelijke gemeenschappen.'
+    ]
+  },
+  tv2: {
+    tekst: 'Polis en burgerrecht; filosofie/wetenschappelijk denken; groei Romeins rijk & romanisering; limes; jodendom & christendom.',
+    ka: [
+      'Wetenschappelijk denken en burgerschap in de Griekse polis.',
+      'Klassieke vormentaal van de Grieks-Romeinse cultuur.',
+      'Groei van het Romeinse imperium en verspreiding van cultuur.',
+      'Confrontatie Grieks-Romeins en Germaans.',
+      'Ontwikkeling van jodendom en christendom (monotheïsme).'
+    ]
   }
-</script>
-<script>
-  // Paginering per onderdeel (losse "subpagina's")
-  function initSteps(sectionId){
-    const sec = document.getElementById(sectionId);
-    if(!sec) return;
-    const steps = sec.querySelectorAll('.step');
-    steps.forEach((el,i)=> el.classList.toggle('hidden', i!==0));
-    sec.dataset.step = 0;
+};
+
+const doelen = {
+  tv1: [
+    ['Relatie jagen/verzamelen – wonen – godsdienst',
+     'Nomaden leefden van de natuur; natuurgodsdienst.',
+     'Afhankelijk van natuur → rituelen/verhalen over natuurkrachten.'
+    ],
+    ['Waarom landbouw ontstond',
+     'Warmer klimaat; Vruchtbare Sikkel; planten verbouwen, dieren houden.',
+     'Betere omstandigheden + experiment → landbouw.'
+    ],
+    ['Gevolgen van landbouw',
+     'Sedentair, dorpen, bezit, taakverdeling, handel.',
+     'Vast wonen → dorpen → sociale gelaagdheid.'
+    ],
+    ['Eerste steden en schrift',
+     'Overschotten → specialisatie en bestuur; schrift voor administratie.',
+     'Overschot + taakverdeling → steden; schrift voor organisatie.'
+    ]
+  ],
+  tv2: [
+    ['Polis & burgerrecht (Athene)',
+     'Polis = stad + ommeland; burger = vrije volwassen man met Atheense ouders.',
+     'Polis = stadstaat; burgers beslissen mee en hebben plichten.'
+    ],
+    ['Athene vs. Sparta',
+     'Athene: (directe) democratie; Sparta: oligarchie/militair.',
+     'Athene = inspraak, Sparta = elite-macht.'
+    ],
+    ['Romanisering & limes',
+     'Overname Latijn, recht, bestuur, bouwstijl; limes = grens met forten.',
+     'Volkeren nemen Romeinse cultuur over; grens wordt bewaakt.'
+    ],
+    ['Klassieke vormentaal',
+     'Zuilen (Dorisch/Ionisch/Korinthisch), realistische beelden, boog/koepel.',
+     'Herkenbare Grieks-Romeinse stijl die Europa beïnvloedde.'
+    ]
+  ]
+};
+
+// kleine oefensets per onderdeel (compact)
+const quiz = {
+  per: [
+    ['Juiste volgorde (vroeg → laat)?',
+      ['Oudheid → Prehistorie → Middeleeuwen','Prehistorie → Oudheid → Middeleeuwen','Middeleeuwen → Prehistorie → Oudheid'],
+      'Prehistorie → Oudheid → Middeleeuwen'
+    ],
+    ['3000 v.Chr. – 500 n.Chr. hoort bij…',
+      ['1. Jagers en Boeren','2. Grieken en Romeinen','3. Monniken en Ridders'],
+      '2. Grieken en Romeinen'
+    ]
+  ],
+  tv1: [
+    ['Wat kenmerkt jagers-verzamelaars?',
+      ['Vast op één plek','Nomadisch bestaan','Wonen in steden'],
+      'Nomadisch bestaan'
+    ],
+    ['Agrarische revolutie is…',
+      ['Overgang naar landbouw en veeteelt','Uitvinding van het wiel','Opkomst van staten'],
+      'Overgang naar landbouw en veeteelt'
+    ]
+  ],
+  tv2: [
+    ['Wat is een polis?',
+      ['Een Romeinse keizer','Een Griekse stadstaat','Een tempel'],
+      'Een Griekse stadstaat'
+    ],
+    ['Wat is romanisering?',
+      ['Vergrieksing van Rome','Overname van Romeinse cultuur door andere volken','Ontstaan van christendom'],
+      'Overname van Romeinse cultuur door andere volken'
+    ]
+  ],
+  final: [] // vullen we dynamisch met mix
+};
+
+/* ---------- Render ---------- */
+function el(tag, attrs={}, inner=''){
+  const n = document.createElement(tag);
+  Object.entries(attrs).forEach(([k,v])=> n.setAttribute(k,v));
+  if(inner!==undefined && inner!==null){
+    if(typeof inner==='string') n.innerHTML = inner;
+    else if(Array.isArray(inner)) inner.forEach(ch=> n.appendChild(ch));
+    else n.appendChild(inner);
   }
-  function goNext(sectionId, nextSectionId){
-    const sec = document.getElementById(sectionId);
-    const steps = sec?.querySelectorAll('.step')||[];
-    let i = Number(sec?.dataset.step||0);
-    if(i < steps.length-1){
-      steps[i].classList.add('hidden');
-      steps[i+1].classList.remove('hidden');
-      sec.dataset.step = i+1;
-      window.scrollTo({top:0, behavior:'smooth'});
-    } else {
-      nextSection(nextSectionId);
-    }
-  }
-  // Hook into bestaande nextSection zodat eerste stap van elk onderdeel start
-  const _nextSection = window.nextSection;
-  window.nextSection = function(id){
-    document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
-    const target = document.getElementById(id);
-    target.classList.remove('hidden');
-    initSteps(id);
-    window.scrollTo(0,0);
-  };
-  // Init bij eerste zichtbare sectie (start of periodisering depending on flow)
-  document.addEventListener('DOMContentLoaded', ()=>{
-    ['periodisering','tijdvak1','tijdvak2'].forEach(id=>{ if(document.getElementById(id)) initSteps(id); });
+  return n;
+}
+
+function renderTable(){
+  const host = document.getElementById('periode-tabel');
+  const table = el('table');
+  const thead = el('thead',{},'<tr><th>#</th><th>Tijdvak</th><th>Periode</th><th>Jaartallen (±)</th></tr>');
+  table.appendChild(thead);
+  const tb = el('tbody');
+  tijdvakken.forEach(t=>{
+    tb.appendChild(el('tr',{}, `<td>${t.nr}</td><td>${t.naam}</td><td>${t.periode}</td><td>${t.jaren}</td>`));
   });
-  
-  // Navigatie voor leerdoelen (details)
-  function goalNav(containerId, dir){
-    const root = document.getElementById(containerId);
-    if(!root) return;
-    const items = Array.from(root.querySelectorAll('details'));
-    if(!items.length) return;
-    let idx = items.findIndex(d => d.open);
-    if(idx === -1){ idx = 0; items[0].open = true; }
-    items.forEach((d,i)=>{ if(i!==idx) d.open = false; });
-    if(dir==='next' && idx < items.length-1){ items[idx].open = false; items[idx+1].open = true; items[idx+1].scrollIntoView({behavior:'smooth', block:'start'}); }
-    if(dir==='prev' && idx > 0){ items[idx].open = false; items[idx-1].open = true; items[idx-1].scrollIntoView({behavior:'smooth', block:'start'}); }
-  }
-  function goalToggleAll(containerId){
-    const root = document.getElementById(containerId);
-    const items = Array.from(root.querySelectorAll('details'));
-    const allOpen = items.every(d => d.open);
-    items.forEach(d => d.open = !allOpen);
-  }
-  
-  // Navigatie voor leerdoelen (details)
-  function goalNav(containerId, dir){
-    const root = document.getElementById(containerId);
-    if(!root) return;
-    const items = Array.from(root.querySelectorAll('details'));
-    if(!items.length) return;
-    let idx = items.findIndex(d => d.open);
-    if(idx === -1){ idx = 0; items[0].open = true; }
-    items.forEach((d,i)=>{ if(i!==idx) d.open = false; });
-    if(dir==='next' && idx < items.length-1){ items[idx].open = false; items[idx+1].open = true; items[idx+1].scrollIntoView({behavior:'smooth', block:'start'}); }
-    if(dir==='prev' && idx > 0){ items[idx].open = false; items[idx-1].open = true; items[idx-1].scrollIntoView({behavior:'smooth', block:'start'}); }
-  }
-  function goalToggleAll(containerId){
-    const root = document.getElementById(containerId);
-    const items = Array.from(root.querySelectorAll('details'));
-    const allOpen = items.every(d => d.open);
-    items.forEach(d => d.open = !allOpen);
-  }
+  table.appendChild(tb);
+  host.innerHTML='';
+  host.appendChild(table);
+}
 
-  // Subpagina navigatie
-  function goStep(sectionId, index){
-    const sec = document.getElementById(sectionId);
-    if(!sec) return;
-    const steps = sec.querySelectorAll('.step');
-    steps.forEach((el,i)=> el.classList.toggle('hidden', i!==index));
-    sec.dataset.step = index;
-    window.scrollTo({top:0, behavior:'smooth'});
-  }
+function nextFlash(cat){
+  const list = flash[cat] || [];
+  if(!list.length) return;
+  const [q,a] = list[Math.floor(Math.random()*list.length)];
+  const host = document.getElementById(cat+'-flash');
+  host.innerHTML = `<strong>${q}</strong><br><em>${a}</em>`;
+}
 
-  // Eén flashcardfunctie voor alle secties
-  function showFlashcard(pool){
-    const map = {
-      per: {list: (typeof flashcardsPer!=='undefined'?flashcardsPer:[]), target: 'per-flashcard'},
-      tv1: {list: (typeof flashcardsTv1!=='undefined'?flashcardsTv1:[]), target: 'tv1-flashcard'},
-      tv2: {list: (typeof flashcardsTv2!=='undefined'?flashcardsTv2:[]), target: 'tv2-flashcard'}
-    };
-    const cfg = map[pool];
-    if(!cfg || !cfg.list.length) return;
-    const fc = cfg.list[Math.floor(Math.random()*cfg.list.length)];
-    const el = document.getElementById(cfg.target);
-    if(el){ el.innerHTML = `<strong>${fc.q}</strong><br><em>${fc.a}</em>`; }
-  }
-</script>
-<section id="eindtoets" class="hidden">
-  <h2>Eindtoets – Periodisering, Tijdvak 1 & 2</h2>
-  <p class="muted">Beantwoord alle vragen. Je ziet meteen of het antwoord klopt. Klik onderaan op <em>Uitslag</em> voor je score en een kort rapport.</p>
+function renderKern(){
+  const k1 = kern.tv1, k2 = kern.tv2;
+  document.getElementById('tv1-kern').innerHTML = `
+    <p><strong>Kern:</strong> ${k1.tekst}</p>
+    <ul>${k1.ka.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+  document.getElementById('tv2-kern').innerHTML = `
+    <p><strong>Kern:</strong> ${k2.tekst}</p>
+    <ul>${k2.ka.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+}
 
-  <div id="quiz">
-    <!-- PER (3) -->
-    <div class="question">P1. Welke volgorde is juist (vroeg → laat)?<br>
-      <select data-cat="per" data-correct="Prehistorie → Oudheid → Middeleeuwen" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Oudheid → Prehistorie → Middeleeuwen</option><option>Prehistorie → Oudheid → Middeleeuwen</option><option>Middeleeuwen → Prehistorie → Oudheid</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">P2. 3000 v.Chr. – 500 n.Chr. hoort bij…<br>
-      <select data-cat="per" data-correct="2. Grieken en Romeinen" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>1. Jagers en Boeren</option><option>2. Grieken en Romeinen</option><option>3. Monniken en Ridders</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">P3. De prehistorie eindigt bij…<br>
-      <select data-cat="per" data-correct="Het ontstaan van schrift" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Het ontstaan van landbouw</option><option>Het ontstaan van schrift</option><option>Het ontstaan van steden</option></select><span class="feedback"></span>
-    </div>
-
-    <!-- TV1 (8) -->
-    <div class="question">T1. Wat kenmerkt jagers‑verzamelaars?<br>
-      <select data-cat="tv1" data-correct="Nomadisch bestaan" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Vast op één plek</option><option>Nomadisch bestaan</option><option>Wonen in steden</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">T2. Agrarische revolutie =<br>
-      <select data-cat="tv1" data-correct="Overgang naar landbouw en veeteelt" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Overgang naar landbouw en veeteelt</option><option>Opkomst van staten</option><option>Uitvinding van het wiel</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">T3. Sedentair betekent…<br>
-      <select data-cat="tv1" data-correct="Vaste woonplaats" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Vaste woonplaats</option><option>Rondtrekken</option><option>Handel drijven</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">T4. Waar ontstond de eerste landbouw?<br>
-      <select data-cat="tv1" data-correct="Vruchtbare Sikkel (Midden‑Oosten)" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Vruchtbare Sikkel (Midden‑Oosten)</option><option>Noord‑Europa</option><option>Zuidelijk Afrika</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">T5. Wat was een gevolg van landbouw?<br>
-      <select data-cat="tv1" data-correct="Meer bezit en sociale verschillen" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Minder voedsel</option><option>Meer bezit en sociale verschillen</option><option>Mensen trokken vaker rond</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">T6. Waarom ontstond schrift?<br>
-      <select data-cat="tv1" data-correct="Administratie voor handel/voorraden" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Om verhalen mooier te maken</option><option>Administratie voor handel/voorraden</option><option>Voor muzieknotatie</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">T7. Wat is sociale gelaagdheid?<br>
-      <select data-cat="tv1" data-correct="Verschillen in macht en rijkdom" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Gelijke kansen</option><option>Verschillen in macht en rijkdom</option><option>Vrijheid van meningsuiting</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">T8. Welke bron hoort bij prehistorie?<br>
-      <select data-cat="tv1" data-correct="Archeologische vondst (bijv. werktuig)" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Brief van een Romein</option><option>Archeologische vondst (bijv. werktuig)</option><option>Middeleeuws stadsregister</option></select><span class="feedback"></span>
-    </div>
-
-    <!-- TV2 (9) -->
-    <div class="question">R1. Wat is een polis?<br>
-      <select data-cat="tv2" data-correct="Een Griekse stadstaat" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Een Romeinse keizer</option><option>Een Griekse stadstaat</option><option>Een tempel</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">R2. Wie had burgerrecht in Athene?<br>
-      <select data-cat="tv2" data-correct="Vrije volwassen man met Atheense ouders" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Iedereen</option><option>Vrije volwassen man met Atheense ouders</option><option>Alle mannen en vrouwen</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">R3. Klassieke vormentaal is…<br>
-      <select data-cat="tv2" data-correct="Kenmerkende Grieks‑Romeinse kunst en architectuur" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Romeins recht</option><option>Kenmerkende Grieks‑Romeinse kunst en architectuur</option><option>Latijnse grammatica</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">R4. De limes was…<br>
-      <select data-cat="tv2" data-correct="De noordgrens van het rijk langs Rijn en Donau" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Een munt</option><option>De noordgrens van het rijk langs Rijn en Donau</option><option>Een Griekse zuil</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">R5. Romanisering betekent…<br>
-      <select data-cat="tv2" data-correct="Overname van Romeinse cultuur door andere volken" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Vergrieksing</option><option>Overname van Romeinse cultuur door andere volken</option><option>Ontstaan van christendom</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">R6. Wat hielp de snelle verspreiding van het christendom?<br>
-      <select data-cat="tv2" data-correct="Goede wegen en gemeenschappelijke talen" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Reisverboden</option><option>Goede wegen en gemeenschappelijke talen</option><option>Geen steden</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">R7. Monotheïsme =<br>
-      <select data-cat="tv2" data-correct="Geloof in één God" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Geloof in vele goden</option><option>Geloof in één God</option><option>Geen geloof</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">R8. Noem een zuilenorde die <strong>niet</strong> Grieks is.<br>
-      <select data-cat="tv2" data-correct="Gotisch" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Dorisch</option><option>Ionisch</option><option>Gotisch</option></select><span class="feedback"></span>
-    </div>
-    <div class="question">R9. Confrontatie met Germanen leidde tot…<br>
-      <select data-cat="tv2" data-correct="Druk op het rijk en grensconflicten" onchange="checkAnswer(this, this.dataset.correct)"><option>–</option><option>Meer rust aan de grens</option><option>Druk op het rijk en grensconflicten</option><option>Verdwijnen van de limes</option></select><span class="feedback"></span>
-    </div>
-  </div>
-
-  <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:12px">
-    <button type="button" onclick="gradeQuiz()">Uitslag</button>
-    <button type="button" onclick="resetQuiz()">Herstart</button>
-  </div>
-
-  <div id="resultaat" class="samenvatting hidden" style="margin-top:10px">
-    <h3>Resultaat</h3>
-    <p id="scoreline"></p>
-    <ul id="breakdown"></ul>
-  </div>
-</section>
-
-<script>
-  const flashcardsPer = [
-    { q:'Welke periode hoort bij Tijdvak 1?', a:'Prehistorie.' },
-    { q:'Welke periode volgt op de Middeleeuwen?', a:'Vroegmoderne tijd (1500–1800).' },
-    { q:'Wanneer eindigt de Prehistorie?', a:'Rond 3000 v.Chr., bij het ontstaan van schrift.' },
-    { q:'Noem twee tijdvakken van de moderne tijd.', a:'9. Wereldoorlogen en 10. Televisie en Computer.' },
-    { q:'Welke periode loopt 3000 v.Chr. – 500 n.Chr.?', a:'De Oudheid (Tijdvak 2).'}
-  ];
-
-  function showFlashcard(pool){
-    const map = {
-      per: {list: flashcardsPer, target: 'per-flashcard'},
-      tv1: {list: flashcardsTv1||[], target: 'tv1-flashcard'},
-      tv2: {list: flashcardsTv2||[], target: 'tv2-flashcard'}
-    };
-    const cfg = map[pool];
-    if(!cfg || !cfg.list.length) return;
-    const fc = cfg.list[Math.floor(Math.random()*cfg.list.length)];
-    const el = document.getElementById(cfg.target);
-    if(el){ el.innerHTML = `<strong>${fc.q}</strong><br><em>${fc.a}</em>`; }
-  }
-
-  function gradeQuiz(){
-    const selects = Array.from(document.querySelectorAll('#quiz select')); 
-    let total = 0, correct = 0;
-    const cats = { per: {t:0,c:0}, tv1: {t:0,c:0}, tv2: {t:0,c:0} };
-    selects.forEach(sel => {
-      total++;
-      const cat = sel.dataset.cat || 'per';
-      cats[cat] = cats[cat] || {t:0,c:0};
-      cats[cat].t++;
-      if(sel.value === sel.dataset.correct){ correct++; cats[cat].c++; }
+function renderGoals(){
+  const blocks = [['tv1',doelen.tv1],['tv2',doelen.tv2]];
+  blocks.forEach(([id,arr])=>{
+    const host = document.getElementById(id+'-goals');
+    host.innerHTML = '';
+    arr.forEach(([titel, weten, kernA], i)=>{
+      const d = el('details', {open: i===0});
+      d.appendChild(el('summary',{}, `<strong>${i+1}. ${titel}</strong>`));
+      d.appendChild(el('div', {class:'card'}, `<em>Wat moet je weten:</em> ${weten}<br><em>Kernantwoord:</em> ${kernA}`));
+      host.appendChild(d);
     });
-    const pct = Math.round((correct/total)*100);
-    document.getElementById('scoreline').textContent = `Score: ${correct}/${total} (${pct}%)`;
-    const bd = document.getElementById('breakdown');
-    bd.innerHTML = '';
-    Object.entries(cats).forEach(([k,v])=>{
-      const li = document.createElement('li');
-      const p = v.t? Math.round((v.c/v.t)*100):0;
-      const label = k==='per'?'Periodisering':(k==='tv1'?'Tijdvak 1':'Tijdvak 2');
-      li.textContent = `${label}: ${v.c}/${v.t} (${p}%)`;
-      bd.appendChild(li);
-    });
-    document.getElementById('resultaat').classList.remove('hidden');
-    document.getElementById('resultaat').scrollIntoView({behavior:'smooth'});
-  }
+  });
+}
 
-  function resetQuiz(){
-    document.querySelectorAll('#quiz select').forEach(s=>{ s.selectedIndex = 0; const fb=s.nextElementSibling; if(fb) fb.textContent=''; });
-    document.getElementById('resultaat').classList.add('hidden');
-  }
+function makeSelect(opts, correct){
+  const s = el('select', {});
+  s.appendChild(el('option', {}, '–'));
+  opts.forEach(o=> s.appendChild(el('option', {}, o)));
+  s.addEventListener('change', e=>{
+    const fb = s.nextElementSibling;
+    if(s.value === correct){ fb.textContent = '✅ Juist!'; fb.className='feedback good'; }
+    else if(s.selectedIndex>0){ fb.textContent = '❌ Onjuist'; fb.className='feedback bad'; }
+    else { fb.textContent=''; fb.className='feedback'; }
+  });
+  return s;
+}
 
-  // goStep helper (reused)
-  function goStep(sectionId, index){
-    const sec = document.getElementById(sectionId);
-    if(!sec) return;
-    const steps = sec.querySelectorAll('.step');
-    steps.forEach((el,i)=> el.classList.toggle('hidden', i!==index));
-    sec.dataset.step = index;
-    window.scrollTo({top:0, behavior:'smooth'});
-  }
+function renderQuiz(setId, hostId){
+  const host = document.getElementById(hostId);
+  host.innerHTML = '';
+  (quiz[setId]||[]).forEach((q,i)=>{
+    const [title, opts, correct] = q;
+    const wrap = el('div', {class:'card'}, `${i+1}. ${title}<br>`);
+    const select = makeSelect(opts, correct);
+    wrap.appendChild(select);
+    wrap.appendChild(el('span',{class:'feedback'},''));
+    host.appendChild(wrap);
+  });
+}
+
+function buildFinal(){
+  // Mix: neem 2 vragen per set (of minder als er minder zijn)
+  const pick = (arr,n)=> arr.slice(0,Math.min(n,arr.length));
+  quiz.final = [...pick(quiz.per,2), ...pick(quiz.tv1,2), ...pick(quiz.tv2,2)];
+  renderQuiz('final','final-quiz');
+}
+
+function gradeFinal(){
+  const selects = Array.from(document.querySelectorAll('#final-quiz select'));
+  let total=0, correct=0, sec={per:[0,0], tv1:[0,0], tv2:[0,0]};
+  selects.forEach((s,i)=>{
+    total++;
+    const cat = i<2?'per':(i<4?'tv1':'tv2');
+    sec[cat][0]++;
+    const corr = quiz.final[i][2];
+    if(s.value === corr){ correct++; sec[cat][1]++; }
+  });
+  const out = document.getElementById('final-out');
+  const pct = Math.round((correct/total)*100);
+  out.innerHTML = `<strong>Score:</strong> ${correct}/${total} (${pct}%)<ul>
+    <li>Periodisering: ${sec.per[1]}/${sec.per[0]}</li>
+    <li>Tijdvak 1: ${sec.tv1[1]}/${sec.tv1[0]}</li>
+    <li>Tijdvak 2: ${sec.tv2[1]}/${sec.tv2[0]}</li>
+  </ul>`;
+  out.classList.remove('hidden');
+}
+
+function resetFinal(){
+  document.querySelectorAll('#final-quiz select').forEach(s=>{ s.selectedIndex=0; const fb=s.nextElementSibling; if(fb) fb.textContent=''; fb.className='feedback'; });
+  document.getElementById('final-out').classList.add('hidden');
+}
+
+/* ---------- Init ---------- */
+renderTable();
+renderKern();
+renderGoals();
+renderQuiz('per','per-quiz');
+renderQuiz('tv1','tv1-quiz');
+renderQuiz('tv2','tv2-quiz');
+buildFinal();
+nextFlash('per'); nextFlash('tv1'); nextFlash('tv2');
 </script>
-
+</body>
+</html>
