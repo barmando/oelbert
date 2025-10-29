@@ -30,6 +30,9 @@
     .progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--ok),#34d399);width:0}
     .progress-total{height:14px}
     .stars{letter-spacing:1px}
+  .dock{position:sticky;bottom:0;left:0;right:0;background:rgba(255,255,255,.9);backdrop-filter:saturate(180%) blur(8px);border-top:1px solid #e5e7eb;padding:10px 16px;margin-top:16px}
+    .dock .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .kbd{font:600 12px/1 system-ui;padding:3px 6px;border:1px solid #cbd5e1;border-radius:6px;background:#f8fafc}
   </style>
 </head>
 <body>
@@ -69,6 +72,7 @@
       <button class="btn" data-tab="quiz2">🧪 Deeltoets T2</button>
       <button class="btn" data-tab="final">🏁 Eindtoets</button>
     </nav>
+    <div id="stepLabel" class="muted" style="margin-top:-6px">Stap 1/9 · Overzicht</div>
       <button class="btn primary" data-tab="overview">📚 Overzicht</button>
       <button class="btn" data-tab="read1">📖 Lezen T1</button>
       <button class="btn" data-tab="t1">🌾 Flashcards T1</button>
@@ -509,5 +513,48 @@ go('goFinal','final');
 // default tab
 showTab('overview');
 </script>
+  <footer class="dock">
+      <div class="row">
+        <div class="muted">Route: Overzicht → Kennen&kunnen → Lezen T1 → Flashcards T1 → Deeltoets T1 → Lezen T2 → Flashcards T2 → Deeltoets T2 → Eindtoets</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="muted">Sneltoetsen: <span class="kbd">←</span>/<span class="kbd">→</span></span>
+          <button class="btn" id="prevStep">◁ Vorige</button>
+          <button class="btn primary" id="nextStep">Volgende ▷</button>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+    (function(){
+      const route=['overview','kennis','read1','t1','quiz1','read2','t2','quiz2','final'];
+      function setStepLabel(name){
+        const el=document.getElementById('stepLabel');
+        if(!el) return; const i=Math.max(0,route.indexOf(name));
+        el.textContent=`Stap ${i+1}/${route.length} · ${name.toUpperCase()}`;
+      }
+      window.showTab = function(name){
+        if(!route.includes(name)) name='overview';
+        route.forEach(t=>{const s=document.getElementById('tab-'+t); if(s) s.classList.add('hidden');});
+        const cur=document.getElementById('tab-'+name); if(cur) cur.classList.remove('hidden');
+        document.querySelectorAll('nav.tabs .btn').forEach(b=>b.classList.toggle('primary',b.dataset.tab===name));
+        localStorage.setItem('trainer_current_tab', name);
+        setStepLabel(name);
+        const idx=route.indexOf(name);
+        const prev=document.getElementById('prevStep'), next=document.getElementById('nextStep');
+        if(prev) prev.disabled = idx<=0; if(next) next.disabled = idx>=route.length-1;
+        location.hash = '#'+name;
+      };
+      function goRel(d){ const cur=localStorage.getItem('trainer_current_tab')||'overview'; const i=route.indexOf(cur); const j=Math.min(route.length-1,Math.max(0,i+d)); window.showTab(route[j]); }
+      const prev=document.getElementById('prevStep'), next=document.getElementById('nextStep');
+      if(prev) prev.onclick=()=>goRel(-1); if(next) next.onclick=()=>goRel(+1);
+      document.addEventListener('click',e=>{
+        const t=e.target.closest('[data-tab]'); if(t){ e.preventDefault(); window.showTab(t.dataset.tab);} 
+        const nx=e.target.closest('[data-next]'); if(nx){ e.preventDefault(); goRel(+1);} 
+      });
+      window.addEventListener('keydown',e=>{ if(e.target.tagName==='INPUT') return; if(e.key==='ArrowRight') goRel(+1); if(e.key==='ArrowLeft') goRel(-1); });
+      const initial=(location.hash? location.hash.replace('#','') : localStorage.getItem('trainer_current_tab'))||'overview';
+      window.showTab(initial);
+    })();
+    </script>
 </body>
 </html>
