@@ -476,9 +476,16 @@
 
   // ---------- QUIZ RENDER/LOGIC (reusable) ----------
   function makeQuiz(bank, ids){
-    const c=document.getElementById(ids.container), fb=document.getElementById(ids.feedback), prog=document.getElementById(ids.progress), bar=document.getElementById(ids.bar), stars=document.getElementById(ids.stars);
-    if(!c) return; let i=0; render();
-    function render(){ const q=bank[i]; if(q.kind==='open'){renderOpen(c,q.t)} else {renderMC(c,q.t,q.opts); [...c.querySelectorAll('button[data-i]')].forEach(b=>b.onclick=()=>{ c.dataset.choice=b.dataset.i; [...c.querySelectorAll('button[data-i]')].forEach(x=>x.classList.toggle('primary',x===b)); }); } if(fb) fb.classList.add('hidden'); if(prog) prog.textContent=`Vraag ${i+1} / ${bank.length} · Goed: ${ids.state.correct}`; if(bar) bar.style.width=pct(ids.state.correct,bank.length)+'%'; if(stars) stars.textContent=stars3(ids.state.correct/bank.length); }
+    const c=document.getElementById(ids.container), fb=document.getElementById(ids.feedback), prog=document.getElementById(ids.progress), bar=document.getElementById(ids.bar), stars=document.getElementById(ids.stars), checkBtn=document.getElementById(ids.check), nextBtn=document.getElementById(ids.next);
+    if(!c||!checkBtn||!nextBtn) return; let i=0, answered=false;
+    render();
+    function render(){ const q=bank[i]; answered=false; checkBtn.disabled=false; if(q.kind==='open'){renderOpen(c,q.t)} else {renderMC(c,q.t,q.opts); [...c.querySelectorAll('button[data-i]')].forEach(b=>b.onclick=()=>{ c.dataset.choice=b.dataset.i; [...c.querySelectorAll('button[data-i]')].forEach(x=>x.classList.toggle('primary',x===b)); }); } if(fb) fb.classList.add('hidden'); if(prog) prog.textContent=`Vraag ${i+1} / ${bank.length} · Goed: ${ids.state.correct}`; if(bar) bar.style.width=pct(ids.state.correct,bank.length)+'%'; if(stars) stars.textContent=stars3(ids.state.correct/bank.length); }
+    checkBtn.addEventListener('click',()=>{ if(answered) return; const q=bank[i]; let ok=false; if(q.kind==='open'){ const v=document.getElementById('ans')?.value?.trim()||''; if(!v){ if(fb){ fb.className='feedback bad'; fb.textContent='Typ eerst een antwoord en probeer opnieuw.'; fb.classList.remove('hidden'); } return; } ok=checkOpen(q.check); } else { if(c.dataset.choice===undefined){ if(fb){ fb.className='feedback bad'; fb.textContent='Kies eerst een optie A/B/C/D.'; fb.classList.remove('hidden'); } return; } ok=Number(c.dataset.choice)==q.ans; }
+      answered=true; checkBtn.disabled=true; if(ok) ids.state.correct++; ids.state.attempted++; save(state);
+      if(fb){ fb.className='feedback '+(ok?'good':'bad'); fb.textContent=(ok?'✅ Goed! ':'❌ Bijna… ')+q.exp; fb.classList.remove('hidden'); }
+      if(prog) prog.textContent=`Vraag ${i+1} / ${bank.length} · Goed: ${ids.state.correct}`; if(bar) bar.style.width=pct(ids.state.correct,bank.length)+'%'; if(stars) stars.textContent=stars3(ids.state.correct/bank.length); recomputeTotal(); });
+    nextBtn.addEventListener('click',()=>{ i = (i<bank.length-1)? i+1 : 0; delete c.dataset.choice; render(); });
+  } else {renderMC(c,q.t,q.opts); [...c.querySelectorAll('button[data-i]')].forEach(b=>b.onclick=()=>{ c.dataset.choice=b.dataset.i; [...c.querySelectorAll('button[data-i]')].forEach(x=>x.classList.toggle('primary',x===b)); }); } if(fb) fb.classList.add('hidden'); if(prog) prog.textContent=`Vraag ${i+1} / ${bank.length} · Goed: ${ids.state.correct}`; if(bar) bar.style.width=pct(ids.state.correct,bank.length)+'%'; if(stars) stars.textContent=stars3(ids.state.correct/bank.length); }
     document.getElementById(ids.check)?.addEventListener('click',()=>{ const q=bank[i]; let ok=false; if(q.kind==='open'){ ok=checkOpen(q.check); } else { ok=Number(c.dataset.choice)==q.ans; }
       if(ok) ids.state.correct++; ids.state.attempted++; save(state);
       if(fb){ fb.className='feedback '+(ok?'good':'bad'); fb.textContent=(ok?'✅ Goed! ':'❌ Bijna… ')+q.exp; fb.classList.remove('hidden'); }
