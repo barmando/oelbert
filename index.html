@@ -60,6 +60,7 @@
 
     <nav class="tabs">
       <button class="btn primary" data-tab="overview">📚 Overzicht</button>
+      <button class="btn" data-tab="kennis">📘 Kennen & kunnen</button>
       <button class="btn" data-tab="read1">📖 Lezen T1</button>
       <button class="btn" data-tab="t1">🌾 Flashcards T1</button>
       <button class="btn" data-tab="quiz1">🧪 Deeltoets T1</button>
@@ -68,6 +69,82 @@
       <button class="btn" data-tab="quiz2">🧪 Deeltoets T2</button>
       <button class="btn" data-tab="final">🏁 Eindtoets</button>
     </nav>
+      <button class="btn primary" data-tab="overview">📚 Overzicht</button>
+      <button class="btn" data-tab="read1">📖 Lezen T1</button>
+      <button class="btn" data-tab="t1">🌾 Flashcards T1</button>
+      <button class="btn" data-tab="quiz1">🧪 Deeltoets T1</button>
+      <button class="btn" data-tab="read2">📖 Lezen T2</button>
+      <button class="btn" data-tab="t2">🏛️ Flashcards T2</button>
+      <button class="btn" data-tab="quiz2">🧪 Deeltoets T2</button>
+      <button class="btn" data-tab="final">🏁 Eindtoets</button>
+    </nav>
+
+    <!-- KENNEN & KUNNEN -->
+    <section class="card hidden" id="tab-kennis">
+      <h2>📘 Wat moet ik kennen & kunnen (minimumeisen)</h2>
+      <p class="muted">Vink af wat je beheerst. Dit wordt lokaal opgeslagen. Gebruik daarna de knop <b>Oefen dit onderdeel</b> voor bijpassende vragen.</p>
+      <div id="kk-list" class="grid">
+        <details open class="card" style="margin:0">
+          <summary><b>A. Continuïteit & discontinuïteit</b></summary>
+          <ul>
+            <li><label><input type="checkbox" data-kk="A1"> Herkennen en benoemen van continuïteiten, parallellen en veranderingen.</label></li>
+            <li><label><input type="checkbox" data-kk="A2"> Onderscheiden van tijdvakgebonden vs. tijdvakoverschrijdende veranderingen.</label></li>
+            <li><label><input type="checkbox" data-kk="A3a"> Veranderingen beoordelen op <i>tempo</i> (snel/geleding).</label></li>
+            <li><label><input type="checkbox" data-kk="A3b"> Veranderingen beoordelen op <i>schaal</i> (aantal betrokken mensen/landen).</label></li>
+            <li><label><input type="checkbox" data-kk="A3c"> Veranderingen beoordelen op <i>intensiteit</i> (invloed op betrokkenen).</label></li>
+            <li><label><input type="checkbox" data-kk="A3d"> Veranderingen beoordelen op <i>duur</i> (tijdelijk/langdurig/blijvend).</label></li>
+            <li><label><input type="checkbox" data-kk="A4a"> Veranderingen onderscheiden in politieke, economische, sociale of culturele.</label></li>
+            <li><label><input type="checkbox" data-kk="A4b"> Onderscheid tussen gebeurtenissen en (structurele) ontwikkelingen.</label></li>
+            <li><label><input type="checkbox" data-kk="A4c"> Tijdvakgebonden en tijdvakoverschrijdende processen herkennen.</label></li>
+          </ul>
+          <button class="btn" data-train="A">Oefen dit onderdeel</button>
+        </details>
+        <details class="card" style="margin:0">
+          <summary><b>B. Causaliteit (oorzaak & gevolg)</b></summary>
+          <ul>
+            <li><label><input type="checkbox" data-kk="B1"> Oorzaken/aanleidingen/gevolgen herkennen en benoemen.</label></li>
+            <li><label><input type="checkbox" data-kk="B2"> Causale verbanden leggen en verklaringen geven.</label></li>
+            <li><label><input type="checkbox" data-kk="B3a"> Structurele vs. incidentele oorzaken onderscheiden.</label></li>
+            <li><label><input type="checkbox" data-kk="B3b"> Indirecte vs. directe oorzaken onderscheiden.</label></li>
+            <li><label><input type="checkbox" data-kk="B3c"> Politieke/economische/sociale/culturele oorzaken onderscheiden.</label></li>
+            <li><label><input type="checkbox" data-kk="B4a"> Directe vs. indirecte gevolgen onderscheiden.</label></li>
+            <li><label><input type="checkbox" data-kk="B4b"> Bedoelde vs. onbedoelde gevolgen onderscheiden.</label></li>
+            <li><label><input type="checkbox" data-kk="B4c"> Belangrijke vs. onbelangrijke gevolgen onderscheiden.</label></li>
+            <li><label><input type="checkbox" data-kk="B4d"> Politieke/economische/sociale/culturele gevolgen onderscheiden.</label></li>
+          </ul>
+          <button class="btn" data-train="B">Oefen dit onderdeel</button>
+        </details>
+        <details class="card" style="margin:0">
+          <summary><b>C. Inleving</b></summary>
+          <ul>
+            <li><label><input type="checkbox" data-kk="C1"> Bij oordelen rekening houden met tijdgebonden en plaatsgebonden motieven/verwachtingen.</label></li>
+            <li><label><input type="checkbox" data-kk="C2"> Rekening houden met waarden en normen van toen en nu.</label></li>
+          </ul>
+          <button class="btn" data-train="C">Oefen dit onderdeel</button>
+        </details>
+        <details class="card" style="margin:0">
+          <summary><b>D. Bronnen</b></summary>
+          <ul>
+            <li><label><input type="checkbox" data-kk="D1"> Bronnen beoordelen op bruikbaarheid (betrouwbaarheid, representativiteit, relevantie).</label></li>
+            <li><label><input type="checkbox" data-kk="D2"> Herkennen van personen/gebeurtenissen/ontwikkelingen in een bron.</label></li>
+          </ul>
+          <button class="btn" data-train="D">Oefen dit onderdeel</button>
+        </details>
+        <details class="card" style="margin:0">
+          <summary><b>E. Oriëntatiekennis</b></summary>
+          <ul>
+            <li><label><input type="checkbox" data-kk="E1"> Tijdvakken, periodes en jaartallen herkennen en benoemen.</label></li>
+            <li><label><input type="checkbox" data-kk="E2"> Alle kenmerkende aspecten herkennen, benoemen en ordenen.</label></li>
+            <li><label><input type="checkbox" data-kk="E3"> Bij elk KA concrete voorbeelden geven en uitleggen.</label></li>
+            <li><label><input type="checkbox" data-kk="E4"> Bij personen/ontwikkelingen het bijbehorende KA noemen en uitleggen.</label></li>
+            <li><label><input type="checkbox" data-kk="E5"> Interne samenhang binnen een KA uitleggen.</label></li>
+            <li><label><input type="checkbox" data-kk="E6"> Samenhang tussen KA’s onderling uitleggen.</label></li>
+            <li><label><input type="checkbox" data-kk="E7"> Verband tussen KA en tijdvak uitleggen.</label></li>
+          </ul>
+          <button class="btn" data-train="E">Oefen dit onderdeel</button>
+        </details>
+      </div>
+    </section>
 
     <!-- OVERVIEW -->
     <section class="card" id="tab-overview">
@@ -120,6 +197,9 @@
       <button class="btn" id="markRead1">Markeer gelezen</button>
     </section>
 
+    <!-- T1 NEXT -->
+    <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn" id="goRead1">Volgende ▷ Lezen T1</button></div>
+
     <!-- T1 -->
     <section class="card hidden" id="tab-t1">
       <h2>🌾 Tijdvak 1 – Jagers en boeren</h2>
@@ -139,6 +219,7 @@
         <div class="muted">⭐️ <span id="t1Stars" class="stars">☆☆☆</span></div>
       </div>
     </section>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn" id="goT1">Volgende ▷ Flashcards T1</button></div>
 
     <!-- QUIZ 1 -->
     <section class="card hidden" id="tab-quiz1">
@@ -153,6 +234,7 @@
         <div class="muted">⭐️ <span id="q1Stars" class="stars">☆☆☆</span></div>
       </div>
     </section>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn" id="goQuiz1">Volgende ▷ Deeltoets T1</button></div>
 
     <!-- READ 2 -->
     <section class="card hidden" id="tab-read2">
@@ -206,6 +288,7 @@
       </details>
       <button class="btn" id="markRead2">Markeer gelezen</button>
     </section>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn" id="goRead2">Volgende ▷ Lezen T2</button></div>
 
     <!-- T2 -->
     <section class="card hidden" id="tab-t2">
@@ -226,6 +309,7 @@
         <div class="muted">⭐️ <span id="t2Stars" class="stars">☆☆☆</span></div>
       </div>
     </section>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn" id="goT2">Volgende ▷ Flashcards T2</button></div>
 
     <!-- QUIZ 2 -->
     <section class="card hidden" id="tab-quiz2">
@@ -240,6 +324,7 @@
         <div class="muted">⭐️ <span id="q2Stars" class="stars">☆☆☆</span></div>
       </div>
     </section>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn" id="goQuiz2">Volgende ▷ Deeltoets T2</button></div>
 
     <!-- FINAL -->
     <section class="card hidden" id="tab-final">
@@ -254,6 +339,8 @@
         <div class="muted">⭐️ <span id="finalStars" class="stars">☆☆☆</span></div>
       </div>
     </section>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn" id="goFinal">Volgende ▷ Eindtoets</button></div>
+
   </div>
 
 <script>
@@ -274,7 +361,7 @@ if(!state.sections){ state={sections:{
 save(state);
 
 // ---------- Tabs ----------
-const tabs=['overview','read1','t1','quiz1','read2','t2','quiz2','final'];
+const tabs=['overview','kennis','read1','t1','quiz1','read2','t2','quiz2','final'];
 const buttons=[...document.querySelectorAll('nav.tabs .btn')];
 function showTab(name){tabs.forEach(t=>document.getElementById('tab-'+t).classList.add('hidden'));document.getElementById('tab-'+name).classList.remove('hidden');buttons.forEach(b=>b.classList.toggle('primary',b.dataset.tab===name));}
 buttons.forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
@@ -397,6 +484,27 @@ document.getElementById('qfinal-next').onclick=()=>{ if(fi<finalBank.length-1){ 
 // mark read buttons
 const markRead1=document.getElementById('markRead1'); if(markRead1) markRead1.onclick=()=>{ state.sections.read1.done=true; save(state); recomputeTotal(); };
 const markRead2=document.getElementById('markRead2'); if(markRead2) markRead2.onclick=()=>{ state.sections.read2.done=true; save(state); recomputeTotal(); };
+
+// Kennen & kunnen: checkboxes + train-knoppen
+const KK_KEY='geschiedenis_trainer_kk_v1';
+function loadKK(){ try{return JSON.parse(localStorage.getItem(KK_KEY))||{};}catch(e){return {}} }
+function saveKK(d){ localStorage.setItem(KK_KEY, JSON.stringify(d)); }
+let kk=loadKK();
+[...document.querySelectorAll('[data-kk]')].forEach(cb=>{ const k=cb.getAttribute('data-kk'); cb.checked = !!kk[k]; cb.addEventListener('change',()=>{ kk[k]=cb.checked; saveKK(kk); });});
+[...document.querySelectorAll('[data-train]')].forEach(btn=>btn.addEventListener('click',()=>{
+  const part=btn.getAttribute('data-train');
+  if(part==='A'||part==='B') showTab('quiz1'); else if(part==='E') showTab('final'); else showTab('quiz2');
+}));
+
+// Next buttons
+const go=(id,tab)=>{ const el=document.getElementById(id); if(el) el.onclick=()=>showTab(tab); };
+go('goRead1','read1');
+go('goT1','t1');
+go('goQuiz1','quiz1');
+go('goRead2','read2');
+go('goT2','t2');
+go('goQuiz2','quiz2');
+go('goFinal','final');
 
 // default tab
 showTab('overview');
