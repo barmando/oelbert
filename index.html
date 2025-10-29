@@ -5,259 +5,222 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Geschiedenis Toetstrainer – Tijdvak 1 & 2</title>
   <style>
-    :root {
-      --bg1:#f8fafc; --bg2:#eef2ff; --ink:#0f172a; --muted:#64748b; --brand:#2563eb; --brand2:#4f46e5; --ok:#10b981; --bad:#ef4444;
-      font-family:'Inter',system-ui,Segoe UI,Roboto,Arial,sans-serif;
-    }
+    :root { --bg1:#f8fafc; --bg2:#eef2ff; --ink:#0f172a; --muted:#64748b; --brand:#2563eb; --brand2:#4f46e5; --ok:#10b981; --bad:#ef4444; font-family:'Inter',system-ui,Segoe UI,Roboto,Arial,sans-serif; }
     *{box-sizing:border-box}
     body{margin:0;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--ink)}
     .wrap{max-width:1100px;margin:auto;padding:20px}
-    header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:10px}
-    h1{margin:0;font-size:clamp(22px,3.2vw,36px);font-weight:900}
+    h1{font-size:2.2rem;font-weight:900;margin:.2rem 0 .3rem}
+    h2{font-size:1.6rem;margin-top:0}
     .muted{color:var(--muted)}
-    .pill{display:inline-flex;gap:.4rem;align-items:center;border:1px solid #e2e8f0;background:#fff;border-radius:999px;padding:.25rem .6rem;font-size:.8rem;box-shadow:0 1px 0 rgba(0,0,0,.04)}
-    .card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 10px 30px rgba(2,6,23,.06);padding:18px}
-    nav.tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:14px 0}
-    .btn{appearance:none;border:2px solid #e5e7eb;background:#fff;color:var(--ink);padding:10px 12px;border-radius:12px;font-weight:700;cursor:pointer;transition:.15s}
+    .pill{display:inline-flex;align-items:center;gap:.3rem;border:1px solid #e2e8f0;background:#fff;border-radius:999px;padding:.25rem .6rem;font-size:.8rem;margin-right:.3rem}
+    nav.tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0 16px}
+    .btn{border:2px solid #e5e7eb;background:#fff;color:var(--ink);padding:10px;border-radius:12px;font-weight:700;cursor:pointer;transition:.15s}
     .btn:hover{transform:translateY(-1px)}
     .btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
-    .btn.ghost{background:#f8fafc}
     .hidden{display:none}
+    .card{background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.06);padding:18px;margin-top:1rem}
     .grid{display:grid;gap:14px}
     @media(min-width:800px){.g2{grid-template-columns:1fr 1fr}}
-    .progress{height:8px;border-radius:999px;background:#e5e7eb;overflow:hidden}
-    .progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2));width:0}
-    /* Stepper */
-    .stepper{display:flex;gap:8px;flex-wrap:wrap}
-    .step{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;border:1px solid #e5e7eb;background:#fff}
-    .step.active{border-color:var(--brand);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
-    .dot{width:22px;height:22px;border-radius:999px;display:grid;place-items:center;font-weight:800;border:2px solid #e5e7eb}
-    .step.active .dot{border-color:var(--brand);color:var(--brand)}
-    .ok{color:var(--ok)}
-    .bad{color:var(--bad)}
-    .flashQ{font-size:1.15rem;font-weight:800;text-align:center;border:1px solid #e5e7eb;border-radius:14px;padding:14px}
-    .answer{margin-top:8px;border:1px solid #e5e7eb;background:#f8fafc;border-radius:12px;padding:12px}
-    .table{width:100%;border-collapse:collapse}
-    .table th,.table td{border:1px solid #e5e7eb;padding:8px;text-align:left}
-    .table th{background:#f8fafc}
-    .hint{font-size:.9rem;color:var(--muted)}
+    .flashQ{font-weight:700;font-size:1.15rem;border:1px solid #e5e7eb;border-radius:14px;padding:14px;text-align:center}
+    .answer{margin-top:8px;border:1px solid #e5e7eb;background:#f8fafc;border-radius:12px;padding:12px;display:none}
+    .feedback.good{background:#ecfdf5;border:1px solid #a7f3d0;padding:1rem;border-radius:12px}
+    .feedback.bad{background:#fef2f2;border:1px solid #fecaca;padding:1rem;border-radius:12px}
+    /* Progress bars */
+    .progress{height:10px;border-radius:999px;background:#e5e7eb;overflow:hidden}
+    .progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--ok),#34d399);width:0}
+    .progress-total{height:14px}
+    .stars{letter-spacing:1px}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div>
-        <h1>Geschiedenis Toetstrainer — Tijdvak 1 & 2</h1>
-        <div class="muted">Interactief leren met een **logische leerlijn**: overzicht → flashcards → deeltoetsen → eindtoets.</div>
-        <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
-          <span class="pill">⏱️ 1‑uurs plan</span>
-          <span class="pill">🧠 Actief herinneren</span>
-          <span class="pill">🏁 Eindtoets</span>
-        </div>
+      <h1>Geschiedenis Toetstrainer — Tijdvak 1 & 2</h1>
+      <p class="muted">Leer alles over <b>Jagers & Boeren</b> en <b>Grieken & Romeinen</b>. Je mag altijd door naar het volgende onderdeel.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+        <span class="pill">⏱️ 1‑uurs plan</span>
+        <span class="pill">🧠 Actief herinneren</span>
+        <span class="pill">🏁 Eindtoets</span>
       </div>
-      <div class="card" style="min-width:260px">
-        <div style="display:flex;justify-content:space-between"><div class="muted">Sessie‑timer</div><div id="clock" style="font-family:ui-monospace,Menlo,monospace;font-weight:800">60:00</div></div>
-        <div class="progress" style="margin:8px 0"><i id="bar"></i></div>
-        <div style="display:flex;gap:8px"><button class="btn primary" id="start">Start</button><button class="btn" id="reset">Reset</button></div>
+      <!-- TOTAL PROGRESS BAR -->
+      <div class="card" style="margin:0">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <div class="muted" style="font-weight:700">Totale voortgang</div>
+            <div class="progress progress-total"><i id="totalBar"></i></div>
+            <div class="muted" style="margin-top:6px"><span id="totalPct">0%</span> · Voltooide onderdelen: <span id="stepsDone">0</span>/6</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="muted">⭐️ <span id="overallStars" class="stars">☆☆☆</span></div>
+            <button class="btn" id="resetProgress">Reset voortgang</button>
+          </div>
+        </div>
       </div>
     </header>
 
-    <!-- STEPPER -->
-    <div class="card">
-      <div class="stepper" id="stepper"></div>
-      <div class="hint" style="margin-top:8px">Doorloop elke stap. De <b>Volgende</b>-knop wordt actief als je de stap afrondt.</div>
-    </div>
-
-    <!-- NAV -->
     <nav class="tabs">
       <button class="btn primary" data-tab="overview">📚 Overzicht</button>
       <button class="btn" data-tab="t1">🌾 Tijdvak 1</button>
-      <button class="btn" data-tab="quiz1">🧪 Deels toets T1</button>
+      <button class="btn" data-tab="quiz1">🧪 Deeltoets T1</button>
       <button class="btn" data-tab="t2">🏛️ Tijdvak 2</button>
-      <button class="btn" data-tab="quiz2">🧪 Deels toets T2</button>
-      <button class="btn" data-tab="mix">🔀 Mix-oefening</button>
+      <button class="btn" data-tab="quiz2">🧪 Deeltoets T2</button>
       <button class="btn" data-tab="final">🏁 Eindtoets</button>
     </nav>
 
-    <!-- PANES -->
+    <!-- OVERVIEW -->
     <section class="card" id="tab-overview">
-      <h2>📚 Overzicht van de tijdvakken</h2>
-      <table class="table"><thead><tr><th>#</th><th>Naam</th><th>Jaartallen</th><th>Kern</th></tr></thead><tbody id="tv-body"></tbody></table>
-      <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end">
-        <button class="btn" id="next-overview" disabled>Volgende ▷</button>
-      </div>
+      <h2>📚 Overzicht Tijdvakken</h2>
+      <ul>
+        <li><b>Tijdvak 1:</b> Jagers en boeren — tot 3000 v.Chr. (landbouw, dorpen, steden)</li>
+        <li><b>Tijdvak 2:</b> Grieken en Romeinen — 3000 v.Chr. – 500 n.Chr. (wetenschap, democratie, Romeins rijk)</li>
+      </ul>
+      <div class="muted" style="margin-top:8px">Lees deze hardop. Klaar? Ga door naar Tijdvak 1.</div>
     </section>
 
+    <!-- T1 -->
     <section class="card hidden" id="tab-t1">
       <h2>🌾 Tijdvak 1 – Jagers en boeren</h2>
-      <div class="grid g2">
-        <div>
-          <h3>Kern</h3>
-          <ul>
-            <li>Nomadisch → kleine groepen; afhankelijk van natuur.</li>
-            <li>Landbouwrevolutie (ca. 10.000 v.Chr.) → sedentaire samenleving.</li>
-            <li>Overschotten → specialisatie → handel → sociale gelaagdheid.</li>
-            <li>Ontstaan dorpen/steden; schrift (ca. 3000 v.Chr.) → einde prehistorie.</li>
-          </ul>
-          <div class="hint">Doel: 5/5 flashcards doorlopen.</div>
-        </div>
-        <div>
-          <div class="flashQ" id="fc1-q">Nomadisch</div>
-          <div class="answer hidden" id="fc1-a">Rondtrekkend leven; geen vaste woonplaats.</div>
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <button class="btn" id="fc1-show">Toon antwoord</button>
-            <button class="btn primary" id="fc1-next">Volgende kaart</button>
-          </div>
-          <div class="muted" id="fc1-count" style="margin-top:6px">1 / 5</div>
-        </div>
-      </div>
-      <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end">
-        <button class="btn" id="next-t1" disabled>Volgende ▷</button>
+      <ul>
+        <li>Nomadisch bestaan (rondtrekkend)</li>
+        <li>Landbouwrevolutie → vaste woonplaatsen (sedentair)</li>
+        <li>Specialisatie, handel, sociale gelaagdheid</li>
+        <li>Ontstaan steden en schrift (einde prehistorie)</li>
+      </ul>
+      <div class="flashQ" id="fc1-q">Nomadisch</div>
+      <div class="answer" id="fc1-a">Rondtrekkend leven; geen vaste woonplaats.</div>
+      <div style="display:flex;gap:8px;margin:8px 0"><button class="btn" id="fc1-show">Toon antwoord</button><button class="btn" id="fc1-next">Volgende kaart</button></div>
+      <div class="muted" id="fc1-count">1 / 5</div>
+      <div style="margin-top:8px">
+        <div class="muted">Voortgang flashcards</div>
+        <div class="progress"><i id="t1Bar"></i></div>
+        <div class="muted">⭐️ <span id="t1Stars" class="stars">☆☆☆</span></div>
       </div>
     </section>
 
+    <!-- QUIZ 1 -->
     <section class="card hidden" id="tab-quiz1">
-      <h2>🧪 Deels toets Tijdvak 1</h2>
+      <h2>🧪 Deeltoets Tijdvak 1</h2>
       <div id="q1"></div>
       <div style="display:flex;gap:8px;margin-top:10px"><button class="btn primary" id="q1-check">Check</button><button class="btn" id="q1-next">Volgende vraag</button></div>
-      <div id="q1-feedback" class="card hidden" style="margin-top:10px"></div>
-      <div class="hint" id="q1-progress">Vraag 1 / 6 · Score 0</div>
-      <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end"><button class="btn" id="next-quiz1" disabled>Volgende ▷</button></div>
+      <div id="q1-feedback" class="feedback hidden" style="margin-top:10px"></div>
+      <div class="muted" id="q1-progress" style="margin-top:6px">Vraag 1 / 6 · Goed: 0</div>
+      <div style="margin-top:8px">
+        <div class="muted">Voortgang deeltoets T1 (goede antwoorden)</div>
+        <div class="progress"><i id="q1Bar"></i></div>
+        <div class="muted">⭐️ <span id="q1Stars" class="stars">☆☆☆</span></div>
+      </div>
     </section>
 
+    <!-- T2 -->
     <section class="card hidden" id="tab-t2">
       <h2>🏛️ Tijdvak 2 – Grieken en Romeinen</h2>
-      <div class="grid g2">
-        <div>
-          <h3>Kern</h3>
-          <ul>
-            <li>Grieken: polis, democratie (Athene), filosofie (Socrates, Plato, Aristoteles).</li>
-            <li>Romeinen: groei imperium, romanisering, Pax Romana, recht & infrastructuur.</li>
-            <li>Kunst: klassieke vormentaal (zuilen); Romeinen: bogen/koepels.</li>
-            <li>Religie: polytheïsme → monotheïsme (jodendom/christendom).</li>
-          </ul>
-          <div class="hint">Doel: 7/7 flashcards doorlopen.</div>
-        </div>
-        <div>
-          <div class="flashQ" id="fc2-q">Polis</div>
-          <div class="answer hidden" id="fc2-a">Griekse stadstaat met eigen bestuur en wetten.</div>
-          <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="fc2-show">Toon antwoord</button><button class="btn primary" id="fc2-next">Volgende kaart</button></div>
-          <div class="muted" id="fc2-count" style="margin-top:6px">1 / 7</div>
-        </div>
+      <ul>
+        <li>Grieken: polis, democratie, filosofie (Socrates, Plato, Aristoteles)</li>
+        <li>Romeinen: imperium, romanisering, Pax Romana</li>
+        <li>Kunst: klassieke vormentaal (zuilen), Romeinen: bogen/koepels</li>
+        <li>Religie: polytheïsme → monotheïsme</li>
+      </ul>
+      <div class="flashQ" id="fc2-q">Polis</div>
+      <div class="answer" id="fc2-a">Griekse stadstaat met eigen bestuur en wetten.</div>
+      <div style="display:flex;gap:8px;margin:8px 0"><button class="btn" id="fc2-show">Toon antwoord</button><button class="btn" id="fc2-next">Volgende kaart</button></div>
+      <div class="muted" id="fc2-count">1 / 7</div>
+      <div style="margin-top:8px">
+        <div class="muted">Voortgang flashcards</div>
+        <div class="progress"><i id="t2Bar"></i></div>
+        <div class="muted">⭐️ <span id="t2Stars" class="stars">☆☆☆</span></div>
       </div>
-      <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end"><button class="btn" id="next-t2" disabled>Volgende ▷</button></div>
     </section>
 
+    <!-- QUIZ 2 -->
     <section class="card hidden" id="tab-quiz2">
-      <h2>🧪 Deels toets Tijdvak 2</h2>
+      <h2>🧪 Deeltoets Tijdvak 2</h2>
       <div id="q2"></div>
       <div style="display:flex;gap:8px;margin-top:10px"><button class="btn primary" id="q2-check">Check</button><button class="btn" id="q2-next">Volgende vraag</button></div>
-      <div id="q2-feedback" class="card hidden" style="margin-top:10px"></div>
-      <div class="hint" id="q2-progress">Vraag 1 / 8 · Score 0</div>
-      <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end"><button class="btn" id="next-quiz2" disabled>Volgende ▷</button></div>
+      <div id="q2-feedback" class="feedback hidden" style="margin-top:10px"></div>
+      <div class="muted" id="q2-progress" style="margin-top:6px">Vraag 1 / 8 · Goed: 0</div>
+      <div style="margin-top:8px">
+        <div class="muted">Voortgang deeltoets T2 (goede antwoorden)</div>
+        <div class="progress"><i id="q2Bar"></i></div>
+        <div class="muted">⭐️ <span id="q2Stars" class="stars">☆☆☆</span></div>
+      </div>
     </section>
 
-    <section class="card hidden" id="tab-mix">
-      <h2>🔀 Mix-oefening (T1 + T2 door elkaar)</h2>
-      <div id="qmix"></div>
-      <div style="display:flex;gap:8px;margin-top:10px"><button class="btn primary" id="qmix-check">Check</button><button class="btn" id="qmix-next">Volgende vraag</button></div>
-      <div id="qmix-feedback" class="card hidden" style="margin-top:10px"></div>
-      <div class="hint" id="qmix-progress">Vraag 1 / 8 · Score 0</div>
-      <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end"><button class="btn" id="next-mix" disabled>Volgende ▷</button></div>
-    </section>
-
+    <!-- FINAL -->
     <section class="card hidden" id="tab-final">
-      <h2>🏁 Eindtoets (10 vragen)</h2>
+      <h2>🏁 Eindtoets</h2>
       <div id="qfinal"></div>
       <div style="display:flex;gap:8px;margin-top:10px"><button class="btn primary" id="qfinal-check">Check</button><button class="btn" id="qfinal-next">Volgende vraag</button></div>
-      <div id="qfinal-feedback" class="card hidden" style="margin-top:10px"></div>
-      <div class="hint" id="qfinal-progress">Vraag 1 / 10 · Score 0</div>
-      <div id="final-summary" class="card hidden" style="margin-top:12px"></div>
+      <div id="qfinal-feedback" class="feedback hidden" style="margin-top:10px"></div>
+      <div class="muted" id="qfinal-progress" style="margin-top:6px">Vraag 1 / 10 · Goed: 0</div>
+      <div style="margin-top:8px">
+        <div class="muted">Voortgang eindtoets (goede antwoorden)</div>
+        <div class="progress"><i id="finalBar"></i></div>
+        <div class="muted">⭐️ <span id="finalStars" class="stars">☆☆☆</span></div>
+      </div>
     </section>
-
-    <footer class="muted" style="text-align:center;margin-top:18px">Tip: haal 70% of hoger per stap en ga dan door. Herhaal je fouten aan het einde. 💪</footer>
   </div>
 
 <script>
-// ---------- TIMER ----------
-let secs=3600, timer=null; const clock=document.getElementById('clock'); const bar=document.getElementById('bar');
-function renderTime(){const m=String(Math.floor(secs/60)).padStart(2,'0'); const s=String(secs%60).padStart(2,'0'); clock.textContent=`${m}:${s}`; bar.style.width=`${100-(secs/3600)*100}%`;}
-renderTime();
-document.getElementById('start').onclick=()=>{ if(timer) return; timer=setInterval(()=>{ if(secs>0){secs--;renderTime()} },1000)};
-document.getElementById('reset').onclick=()=>{clearInterval(timer); timer=null; secs=3600; renderTime();};
+// ---------- Local Storage helpers ----------
+const KEY='geschiedenis_trainer_progress_v1';
+function load(){ try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {}} }
+function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+let state=load();
+if(!state.sections){ state={sections:{t1:{done:false,fcDone:0,fcTotal:5}, q1:{correct:0,total:6,attempted:0}, t2:{done:false,fcDone:0,fcTotal:7}, q2:{correct:0,total:8,attempted:0}, final:{correct:0,total:10,attempted:0}}, stepsCompleted:0}; }
+save(state);
 
-// ---------- NAV ----------
-const tabs=['overview','t1','quiz1','t2','quiz2','mix','final'];
+// ---------- Tabs ----------
+const tabs=['overview','t1','quiz1','t2','quiz2','final'];
 const buttons=[...document.querySelectorAll('nav.tabs .btn')];
-function showTab(name){tabs.forEach(t=>document.getElementById('tab-'+t).classList.add('hidden')); document.getElementById('tab-'+name).classList.remove('hidden'); buttons.forEach(b=>b.classList.toggle('primary', b.dataset.tab===name));}
+function showTab(name){tabs.forEach(t=>document.getElementById('tab-'+t).classList.add('hidden'));document.getElementById('tab-'+name).classList.remove('hidden');buttons.forEach(b=>b.classList.toggle('primary',b.dataset.tab===name));}
 buttons.forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
 
-// ---------- STEPPER ----------
-const steps=[
-  {key:'overview', label:'Overzicht'},
-  {key:'t1', label:'Flashcards T1'},
-  {key:'quiz1', label:'Deeltoets T1'},
-  {key:'t2', label:'Flashcards T2'},
-  {key:'quiz2', label:'Deeltoets T2'},
-  {key:'mix', label:'Mix-oefening'},
-  {key:'final', label:'Eindtoets'}
-];
-let currentStep=0; const stepper=document.getElementById('stepper');
-function renderStepper(){ stepper.innerHTML=''; steps.forEach((s,i)=>{ const el=document.createElement('div'); el.className='step'+(i===currentStep?' active':''); el.innerHTML=`<span class="dot">${i+1}</span> ${s.label}`; stepper.appendChild(el);}); }
-renderStepper();
-function gotoStep(i){ currentStep=i; showTab(steps[i].key); renderStepper(); }
+// ---------- Stars helper ----------
+function stars3(pct){ if(pct>=0.85) return '★★★'; if(pct>=0.6) return '★★☆'; if(pct>0) return '★☆☆'; return '☆☆☆'; }
 
-// ---------- Overzicht tabel ----------
-const tijdvakken=[
-  {nr:1,naam:'Jagers en boeren',jaren:'tot 3000 v.Chr.',kern:'Landbouw, dorpen, eerste steden'},
-  {nr:2,naam:'Grieken en Romeinen',jaren:'3000 v.Chr. – 500 n.Chr.',kern:'Democratie, wetenschap, Romeins rijk'},
-  {nr:3,naam:'Monniken en ridders',jaren:'500 – 1000',kern:'Christendom, leenstelsel, hofstelsel'},
-  {nr:4,naam:'Steden en staten',jaren:'1000 – 1500',kern:'Handel, steden, macht van koningen en kerk'},
-  {nr:5,naam:'Ontdekkers en hervormers',jaren:'1500 – 1600',kern:'Renaissance, ontdekkingsreizen, Reformatie'},
-  {nr:6,naam:'Regenten en vorsten',jaren:'1600 – 1700',kern:'Absolutisme, Gouden Eeuw'},
-  {nr:7,naam:'Pruiken en revoluties',jaren:'1700 – 1800',kern:'Verlichting, revoluties'},
-  {nr:8,naam:'Burgers en stoommachines',jaren:'1800 – 1900',kern:'Industrialisatie'},
-  {nr:9,naam:'Wereldoorlogen',jaren:'1900 – 1950',kern:'WO I & II, Holocaust'},
-  {nr:10,naam:'Televisie en computer',jaren:'1950 – nu',kern:'Informatietijdperk, globalisering'}
-];
-const tvBody=document.getElementById('tv-body'); tijdvakken.forEach(t=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${t.nr}</td><td>${t.naam}</td><td>${t.jaren}</td><td>${t.kern}</td>`; tvBody.appendChild(tr);});
-// active review requirement: scroll table then enable next
-const nextOverview=document.getElementById('next-overview'); let viewed=false; document.getElementById('tab-overview').addEventListener('scroll',()=>{ viewed=true; nextOverview.removeAttribute('disabled');}); setTimeout(()=>{nextOverview.removeAttribute('disabled')},4000);
-nextOverview.onclick=()=>{gotoStep(1)};
+// ---------- Total progress ----------
+function recomputeTotal(){
+  // completion by sections: fc T1, quiz1, fc T2, quiz2, final, overview read
+  const s=state.sections;
+  const completed = (s.t1.fcDone>=s.t1.fcTotal?1:0) + (s.q1.attempted>=s.q1.total?1:0) + (s.t2.fcDone>=s.t2.fcTotal?1:0) + (s.q2.attempted>=s.q2.total?1:0) + (s.final.attempted>=s.final.total?1:0) + 1; // overview always counted zodra site open is
+  const pct = Math.min(100, Math.round((completed/6)*100));
+  document.getElementById('totalBar').style.width=pct+'%';
+  document.getElementById('totalPct').textContent=pct+'%';
+  document.getElementById('stepsDone').textContent=completed;
+  // overall accuracy stars = average of available sections
+  const parts=[];
+  if(s.q1.total>0) parts.push(s.q1.correct/s.q1.total);
+  if(s.q2.total>0) parts.push(s.q2.correct/s.q2.total);
+  if(s.final.total>0) parts.push(s.final.correct/s.final.total);
+  const avg = parts.length? parts.reduce((a,b)=>a+b,0)/parts.length : 0;
+  document.getElementById('overallStars').textContent = stars3(avg);
+}
+recomputeTotal();
 
-// ---------- Flashcards ----------
-function makeFlash(deck,qEl,aEl,nextBtn,showBtn,countEl,doneCb){ let i=0,show=false; function render(){ qEl.textContent=deck[i].q; aEl.textContent=deck[i].a; aEl.classList.toggle('hidden',!show); countEl.textContent=`${i+1} / ${deck.length}`; }
-  nextBtn.onclick=()=>{ if(i<deck.length-1){ i++; show=false; render(); } else { doneCb(); }};
-  showBtn.onclick=()=>{ show=!show; render(); };
-  render(); }
-const deck1=[
-  {q:'Nomadisch',a:'Rondtrekkend leven; geen vaste woonplaats.'},
-  {q:'Sedentair',a:'Op één plek wonen (na de landbouw).'},
-  {q:'Landbouwrevolutie',a:'Overgang van jagen/verzamelen naar landbouw en veeteelt (ca. 10.000 v.Chr.).'},
-  {q:'Sociale gelaagdheid',a:'Verschillen in macht en rijkdom tussen groepen.'},
-  {q:'Einde prehistorie',a:'Rond 3000 v.Chr. met het ontstaan van het schrift.'}
-];
-makeFlash(deck1, document.getElementById('fc1-q'), document.getElementById('fc1-a'), document.getElementById('fc1-next'), document.getElementById('fc1-show'), document.getElementById('fc1-count'), ()=>{ document.getElementById('next-t1').removeAttribute('disabled'); });
+document.getElementById('resetProgress').onclick=()=>{ localStorage.removeItem(KEY); location.reload(); };
 
-const deck2=[
-  {q:'Polis',a:'Griekse stadstaat met eigen bestuur, leger en wetten.'},
-  {q:'Democratie (Athene)',a:'Vrije mannen met Atheense ouders beslissen in de volksvergadering.'},
-  {q:'Filosofie / wetenschappelijk denken',a:'Met rede en logica verklaringen zoeken (Socrates, Plato, Aristoteles).'},
-  {q:'Romanisering',a:'Verspreiding van Romeinse taal/cultuur/recht door veroveringen en contact.'},
-  {q:'Pax Romana',a:'Lange periode van vrede en welvaart in het Romeinse rijk.'},
-  {q:'Polytheïsme ↔ Monotheïsme',a:'Veel goden ↔ één God (jodendom/christendom).'},
-  {q:'Byzantijnse Rijk',a:'Oost‑Romeinse rijk met hoofdstad Constantinopel.'}
-];
-makeFlash(deck2, document.getElementById('fc2-q'), document.getElementById('fc2-a'), document.getElementById('fc2-next'), document.getElementById('fc2-show'), document.getElementById('fc2-count'), ()=>{ document.getElementById('next-t2').removeAttribute('disabled'); });
+// ---------- T1 Flashcards ----------
+const fc1={q:['Nomadisch','Sedentair','Landbouwrevolutie','Sociale gelaagdheid','Einde prehistorie'],a:['Rondtrekkend leven; geen vaste woonplaats.','Op één plek wonen (vaste woonplaats).','Overgang van jagen/verzamelen naar landbouw en veeteelt (ca. 10.000 v.Chr.).','Verschillen in rijkdom en macht tussen groepen.','Rond 3000 v.Chr. door de uitvinding van het schrift.']};
+let i1=0; const q1El=document.getElementById('fc1-q'), a1El=document.getElementById('fc1-a'), c1=document.getElementById('fc1-count');
+const t1Bar=document.getElementById('t1Bar'), t1Stars=document.getElementById('t1Stars');
+function renderFC1(){ q1El.textContent=fc1.q[i1]; a1El.textContent=fc1.a[i1]; c1.textContent=(i1+1)+' / '+fc1.q.length; const pct = Math.round((state.sections.t1.fcDone / state.sections.t1.fcTotal) * 100); t1Bar.style.width=pct+'%'; t1Stars.textContent = stars3(state.sections.t1.fcDone/state.sections.t1.fcTotal); }
+renderFC1();
+document.getElementById('fc1-show').onclick=()=>{ a1El.style.display = (a1El.style.display==='block'?'none':'block'); };
+document.getElementById('fc1-next').onclick=()=>{ if(state.sections.t1.fcDone < state.sections.t1.fcTotal) state.sections.t1.fcDone++; i1 = (i1+1)%fc1.q.length; save(state); renderFC1(); recomputeTotal(); };
 
-document.getElementById('next-t1').onclick=()=>{gotoStep(2)};
-document.getElementById('next-t2').onclick=()=>{gotoStep(4)};
+// ---------- T2 Flashcards ----------
+const fc2={q:['Polis','Democratie (Athene)','Filosofie / wetenschappelijk denken','Romanisering','Pax Romana','Polytheïsme','Monotheïsme'],a:['Griekse stadstaat met eigen bestuur en wetten.','Vrije mannen met Atheense ouders beslissen in de volksvergadering.','Met rede en logica verklaringen zoeken (Socrates, Plato, Aristoteles).','Verspreiding/overname van Romeinse taal, cultuur en recht.','Lange periode van vrede en welvaart in het Romeinse rijk.','Geloof in meerdere goden.','Geloof in één God.']};
+let i2=0; const q2El=document.getElementById('fc2-q'), a2El=document.getElementById('fc2-a'), c2=document.getElementById('fc2-count');
+const t2Bar=document.getElementById('t2Bar'), t2Stars=document.getElementById('t2Stars');
+function renderFC2(){ q2El.textContent=fc2.q[i2]; a2El.textContent=fc2.a[i2]; c2.textContent=(i2+1)+' / '+fc2.q.length; const pct = Math.round((state.sections.t2.fcDone / state.sections.t2.fcTotal) * 100); t2Bar.style.width=pct+'%'; t2Stars.textContent = stars3(state.sections.t2.fcDone/state.sections.t2.fcTotal); }
+renderFC2();
+document.getElementById('fc2-show').onclick=()=>{ a2El.style.display = (a2El.style.display==='block'?'none':'block'); };
+document.getElementById('fc2-next').onclick=()=>{ if(state.sections.t2.fcDone < state.sections.t2.fcTotal) state.sections.t2.fcDone++; i2 = (i2+1)%fc2.q.length; save(state); renderFC2(); recomputeTotal(); };
 
-// ---------- Question render helpers ----------
+// ---------- Question helpers ----------
 function renderOpen(container, text){ container.innerHTML=`<div class='flashQ'>${text}</div><input id='ans' class='btn' style='width:100%;margin-top:8px' placeholder='Typ je antwoord in 1 zin'>`; }
 function renderMC(container, text, opts){ const buttons = opts.map((o,i)=>`<button class='btn' data-i='${i}' style='display:block;width:100%;margin:6px 0'>${String.fromCharCode(65+i)}. ${o}</button>`).join(''); container.innerHTML=`<div class='flashQ'>${text}</div>${buttons}`; }
 function checkOpen(regex){ const v=document.getElementById('ans').value||''; return regex.test(v); }
-function pick(arr){ return arr[Math.floor(Math.random()*arr.length)] }
 
 // ---------- Deeltoets T1 ----------
 const q1Bank=[
@@ -268,13 +231,17 @@ const q1Bank=[
   {kind:'mc', t:'Waarom leefden jagers-verzamelaars in kleine groepen?', opts:['Religie','Meer veiligheid','Makkelijker voedsel vinden','Om handel te drijven'], ans:2, exp:'Kleine groepen konden makkelijker trekken en voedsel vinden.'},
   {kind:'open', t:'Leg “nomadisch” uit.', check:/rond?trekk|geen vaste/i, exp:'Nomadisch = rondtrekken, geen vaste woonplaats.'}
 ];
-let q1i=0,q1score=0; const q1c=document.getElementById('q1'); const q1fb=document.getElementById('q1-feedback'); const q1prog=document.getElementById('q1-progress');
-function renderQ1(){ const q=q1Bank[q1i]; if(q.kind==='open'){renderOpen(q1c,q.t)} else {renderMC(q1c,q.t,q.opts); [...q1c.querySelectorAll('button[data-i]')].forEach(b=>b.onclick=()=>{ q1c.dataset.choice=b.dataset.i; [...q1c.querySelectorAll('button[data-i]')].forEach(x=>x.classList.toggle('primary',x===b)); }); } q1fb.classList.add('hidden'); q1prog.textContent=`Vraag ${q1i+1} / ${q1Bank.length} · Score ${q1score}`; }
+let q1i=0; const q1c=document.getElementById('q1'); const q1fb=document.getElementById('q1-feedback'); const q1prog=document.getElementById('q1-progress'); const q1Bar=document.getElementById('q1Bar'); const q1Stars=document.getElementById('q1Stars');
+function renderQ1(){ const q=q1Bank[q1i]; if(q.kind==='open'){renderOpen(q1c,q.t)} else {renderMC(q1c,q.t,q.opts); [...q1c.querySelectorAll('button[data-i]')].forEach(b=>b.onclick=()=>{ q1c.dataset.choice=b.dataset.i; [...q1c.querySelectorAll('button[data-i]')].forEach(x=>x.classList.toggle('primary',x===b)); }); } q1fb.classList.add('hidden'); q1prog.textContent=`Vraag ${q1i+1} / ${q1Bank.length} · Goed: ${state.sections.q1.correct}`; q1Bar.style.width=Math.round((state.sections.q1.correct/q1Bank.length)*100)+'%'; q1Stars.textContent=stars3(state.sections.q1.correct/q1Bank.length); }
 renderQ1();
 document.getElementById('q1-check').onclick=()=>{ const q=q1Bank[q1i]; let ok=false; if(q.kind==='open'){ ok = checkOpen(q.check); } else { ok = Number(q1c.dataset.choice)==q.ans; }
-  if(ok) q1score++; q1fb.className='card '+(ok?'ok':'bad'); q1fb.textContent=(ok?'✅ Goed! ':'❌ Bijna… ')+q.exp; q1fb.classList.remove('hidden'); q1prog.textContent=`Vraag ${q1i+1} / ${q1Bank.length} · Score ${q1score}`; };
-document.getElementById('q1-next').onclick=()=>{ if(q1i<q1Bank.length-1){ q1i++; delete q1c.dataset.choice; renderQ1(); } else { document.getElementById('next-quiz1').removeAttribute('disabled'); }};
-document.getElementById('next-quiz1').onclick=()=>{gotoStep(3)};
+  if(ok) state.sections.q1.correct++; state.sections.q1.attempted++; save(state);
+  q1fb.className='feedback '+(ok?'good':'bad'); q1fb.textContent=(ok?'✅ Goed! ':'❌ Bijna… ')+q.exp; q1fb.classList.remove('hidden');
+  q1prog.textContent=`Vraag ${q1i+1} / ${q1Bank.length} · Goed: ${state.sections.q1.correct}`;
+  q1Bar.style.width=Math.round((state.sections.q1.correct/q1Bank.length)*100)+'%';
+  q1Stars.textContent=stars3(state.sections.q1.correct/q1Bank.length);
+  recomputeTotal(); };
+document.getElementById('q1-next').onclick=()=>{ if(q1i<q1Bank.length-1){ q1i++; delete q1c.dataset.choice; renderQ1(); } else { q1i=0; renderQ1(); } };
 
 // ---------- Deeltoets T2 ----------
 const q2Bank=[
@@ -287,34 +254,19 @@ const q2Bank=[
   {kind:'mc', t:'Welke bouwstijl hoort bij de Grieken?', opts:['Gotisch','Barok','Klassiek (zuilen)','Renaissance'], ans:2, exp:'Klassieke vormentaal met zuilen.'},
   {kind:'open', t:'Leg “monotheïsme” uit.', check:/één god|1 god/i, exp:'Geloof in één God.'}
 ];
-let q2i=0,q2score=0; const q2c=document.getElementById('q2'); const q2fb=document.getElementById('q2-feedback'); const q2prog=document.getElementById('q2-progress');
-function renderQ2(){ const q=q2Bank[q2i]; if(q.kind==='open'){renderOpen(q2c,q.t)} else {renderMC(q2c,q.t,q.opts); [...q2c.querySelectorAll('button[data-i]')].forEach(b=>b.onclick=()=>{ q2c.dataset.choice=b.dataset.i; [...q2c.querySelectorAll('button[data-i]')].forEach(x=>x.classList.toggle('primary',x===b)); }); } q2fb.classList.add('hidden'); q2prog.textContent=`Vraag ${q2i+1} / ${q2Bank.length} · Score ${q2score}`; }
+let q2i=0; const q2c=document.getElementById('q2'); const q2fb=document.getElementById('q2-feedback'); const q2prog=document.getElementById('q2-progress'); const q2Bar=document.getElementById('q2Bar'); const q2Stars=document.getElementById('q2Stars');
+function renderQ2(){ const q=q2Bank[q2i]; if(q.kind==='open'){renderOpen(q2c,q.t)} else {renderMC(q2c,q.t,q.opts); [...q2c.querySelectorAll('button[data-i]')].forEach(b=>b.onclick=()=>{ q2c.dataset.choice=b.dataset.i; [...q2c.querySelectorAll('button[data-i]')].forEach(x=>x.classList.toggle('primary',x===b)); }); } q2fb.classList.add('hidden'); q2prog.textContent=`Vraag ${q2i+1} / ${q2Bank.length} · Goed: ${state.sections.q2.correct}`; q2Bar.style.width=Math.round((state.sections.q2.correct/q2Bank.length)*100)+'%'; q2Stars.textContent=stars3(state.sections.q2.correct/q2Bank.length); }
 renderQ2();
 document.getElementById('q2-check').onclick=()=>{ const q=q2Bank[q2i]; let ok=false; if(q.kind==='open'){ ok = checkOpen(q.check); } else { ok = Number(q2c.dataset.choice)==q.ans; }
-  if(ok) q2score++; q2fb.className='card '+(ok?'ok':'bad'); q2fb.textContent=(ok?'✅ Goed! ':'❌ Bijna… ')+q.exp; q2fb.classList.remove('hidden'); q2prog.textContent=`Vraag ${q2i+1} / ${q2Bank.length} · Score ${q2score}`; };
-document.getElementById('q2-next').onclick=()=>{ if(q2i<q2Bank.length-1){ q2i++; delete q2c.dataset.choice; renderQ2(); } else { document.getElementById('next-quiz2').removeAttribute('disabled'); }};
-document.getElementById('next-quiz2').onclick=()=>{gotoStep(5)};
+  if(ok) state.sections.q2.correct++; state.sections.q2.attempted++; save(state);
+  q2fb.className='feedback '+(ok?'good':'bad'); q2fb.textContent=(ok?'✅ Goed! ':'❌ Bijna… ')+q.exp; q2fb.classList.remove('hidden');
+  q2prog.textContent=`Vraag ${q2i+1} / ${q2Bank.length} · Goed: ${state.sections.q2.correct}`;
+  q2Bar.style.width=Math.round((state.sections.q2.correct/q2Bank.length)*100)+'%';
+  q2Stars.textContent=stars3(state.sections.q2.correct/q2Bank.length);
+  recomputeTotal(); };
+document.getElementById('q2-next').onclick=()=>{ if(q2i<q2Bank.length-1){ q2i++; delete q2c.dataset.choice; renderQ2(); } else { q2i=0; renderQ2(); } };
 
-// ---------- Mix ----------
-const mixBank=[
-  {kind:'mc', t:'Wanneer eindigt de prehistorie?', opts:['3000 v.Chr.','500 n.Chr.','1500 n.Chr.','1950'], ans:0, exp:'Rond 3000 v.Chr. door het schrift.'},
-  {kind:'open', t:'Keten: landbouw → ____ → steden. Vul in.', check:/overschot|voedseloverschot|specialisatie/i, exp:'Landbouw → overschot → specialisatie → steden.'},
-  {kind:'mc', t:'Wat hoort bij Athene?', opts:['Keizerrijk','Democratie','Pausdom','Feodalisme'], ans:1, exp:'Athene = democratie.'},
-  {kind:'mc', t:'Wat betekent romanisering?', opts:['Germanen nemen Romeinse cultuur over','Romeinen nemen Germaanse cultuur over','Grieken nemen Rome over','Egyptenaren nemen Grieks over'], ans:0, exp:'Veroverde volkeren nemen Romeinse cultuur over.'},
-  {kind:'open', t:'Noem één kenmerk van Griekse bouwkunst.', check:/zuil|dorisch|ionisch|korinthisch/i, exp:'Zuilen: Dorisch, Ionisch, Korinthisch.'},
-  {kind:'mc', t:'Waarom leefden jagers-verzamelaars nomadisch?', opts:['Klimaat & voedsel volgen','Religie','Politiek','Handel'], ans:0, exp:'Ze volgden her en der voedsel en dieren.'},
-  {kind:'open', t:'Leg “sedentair” uit in 4 woorden.', check:/op.*één.*plek|vaste.*woon/i, exp:'Op één plek wonen (vaste woonplaats).'},
-  {kind:'mc', t:'Welke factor hielp de verspreiding van het christendom?', opts:['Burgeroorlogen','Pax Romana & wegen','Slavernij','Kruistochten'], ans:1, exp:'Rust en wegen van Romeinse rijk.'}
-];
-let mixI=0,mixScore=0; const mixC=document.getElementById('qmix'); const mixFb=document.getElementById('qmix-feedback'); const mixProg=document.getElementById('qmix-progress');
-function renderMix(){ const q=mixBank[mixI]; if(q.kind==='open'){renderOpen(mixC,q.t)} else {renderMC(mixC,q.t,q.opts); [...mixC.querySelectorAll('button[data-i]')].forEach(b=>b.onclick=()=>{ mixC.dataset.choice=b.dataset.i; [...mixC.querySelectorAll('button[data-i]')].forEach(x=>x.classList.toggle('primary',x===b)); }); } mixFb.classList.add('hidden'); mixProg.textContent=`Vraag ${mixI+1} / ${mixBank.length} · Score ${mixScore}`; }
-renderMix();
-document.getElementById('qmix-check').onclick=()=>{ const q=mixBank[mixI]; let ok=false; if(q.kind==='open'){ ok = checkOpen(q.check); } else { ok = Number(mixC.dataset.choice)==q.ans; }
-  if(ok) mixScore++; mixFb.className='card '+(ok?'ok':'bad'); mixFb.textContent=(ok?'✅ Goed! ':'❌ Bijna… ')+q.exp; mixFb.classList.remove('hidden'); mixProg.textContent=`Vraag ${mixI+1} / ${mixBank.length} · Score ${mixScore}`; };
-document.getElementById('qmix-next').onclick=()=>{ if(mixI<mixBank.length-1){ mixI++; delete mixC.dataset.choice; renderMix(); } else { document.getElementById('next-mix').removeAttribute('disabled'); }};
-document.getElementById('next-mix').onclick=()=>{gotoStep(6)};
-
-// ---------- Eindtoets ----------
+// ---------- Final ----------
 const finalBank=[
   {kind:'mc', t:'Wat markeert het einde van de prehistorie?', opts:['Ontstaan landbouw','Uitvinding schrift','Ontstaan steden','Uitvinding wiel'], ans:1, exp:'Schrift rond 3000 v.Chr.'},
   {kind:'mc', t:'Wat is een polis?', opts:['Griekse stadstaat','Romeins legerkamp','Egyptische tempel','Germaanse stam'], ans:0, exp:'Polis = stadstaat.'},
@@ -327,27 +279,19 @@ const finalBank=[
   {kind:'open', t:'Keten: landbouw → ______ → steden (vul het sleutelwoord in).', check:/overschot|voedseloverschot/i, exp:'Landbouw → overschot → specialisatie → steden.'},
   {kind:'mc', t:'Welke factor hielp de verspreiding van het christendom?', opts:['Pax Romana & wegen','Feodalisme','Kruistochten','Vikingen'], ans:0, exp:'Rust en wegen in het rijk.'}
 ];
-let fi=0, fscore=0; const fC=document.getElementById('qfinal'); const fFb=document.getElementById('qfinal-feedback'); const fProg=document.getElementById('qfinal-progress'); const fSum=document.getElementById('final-summary');
-function renderFinal(){ const q=finalBank[fi]; if(q.kind==='open'){renderOpen(fC,q.t)} else {renderMC(fC,q.t,q.opts); [...fC.querySelectorAll('button[data-i]')].forEach(b=>b.onclick=()=>{ fC.dataset.choice=b.dataset.i; [...fC.querySelectorAll('button[data-i]')].forEach(x=>x.classList.toggle('primary',x===b)); }); } fFb.classList.add('hidden'); fProg.textContent=`Vraag ${fi+1} / ${finalBank.length} · Score ${fscore}`; }
+let fi=0; const fC=document.getElementById('qfinal'); const fFb=document.getElementById('qfinal-feedback'); const fProg=document.getElementById('qfinal-progress'); const fBar=document.getElementById('finalBar'); const fStars=document.getElementById('finalStars');
+function renderFinal(){ const q=finalBank[fi]; if(q.kind==='open'){renderOpen(fC,q.t)} else {renderMC(fC,q.t,q.opts); [...fC.querySelectorAll('button[data-i]')].forEach(b=>b.onclick=()=>{ fC.dataset.choice=b.dataset.i; [...fC.querySelectorAll('button[data-i]')].forEach(x=>x.classList.toggle('primary',x===b)); }); } fFb.classList.add('hidden'); fProg.textContent=`Vraag ${fi+1} / ${finalBank.length} · Goed: ${state.sections.final.correct}`; fBar.style.width=Math.round((state.sections.final.correct/finalBank.length)*100)+'%'; fStars.textContent=stars3(state.sections.final.correct/finalBank.length); }
 renderFinal();
 document.getElementById('qfinal-check').onclick=()=>{ const q=finalBank[fi]; let ok=false; if(q.kind==='open'){ ok = checkOpen(q.check); } else { ok = Number(fC.dataset.choice)==q.ans; }
-  if(ok) fscore++; fFb.className='card '+(ok?'ok':'bad'); fFb.textContent=(ok?'✅ Goed! ':'❌ Bijna… ')+q.exp; fFb.classList.remove('hidden'); fProg.textContent=`Vraag ${fi+1} / ${finalBank.length} · Score ${fscore}`; };
-document.getElementById('qfinal-next').onclick=()=>{ if(fi<finalBank.length-1){ fi++; delete fC.dataset.choice; renderFinal(); } else { const pct=Math.round((fscore/finalBank.length)*100); fSum.classList.remove('hidden'); fSum.innerHTML = `<h3>Resultaat</h3><p>Score: <b>${fscore}/${finalBank.length}</b> (${pct}%).</p><p>${pct>=70?'🎉 Knap! Je beheerst de stof. Herhaal je fout gemaakte vragen.':'🔁 Bijna! Herhaal de onderdelen waar je foutjes maakte en probeer opnieuw.'}</p>`; }};
+  if(ok) state.sections.final.correct++; state.sections.final.attempted++; save(state);
+  fFb.className='feedback '+(ok?'good':'bad'); fFb.textContent=(ok?'✅ Goed! ':'❌ Bijna… ')+q.exp; fFb.classList.remove('hidden');
+  fProg.textContent=`Vraag ${fi+1} / ${finalBank.length} · Goed: ${state.sections.final.correct}`;
+  fBar.style.width=Math.round((state.sections.final.correct/finalBank.length)*100)+'%';
+  fStars.textContent=stars3(state.sections.final.correct/finalBank.length);
+  recomputeTotal(); };
+document.getElementById('qfinal-next').onclick=()=>{ if(fi<finalBank.length-1){ fi++; delete fC.dataset.choice; renderFinal(); } else { fi=0; renderFinal(); } };
 
-// ---------- gating door stappen ----------
-function enableNext(id){ document.getElementById(id).removeAttribute('disabled'); }
-// quiz gating: haal min 4/6 (T1), 5/8 (T2), 5/8 (mix)
-function pass(score,total){ return score/total >= 0.66 }
-
-// observe scores to unlock next button
-const observer = new MutationObserver(()=>{
-  if(q1i===q1Bank.length-1) enableNext('next-quiz1');
-  if(q2i===q2Bank.length-1) enableNext('next-quiz2');
-  if(mixI===mixBank.length-1) enableNext('next-mix');
-});
-observer.observe(document.body,{subtree:true,childList:true,attributes:true});
-
-// default
+// default tab
 showTab('overview');
 </script>
 </body>
