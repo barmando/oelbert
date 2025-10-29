@@ -40,6 +40,11 @@
       margin-top: 0.5rem;
       padding: 0.5rem;
     }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #e5e5e5; padding: 8px; text-align: left; }
+    .sortable { list-style: none; padding: 0; }
+    .sortable li { background: #fff; border: 1px solid #e5e5e5; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; border-radius: 6px; }
+    .sortable li.dragging { opacity: 0.6; }
   </style>
 </head>
 <body>
@@ -52,40 +57,55 @@
 
     <section id="periodisering" class="hidden">
       <h2>Periodisering</h2>
-      <table border="1" width="100%" cellspacing="0" cellpadding="5">
-        <tr><th>Periode</th><th>Jaartallen</th></tr>
-        <tr><td>Prehistorie</td><td>tot ca. 3000 v.Chr.</td></tr>
-        <tr><td>Oudheid</td><td>3000 v.Chr. – 500 n.Chr.</td></tr>
-        <tr><td>Middeleeuwen</td><td>500 – 1500</td></tr>
-        <tr><td>Vroegmoderne tijd</td><td>1500 – 1800</td></tr>
-        <tr><td>Moderne tijd</td><td>1800 – heden</td></tr>
+      <p>Overzicht van de <strong>10 tijdvakken</strong> met periode en jaartallen (vroeg → laat):</p>
+      <table>
+        <tr><th>#</th><th>Tijdvak</th><th>Periode</th><th>Jaartallen</th></tr>
+        <tr><td>1</td><td>Jagers en boeren</td><td>Prehistorie</td><td>tot ca. 3000 v.Chr.</td></tr>
+        <tr><td>2</td><td>Grieken en Romeinen</td><td>Oudheid</td><td>3000 v.Chr. – 500 n.Chr.</td></tr>
+        <tr><td>3</td><td>Monniken en ridders</td><td>Middeleeuwen</td><td>500 – 1000</td></tr>
+        <tr><td>4</td><td>Steden en staten</td><td>Middeleeuwen</td><td>1000 – 1500</td></tr>
+        <tr><td>5</td><td>Ontdekkers en hervormers</td><td>Vroegmoderne tijd</td><td>1500 – 1600</td></tr>
+        <tr><td>6</td><td>Regenten en vorsten</td><td>Vroegmoderne tijd</td><td>1600 – 1700</td></tr>
+        <tr><td>7</td><td>Pruiken en revoluties</td><td>Vroegmoderne tijd</td><td>1700 – 1800</td></tr>
+        <tr><td>8</td><td>Burgers en stoommachines</td><td>Moderne tijd</td><td>1800 – 1900</td></tr>
+        <tr><td>9</td><td>Wereldoorlogen</td><td>Moderne tijd</td><td>1900 – 1950</td></tr>
+        <tr><td>10</td><td>Televisie en computer</td><td>Moderne tijd</td><td>1950 – heden</td></tr>
       </table>
+
       <h3>Vragen</h3>
-      <div class="question">1. Wat komt na de prehistorie?<br>
-        <select><option>–</option><option>Oudheid</option><option>Middeleeuwen</option><option>Moderne tijd</option></select>
+      <div class="question">1. Welk tijdvak hoort bij <em>500 – 1000</em>?<br>
+        <select><option>–</option><option>Monniken en ridders</option><option>Steden en staten</option><option>Ontdekkers en hervormers</option></select>
       </div>
-      <div class="question">2. Wanneer begon de moderne tijd?<br>
-        <select><option>–</option><option>500</option><option>1500</option><option>1800</option></select>
+      <div class="question">2. De <em>Moderne tijd</em> begint in…<br>
+        <select><option>–</option><option>1500</option><option>1700</option><option>1800</option></select>
       </div>
-      <div class="question">3. De oudheid eindigt rond...?<br>
-        <select><option>–</option><option>3000 v.Chr.</option><option>500</option><option>1500</option></select>
-      </div>
-      <div class="question">4. In welke periode leefden jagers-verzamelaars?<br>
+      <div class="question">3. <em>Grieken en Romeinen</em> valt in welke periode?<br>
         <select><option>–</option><option>Prehistorie</option><option>Oudheid</option><option>Middeleeuwen</option></select>
       </div>
-      <div class="question">5. Wanneer begon de oudheid?<br>
-        <select><option>–</option><option>3000 v.Chr.</option><option>500</option><option>1500</option></select>
+      <div class="question">4. Zet deze op volgorde (vroeg → laat):<br>
+        <select><option>–</option><option>Ontdekkers en hervormers → Regenten en vorsten → Pruiken en revoluties</option><option>Regenten en vorsten → Pruiken en revoluties → Ontdekkers en hervormers</option><option>Pruiken en revoluties → Ontdekkers en hervormers → Regenten en vorsten</option></select>
+      </div>
+      <div class="question">5. Wat hoort bij <em>1900 – 1950</em>?<br>
+        <select><option>–</option><option>Wereldoorlogen</option><option>Burgers en stoommachines</option><option>Televisie en computer</option></select>
       </div>
 
       <div class="samenvatting">
         <h3>✍️ Samenvatten</h3>
-        <textarea placeholder="Vat in 2 zinnen samen wat periodisering betekent."></textarea>
+        <textarea placeholder="Vat in 2 zinnen samen wat periodisering betekent en waarom het handig is."></textarea>
       </div>
 
       <div class="verbanden">
         <h3>🔄 Verbanden leggen</h3>
-        <p>Noem één oorzaak en één gevolg van het ontstaan van de oudheid.</p>
+        <p>Noem één oorzaak en één gevolg van de overgang naar de <em>Vroegmoderne tijd</em> rond 1500.</p>
         <textarea></textarea>
+      </div>
+
+      <div class="tijdlijn">
+        <h3>🕰️ Tijdlijn-oefening (slepen)</h3>
+        <p>Sorteer deze tijdvakken van vroeg → laat:</p>
+        <ul id="periodisering-tijdlijn" class="sortable"></ul>
+        <button onclick="checkOrder('periodisering-tijdlijn', ['Monniken en ridders (500–1000)','Regenten en vorsten (1600–1700)','Burgers en stoommachines (1800–1900)'])">Controleer volgorde</button>
+        <p id="periodisering-tijdlijn-feedback"></p>
       </div>
 
       <div class="reflectie">
@@ -168,9 +188,60 @@
       document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
       document.getElementById(id).classList.remove('hidden');
       window.scrollTo(0, 0);
+      if (id === 'periodisering') initPeriodiseringTimeline();
     }
-    function restart() {
-      nextSection('start');
+    function restart() { nextSection('start'); }
+
+    // ===== Tijdlijn / drag & drop =====
+    function initTimeline(containerId, items) {
+      const ul = document.getElementById(containerId);
+      ul.innerHTML = '';
+      const shuffled = items.slice().sort(() => Math.random() - 0.5);
+      shuffled.forEach(text => {
+        const li = document.createElement('li');
+        li.textContent = text;
+        li.draggable = true;
+        li.addEventListener('dragstart', e => {
+          li.classList.add('dragging');
+        });
+        li.addEventListener('dragend', e => {
+          li.classList.remove('dragging');
+        });
+        li.addEventListener('dragover', e => {
+          e.preventDefault();
+          const after = getDragAfterElement(ul, e.clientY);
+          const dragging = ul.querySelector('.dragging');
+          if (!dragging) return;
+          if (after == null) ul.appendChild(dragging); else ul.insertBefore(dragging, after);
+        });
+        ul.appendChild(li);
+      });
+    }
+    function getDragAfterElement(container, y) {
+      const els = [...container.querySelectorAll('li:not(.dragging)')];
+      let closest = null;
+      let closestOffset = Number.NEGATIVE_INFINITY;
+      els.forEach(el => {
+        const box = el.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closestOffset) { closestOffset = offset; closest = el; }
+      });
+      return closest;
+    }
+    function checkOrder(containerId, correct) {
+      const ul = document.getElementById(containerId);
+      const current = [...ul.querySelectorAll('li')].map(li => li.textContent.trim());
+      const ok = current.join('|') === correct.join('|');
+      const fb = document.getElementById(containerId + '-feedback');
+      fb.textContent = ok ? '✅ Correcte volgorde (vroeg → laat).' : '❌ Nog niet goed. Probeer opnieuw.';
+    }
+    function initPeriodiseringTimeline() {
+      initTimeline('periodisering-tijdlijn', [
+        'Burgers en stoommachines (1800–1900)',
+        'Monniken en ridders (500–1000)',
+        'Regenten en vorsten (1600–1700)'
+      ]);
+      document.getElementById('periodisering-tijdlijn-feedback').textContent = '';
     }
   </script>
 </body>
