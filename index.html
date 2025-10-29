@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Geschiedenis Trainer V4 (compact)</title>
+<title>Geschiedenis Trainer V4 (compact, alle leerdoelen)</title>
 <style>
   :root{--bg:#fffdf9;--ink:#222;--muted:#6b7280;--accent:#4f8a8b;--accent-600:#3f6f70;--card:#fff;--border:#e5e7eb;--good:#1b873e;--bad:#b91c1c;--focus:#f59e0b}
   html{scroll-behavior:smooth}
@@ -28,8 +28,6 @@
   .muted{color:var(--muted)}
   details{border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin:10px 0;background:#fff}
   details>summary{cursor:pointer;font-weight:600}
-  .twocol{display:grid;grid-template-columns:1fr;gap:12px}
-  @media (min-width:840px){ .twocol{grid-template-columns:1fr 1fr} }
   .hidden{display:none}
 </style>
 </head>
@@ -44,8 +42,8 @@
 </nav>
 
 <main>
-  <h1>Geschiedenis Trainer – V4 (compact)</h1>
-  <p class="muted">Lineaire leerlijn voor leerjaar 1 gymnasium. Directe feedback bij elk antwoord. Gebruik de ankers in de kopbalk om te navigeren.</p>
+  <h1>Geschiedenis Trainer – V4 (alle leerdoelen)</h1>
+  <p class="muted">Leerjaar 1 gymnasium. Directe feedback bij elk antwoord. Navigatie via ankers.</p>
 
   <!-- Periodisering -->
   <section id="periodisering" class="card">
@@ -80,8 +78,8 @@
       <div id="tv1-kern" class="card"></div>
     </details>
 
-    <details>
-      <summary>Leerdoelen – met uitleg en kernantwoord</summary>
+    <details open>
+      <summary>Leerdoelen – met uitleg en kernantwoord (volledig)</summary>
       <div id="tv1-goals" class="card"></div>
     </details>
 
@@ -106,8 +104,8 @@
       <div id="tv2-kern" class="card"></div>
     </details>
 
-    <details>
-      <summary>Leerdoelen – met uitleg en kernantwoord</summary>
+    <details open>
+      <summary>Leerdoelen – met uitleg en kernantwoord (volledig)</summary>
       <div id="tv2-goals" class="card"></div>
     </details>
 
@@ -131,7 +129,7 @@
 </main>
 
 <script>
-/* ---------- Data (compact) ---------- */
+/* ---------- Data ---------- */
 const tijdvakken = [
   {nr:1, naam:'Jagers en Boeren', periode:'Prehistorie', jaren:'tot ca. 3000 v.Chr.'},
   {nr:2, naam:'Grieken en Romeinen', periode:'Oudheid', jaren:'3000 v.Chr. – 500 n.Chr.'},
@@ -167,7 +165,7 @@ const flash = {
 
 const kern = {
   tv1: {
-    tekst: 'Eerste mensen: jagen en verzamelen → landbouw → dorpen/steden.',
+    tekst: 'Eerste mensen: jagen/verzamelen → landbouw → dorpen/steden.',
     ka: [
       'Levenswijze van jagers en verzamelaars.',
       'Ontstaan van landbouw en landbouwsamenlevingen.',
@@ -175,7 +173,7 @@ const kern = {
     ]
   },
   tv2: {
-    tekst: 'Polis en burgerrecht; filosofie/wetenschappelijk denken; groei Romeins rijk & romanisering; limes; jodendom & christendom.',
+    tekst: 'Polis & burgerrecht; filosofie/wetenschappelijk denken; groei Romeins rijk & romanisering; limes; jodendom & christendom.',
     ka: [
       'Wetenschappelijk denken en burgerschap in de Griekse polis.',
       'Klassieke vormentaal van de Grieks-Romeinse cultuur.',
@@ -186,46 +184,106 @@ const kern = {
   }
 };
 
+/* ---- ALLE LEERDOELEN + UITLEG ---- */
 const doelen = {
+  /* Tijdvak 1 – 13 doelen */
   tv1: [
     ['Relatie jagen/verzamelen – wonen – godsdienst',
-     'Nomaden leefden van de natuur; natuurgodsdienst.',
-     'Afhankelijk van natuur → rituelen/verhalen over natuurkrachten.'
+     'Kleine groepen trokken rond (nomaden), leefden van wat de natuur bood; natuurgodsdienst met rituelen rond dieren/natuurkrachten.',
+     'Afhankelijkheid van natuur → verklaringen en rituelen over natuurkrachten; geen vaste tempels of priesters zoals later.'
     ],
     ['Waarom landbouw ontstond',
-     'Warmer klimaat; Vruchtbare Sikkel; planten verbouwen, dieren houden.',
-     'Betere omstandigheden + experiment → landbouw.'
+     'Opwarming na de ijstijd; in de Vruchtbare Sikkel groeiden wilde granen; mensen experimenteerden met zaaien en hoeden.',
+     'Betere omstandigheden + bewuste teelt en veeteelt → landbouw ontstaat op meerdere plaatsen.'
+    ],
+    ['Waar landbouw ontstond',
+     'Vooral in het Midden-Oosten (Vruchtbare Sikkel), later ook onafhankelijk in o.a. China, Meso-Amerika.',
+     'De Vruchtbare Sikkel had water, vruchtbare grond en veel wilde graansoorten → start landbouw.'
     ],
     ['Gevolgen van landbouw',
-     'Sedentair, dorpen, bezit, taakverdeling, handel.',
-     'Vast wonen → dorpen → sociale gelaagdheid.'
+     'Vaste woonplaats (sedentair), dorpen, overschotten, specialisatie, handel, bestuur.',
+     'Landbouw → overschotten → taakverdeling en organisatie → samenlevingen worden complexer.'
     ],
-    ['Eerste steden en schrift',
-     'Overschotten → specialisatie en bestuur; schrift voor administratie.',
-     'Overschot + taakverdeling → steden; schrift voor organisatie.'
+    ['Eerste steden',
+     'Met overschotten ontstonden ambachten en bestuur; steden hadden muren, markten en tempels/paleizen.',
+     'Overschot + specialisatie + bestuur → eerste steden.'
+    ],
+    ['Ontstaan van schrift',
+     'Nodig voor administratie van voorraden, handel en belasting; eerst pictogrammen/kleitabletten.',
+     'Schrift ontstaat als hulpmiddel voor organisatie en macht (administratie).'
+    ],
+    ['Verspreiding mensen over de wereld',
+     'Moderne mensen trokken vanuit Afrika naar andere continenten in golven (migraties).',
+     'Zoektocht naar voedsel/leefruimte → verspreiding over bijna de hele wereld.'
+    ],
+    ['Nomadisch bestaan',
+     'Geen vaste woonplaats; groepen volgden seizoenen en kuddes; eenvoudige, draagbare bezittingen.',
+     'Rondtrekken om te overleven in wisselende omstandigheden.'
+    ],
+    ['Weinig zekerheid over prehistorie (bronnenprobleem)',
+     'Geen schriftelijke bronnen; kennis vooral uit archeologie (materiële resten).',
+     'Betekenissen moeten worden geïnterpreteerd → uitkomsten blijven voorlopig en kunnen veranderen.'
+    ],
+    ['Waarom landbouwrevolutie juist in Midden-Oosten',
+     'Rivieren (Eufraat/Tigris), vruchtbare bodems, klimaten met nat/droog seizoen, veel domesticeerbare soorten.',
+     'Ideale natuurlijke condities maakten landbouw rendabel.'
+    ],
+    ['Sedentair leven',
+     'Door landbouw konden mensen op één plek blijven; huizen, opslag en akkers.',
+     'Vaste woonplaats → stabielere gemeenschappen en groei van dorpen.'
+    ],
+    ['Waarom boeren meer bezit kregen',
+     'Boeren hadden land, dieren en voorraden; bezit werd erfbaar → verschillen namen toe.',
+     'Landbouw → bezit → sociale verschillen/gelaagdheid.'
+    ],
+    ['Sociale gelaagdheid',
+     'Verschillende groepen (boeren, ambachtslieden, handelaren, bestuurders, priesters) met ongelijke macht/inkomen.',
+     'Taakverdeling en bezit leiden tot hiërarchie.'
     ]
   ],
+
+  /* Tijdvak 2 – 9 doelen */
   tv2: [
     ['Polis & burgerrecht (Athene)',
-     'Polis = stad + ommeland; burger = vrije volwassen man met Atheense ouders.',
-     'Polis = stadstaat; burgers beslissen mee en hebben plichten.'
+     'Polis = stad met ommeland en eigen bestuur/wetten; in Athene besliste de volksvergadering. Burger = vrije volwassen man met Atheense ouders; rechten én plichten (dienstplicht/rechtspraak).',
+     'Polis is een stadstaat; burgers hebben politieke inspraak én verantwoordelijkheden.'
     ],
-    ['Athene vs. Sparta',
-     'Athene: (directe) democratie; Sparta: oligarchie/militair.',
-     'Athene = inspraak, Sparta = elite-macht.'
+    ['Bestuur: Athene vs. Sparta',
+     'Athene: (directe) democratie met loting en volksvergadering; Sparta: oligarchie/militair gericht, macht bij kleine elite.',
+     'Athene = meer inspraak; Sparta = macht geconcentreerd bij krijgers-elite.'
     ],
-    ['Romanisering & limes',
-     'Overname Latijn, recht, bestuur, bouwstijl; limes = grens met forten.',
-     'Volkeren nemen Romeinse cultuur over; grens wordt bewaakt.'
+    ['Filosofie & wetenschappelijk denken',
+     'Socrates, Plato, Aristoteles; kritisch vragen, logisch redeneren, verklaren met argumenten i.p.v. mythen.',
+     'De wereld begrijpen met verstand en bewijs (begin van wetenschappelijk denken).'
+    ],
+    ['Groei Romeinse rijk & limes',
+     'Veroveringen, goed getrainde legers, wegen en bestuur; limes = versterkte rijksgrens (o.a. langs de Rijn).',
+     'Uitbreiding van het rijk en grensbewaking via forten/wegen om controle te houden.'
+    ],
+    ['Romanisering',
+     'Onderworpen volken namen Latijn, recht, bestuur en bouwstijlen over; leger en steden stimuleerden dit.',
+     'Langzame overname van Romeinse cultuur door contacten, handel en bestuur.'
+    ],
+    ['Pax Romana & economie',
+     'Langdurige vrede/veiligheid → handel en steden bloeien; één munt en wegennet maken handel makkelijker.',
+     'Rust + infrastructuur → economische groei en welvaart.'
     ],
     ['Klassieke vormentaal',
-     'Zuilen (Dorisch/Ionisch/Korinthisch), realistische beelden, boog/koepel.',
-     'Herkenbare Grieks-Romeinse stijl die Europa beïnvloedde.'
+     'Griekse/Romeinse kunst en architectuur: zuilen (Dorisch/Ionisch/Korinthisch), realistische beelden, boog/koepel.',
+     'Een herkenbare stijl die Europa blijvend beïnvloedt.'
+    ],
+    ['Germanen & confrontatie',
+     'Grenzen botsten regelmatig; invallen/opstanden zetten druk op het rijk; leger paste strategie aan.',
+     'Confrontaties verzwakten rijksdelen en vergden veel middelen aan de limes.'
+    ],
+    ['Jodendom & christendom (monotheïsme)',
+     'Geloof in één God; christendom ontstond binnen jodendom, eerst vervolgd, later toegestaan/staatsgodsdienst; verspreiding via wegen en gedeelde talen.',
+     'Monotheïsme verspreidt sneller door rust (Pax Romana) en infrastructuur.'
     ]
   ]
 };
 
-// kleine oefensets per onderdeel (compact)
+/* ---- Korte oefensets (ongewijzigd) ---- */
 const quiz = {
   per: [
     ['Juiste volgorde (vroeg → laat)?',
@@ -257,7 +315,7 @@ const quiz = {
       'Overname van Romeinse cultuur door andere volken'
     ]
   ],
-  final: [] // vullen we dynamisch met mix
+  final: []
 };
 
 /* ---------- Render ---------- */
@@ -345,7 +403,6 @@ function renderQuiz(setId, hostId){
 }
 
 function buildFinal(){
-  // Mix: neem 2 vragen per set (of minder als er minder zijn)
   const pick = (arr,n)=> arr.slice(0,Math.min(n,arr.length));
   quiz.final = [...pick(quiz.per,2), ...pick(quiz.tv1,2), ...pick(quiz.tv2,2)];
   renderQuiz('final','final-quiz');
