@@ -348,213 +348,152 @@
   </div>
 
 <script>
-// ---------- Local Storage helpers ----------
-const KEY='geschiedenis_trainer_progress_v1';
-function load(){ try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {}} }
-function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
-let state=load();
-if(!state.sections){ state={sections:{
-  read1:{done:false},
-  t1:{done:false,fcDone:0,fcTotal:5},
-  q1:{correct:0,total:6,attempted:0},
-  read2:{done:false},
-  t2:{done:false,fcDone:0,fcTotal:7},
-  q2:{correct:0,total:8,attempted:0},
-  final:{correct:0,total:10,attempted:0}
-}, stepsCompleted:0}; }
-save(state);
+(function(){
+  // ---------- ROUTE / NAV ----------
+  const route=['overview','kennis','read1','t1','quiz1','read2','t2','quiz2','final'];
+  function setStepLabel(name){
+    const el=document.getElementById('stepLabel'); if(!el) return;
+    const i=Math.max(0,route.indexOf(name)); el.textContent=`Stap ${i+1}/${route.length} · ${name.toUpperCase()}`;
+  }
+  window.showTab=function(name){
+    if(!route.includes(name)) name='overview';
+    route.forEach(t=>document.getElementById('tab-'+t)?.classList.add('hidden'));
+    document.getElementById('tab-'+name)?.classList.remove('hidden');
+    document.querySelectorAll('nav.tabs .btn').forEach(b=>b.classList.toggle('primary',b.dataset.tab===name));
+    localStorage.setItem('trainer_current_tab', name);
+    setStepLabel(name);
+    const idx=route.indexOf(name);
+    const prev=document.getElementById('prevStep'), next=document.getElementById('nextStep');
+    if(prev) prev.disabled = idx<=0; if(next) next.disabled = idx>=route.length-1;
+    location.hash='#'+name;
+  };
+  function goRel(d){ const cur=localStorage.getItem('trainer_current_tab')||'overview'; const i=route.indexOf(cur); const j=Math.min(route.length-1,Math.max(0,i+d)); showTab(route[j]); }
+  // Footer & keyboard
+  document.getElementById('prevStep')?.addEventListener('click',()=>goRel(-1));
+  document.getElementById('nextStep')?.addEventListener('click',()=>goRel(+1));
+  document.addEventListener('keydown',e=>{ if(e.target.tagName==='INPUT') return; if(e.key==='ArrowRight') goRel(+1); if(e.key==='ArrowLeft') goRel(-1); });
+  // Tabs click (event delegation)
+  document.addEventListener('click',e=>{ const t=e.target.closest('[data-tab]'); if(t){ e.preventDefault(); showTab(t.dataset.tab);} });
+  // Restore
+  const initial=(location.hash? location.hash.slice(1): localStorage.getItem('trainer_current_tab'))||'overview';
+  showTab(initial);
 
-// ---------- Tabs ----------
-const tabs=['overview','kennis','read1','t1','quiz1','read2','t2','quiz2','final'];
-const buttons=[...document.querySelectorAll('nav.tabs .btn')];
-function showTab(name){tabs.forEach(t=>document.getElementById('tab-'+t).classList.add('hidden'));document.getElementById('tab-'+name).classList.remove('hidden');buttons.forEach(b=>b.classList.toggle('primary',b.dataset.tab===name));}
-buttons.forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+  // ---------- LOCAL STORAGE STATE ----------
+  const STATE_KEY='geschiedenis_trainer_progress_v2';
+  function load(){ try{return JSON.parse(localStorage.getItem(STATE_KEY))||{};}catch(e){return{}} }
+  function save(d){ localStorage.setItem(STATE_KEY, JSON.stringify(d)); }
+  let state=load();
+  if(!state.sections){ state={sections:{
+    read1:{done:false},
+    t1:{fcDone:0,fcTotal:5}, q1:{correct:0,total:6,attempted:0},
+    read2:{done:false},
+    t2:{fcDone:0,fcTotal:7}, q2:{correct:0,total:8,attempted:0},
+    final:{correct:0,total:10,attempted:0}
+  }}; save(state); }
 
-// ---------- Stars helper ----------
-function stars3(pct){ if(pct>=0.85) return '★★★'; if(pct>=0.6) return '★★☆'; if(pct>0) return '★☆☆'; return '☆☆☆'; }
+  // ---------- UTIL ----------
+  function stars3(p){ if(p>=0.85) return '★★★'; if(p>=0.6) return '★★☆'; if(p>0) return '★☆☆'; return '☆☆☆'; }
+  function pct(a,b){ return Math.round((b? a/b : 0)*100); }
 
-// ---------- Total progress ----------
-function recomputeTotal(){
-  const s=state.sections;
-  const completed = (s.read1.done?1:0) + (s.t1.fcDone>=s.t1.fcTotal?1:0) + (s.q1.attempted>=s.q1.total?1:0) + (s.read2.done?1:0) + (s.t2.fcDone>=s.t2.fcTotal?1:0) + (s.q2.attempted>=s.q2.total?1:0) + (s.final.attempted>=s.final.total?1:0);
-  const totalSteps = 7;
-  const pct = Math.min(100, Math.round((completed/totalSteps)*100));
-  document.getElementById('totalBar').style.width=pct+'%';
-  document.getElementById('totalPct').textContent=pct+'%';
-  document.getElementById('stepsDone').textContent=completed;
-  const parts=[];
-  if(s.q1.total>0) parts.push(s.q1.correct/s.q1.total);
-  if(s.q2.total>0) parts.push(s.q2.correct/s.q2.total);
-  if(s.final.total>0) parts.push(s.final.correct/s.final.total);
-  const avg = parts.length? parts.reduce((a,b)=>a+b,0)/parts.length : 0;
-  document.getElementById('overallStars').textContent = stars3(avg);
-}
-recomputeTotal();
+  // ---------- TOTAL PROGRESS (top card) ----------
+  function recomputeTotal(){
+    const s=state.sections;
+    const completed = (s.read1.done?1:0) + (s.t1.fcDone>=s.t1.fcTotal?1:0) + (s.q1.attempted>=s.q1.total?1:0) + (s.read2.done?1:0) + (s.t2.fcDone>=s.t2.fcTotal?1:0) + (s.q2.attempted>=s.q2.total?1:0) + (s.final.attempted>=s.final.total?1:0);
+    const totalSteps=7; const p=Math.min(100,Math.round((completed/totalSteps)*100));
+    const totalBar=document.getElementById('totalBar'); if(totalBar) totalBar.style.width=p+'%';
+    const totalPct=document.getElementById('totalPct'); if(totalPct) totalPct.textContent=p+'%';
+    const stepsDone=document.getElementById('stepsDone'); if(stepsDone) stepsDone.textContent=completed;
+    const parts=[]; parts.push(state.sections.q1.correct/state.sections.q1.total); parts.push(state.sections.q2.correct/state.sections.q2.total); parts.push(state.sections.final.correct/state.sections.final.total);
+    const avg=parts.reduce((a,b)=>a+b,0)/parts.length; const overallStars=document.getElementById('overallStars'); if(overallStars) overallStars.textContent=stars3(avg);
+  }
+  document.getElementById('resetProgress')?.addEventListener('click',()=>{ localStorage.removeItem(STATE_KEY); location.reload(); });
 
-document.getElementById('resetProgress').onclick=()=>{ localStorage.removeItem(KEY); location.reload(); };
+  // ---------- KENNEN & KUNNEN ----------
+  const KK_KEY='geschiedenis_trainer_kk_v1';
+  function loadKK(){ try{return JSON.parse(localStorage.getItem(KK_KEY))||{};}catch(e){return{}} }
+  function saveKK(d){ localStorage.setItem(KK_KEY, JSON.stringify(d)); }
+  let kk=loadKK();
+  document.querySelectorAll('[data-kk]')?.forEach(cb=>{ const k=cb.getAttribute('data-kk'); cb.checked=!!kk[k]; cb.addEventListener('change',()=>{ kk[k]=cb.checked; saveKK(kk); }); });
+  document.querySelectorAll('[data-train]')?.forEach(btn=>btn.addEventListener('click',()=>{ const part=btn.getAttribute('data-train'); if(part==='A'||part==='B') showTab('quiz1'); else if(part==='E') showTab('final'); else showTab('quiz2'); }));
 
-// ---------- T1 Flashcards ----------
-const fc1={q:['Nomadisch','Sedentair','Landbouwrevolutie','Sociale gelaagdheid','Einde prehistorie'],a:['Rondtrekkend leven; geen vaste woonplaats.','Op één plek wonen (vaste woonplaats).','Overgang van jagen/verzamelen naar landbouw en veeteelt (ca. 10.000 v.Chr.).','Verschillen in rijkdom en macht tussen groepen.','Rond 3000 v.Chr. door de uitvinding van het schrift.']};
-let i1=0; const q1El=document.getElementById('fc1-q'), a1El=document.getElementById('fc1-a'), c1=document.getElementById('fc1-count');
-const t1Bar=document.getElementById('t1Bar'), t1Stars=document.getElementById('t1Stars');
-function renderFC1(){ q1El.textContent=fc1.q[i1]; a1El.textContent=fc1.a[i1]; c1.textContent=(i1+1)+' / '+fc1.q.length; const pct = Math.round((state.sections.t1.fcDone / state.sections.t1.fcTotal) * 100); t1Bar.style.width=pct+'%'; t1Stars.textContent = stars3(state.sections.t1.fcDone/state.sections.t1.fcTotal); }
-renderFC1();
-document.getElementById('fc1-show').onclick=()=>{ a1El.style.display = (a1El.style.display==='block'?'none':'block'); };
-document.getElementById('fc1-next').onclick=()=>{ if(state.sections.t1.fcDone < state.sections.t1.fcTotal) state.sections.t1.fcDone++; i1 = (i1+1)%fc1.q.length; save(state); renderFC1(); recomputeTotal(); };
+  // ---------- READ MARKERS ----------
+  document.getElementById('markRead1')?.addEventListener('click',()=>{ state.sections.read1.done=true; save(state); recomputeTotal(); btnPulse('markRead1'); });
+  document.getElementById('markRead2')?.addEventListener('click',()=>{ state.sections.read2.done=true; save(state); recomputeTotal(); btnPulse('markRead2'); });
+  function btnPulse(id){ const b=document.getElementById(id); if(!b) return; b.classList.add('primary'); setTimeout(()=>b.classList.remove('primary'),400); }
 
-// ---------- T2 Flashcards ----------
-const fc2={q:['Polis','Democratie (Athene)','Filosofie / wetenschappelijk denken','Romanisering','Pax Romana','Polytheïsme','Monotheïsme'],a:['Griekse stadstaat met eigen bestuur en wetten.','Vrije mannen met Atheense ouders beslissen in de volksvergadering.','Met rede en logica verklaringen zoeken (Socrates, Plato, Aristoteles).','Verspreiding/overname van Romeinse taal, cultuur en recht.','Lange periode van vrede en welvaart in het Romeinse rijk.','Geloof in meerdere goden.','Geloof in één God.']};
-let i2=0; const q2El=document.getElementById('fc2-q'), a2El=document.getElementById('fc2-a'), c2=document.getElementById('fc2-count');
-const t2Bar=document.getElementById('t2Bar'), t2Stars=document.getElementById('t2Stars');
-function renderFC2(){ q2El.textContent=fc2.q[i2]; a2El.textContent=fc2.a[i2]; c2.textContent=(i2+1)+' / '+fc2.q.length; const pct = Math.round((state.sections.t2.fcDone / state.sections.t2.fcTotal) * 100); t2Bar.style.width=pct+'%'; t2Stars.textContent = stars3(state.sections.t2.fcDone/state.sections.t2.fcTotal); }
-renderFC2();
-document.getElementById('fc2-show').onclick=()=>{ a2El.style.display = (a2El.style.display==='block'?'none':'block'); };
-document.getElementById('fc2-next').onclick=()=>{ if(state.sections.t2.fcDone < state.sections.t2.fcTotal) state.sections.t2.fcDone++; i2 = (i2+1)%fc2.q.length; save(state); renderFC2(); recomputeTotal(); };
+  // ---------- FLASHCARDS T1 ----------
+  const fc1={q:['Nomadisch','Sedentair','Landbouwrevolutie','Sociale gelaagdheid','Einde prehistorie'],a:['Rondtrekkend leven; geen vaste woonplaats.','Op één plek wonen (vaste woonplaats).','Overgang van jagen/verzamelen naar landbouw en veeteelt (ca. 10.000 v.Chr.).','Verschillen in rijkdom en macht tussen groepen.','Rond 3000 v.Chr. door de uitvinding van het schrift.']};
+  let i1=0; const q1El=document.getElementById('fc1-q'), a1El=document.getElementById('fc1-a'), c1=document.getElementById('fc1-count'); const t1Bar=document.getElementById('t1Bar'), t1Stars=document.getElementById('t1Stars');
+  function renderFC1(){ if(!q1El) return; q1El.textContent=fc1.q[i1]; a1El.textContent=fc1.a[i1]; c1.textContent=(i1+1)+' / '+fc1.q.length; if(t1Bar){ const p=pct(state.sections.t1.fcDone,state.sections.t1.fcTotal); t1Bar.style.width=p+'%'; } if(t1Stars){ t1Stars.textContent=stars3(state.sections.t1.fcDone/state.sections.t1.fcTotal); } }
+  renderFC1();
+  document.getElementById('fc1-show')?.addEventListener('click',()=>{ if(a1El) a1El.style.display = (a1El.style.display==='block'?'none':'block'); });
+  document.getElementById('fc1-next')?.addEventListener('click',()=>{ if(state.sections.t1.fcDone<state.sections.t1.fcTotal) state.sections.t1.fcDone++; i1=(i1+1)%fc1.q.length; save(state); renderFC1(); recomputeTotal(); });
 
-// ---------- Question helpers ----------
-function renderOpen(container, text){ container.innerHTML=`<div class='flashQ'>${text}</div><input id='ans' class='btn' style='width:100%;margin-top:8px' placeholder='Typ je antwoord in 1 zin'>`; }
-function renderMC(container, text, opts){ const buttons = opts.map((o,i)=>`<button class='btn' data-i='${i}' style='display:block;width:100%;margin:6px 0'>${String.fromCharCode(65+i)}. ${o}</button>`).join(''); container.innerHTML=`<div class='flashQ'>${text}</div>${buttons}`; }
-function checkOpen(regex){ const v=document.getElementById('ans').value||''; return regex.test(v); }
+  // ---------- FLASHCARDS T2 ----------
+  const fc2={q:['Polis','Democratie (Athene)','Filosofie / wetenschappelijk denken','Romanisering','Pax Romana','Polytheïsme','Monotheïsme'],a:['Griekse stadstaat met eigen bestuur en wetten.','Vrije mannen met Atheense ouders beslissen in de volksvergadering.','Met rede en logica verklaringen zoeken (Socrates, Plato, Aristoteles).','Verspreiding/overname van Romeinse taal, cultuur en recht.','Lange periode van vrede en welvaart in het Romeinse rijk.','Geloof in meerdere goden.','Geloof in één God.']};
+  let i2=0; const q2El=document.getElementById('fc2-q'), a2El=document.getElementById('fc2-a'), c2=document.getElementById('fc2-count'); const t2Bar=document.getElementById('t2Bar'), t2Stars=document.getElementById('t2Stars');
+  function renderFC2(){ if(!q2El) return; q2El.textContent=fc2.q[i2]; a2El.textContent=fc2.a[i2]; c2.textContent=(i2+1)+' / '+fc2.q.length; if(t2Bar){ const p=pct(state.sections.t2.fcDone,state.sections.t2.fcTotal); t2Bar.style.width=p+'%'; } if(t2Stars){ t2Stars.textContent=stars3(state.sections.t2.fcDone/state.sections.t2.fcTotal); } }
+  renderFC2();
+  document.getElementById('fc2-show')?.addEventListener('click',()=>{ if(a2El) a2El.style.display = (a2El.style.display==='block'?'none':'block'); });
+  document.getElementById('fc2-next')?.addEventListener('click',()=>{ if(state.sections.t2.fcDone<state.sections.t2.fcTotal) state.sections.t2.fcDone++; i2=(i2+1)%fc2.q.length; save(state); renderFC2(); recomputeTotal(); });
 
-// ---------- Deeltoets T1 ----------
-const q1Bank=[
-  {kind:'open', t:'Wat was de landbouwrevolutie?', check:/landbouw|overgang|veeteelt/i, exp:'Overgang van jagen/verzamelen naar landbouw en veeteelt; vaste woonplaatsen en overschotten.'},
-  {kind:'mc', t:'Wat betekent “sedentair”?', opts:['Rondtrekken','Op één plek wonen','In tenten wonen','In grotten wonen'], ans:1, exp:'Sedentair = vaste woonplaats.'},
-  {kind:'open', t:'Noem één gevolg van landbouw.', check:/dorpen|steden|overschot|specialisatie|handel|schrift|bevolking/i, exp:'Overschotten → specialisatie, handel, bevolkingsgroei, dorpen/steden, schrift.'},
-  {kind:'mc', t:'Wat markeert het einde van de prehistorie?', opts:['Ontstaan landbouw','Uitvinding schrift','Ontstaan steden','Ontdekking metaal'], ans:1, exp:'Rond 3000 v.Chr. met het schrift.'},
-  {kind:'mc', t:'Waarom leefden jagers-verzamelaars in kleine groepen?', opts:['Religie','Meer veiligheid','Makkelijker voedsel vinden','Om handel te drijven'], ans:2, exp:'Kleine groepen konden makkelijker trekken en voedsel vinden.'},
-  {kind:'open', t:'Leg “nomadisch” uit.', check:/rond?trekk|geen vaste/i, exp:'Nomadisch = rondtrekken, geen vaste woonplaats.'}
-];
-let q1i=0; const q1c=document.getElementById('q1'); const q1fb=document.getElementById('q1-feedback'); const q1prog=document.getElementById('q1-progress'); const q1Bar=document.getElementById('q1Bar'); const q1Stars=document.getElementById('q1Stars');
-function renderQ1(){ const q=q1Bank[q1i]; if(q.kind==='open'){renderOpen(q1c,q.t)} else {renderMC(q1c,q.t,q.opts); [...q1c.querySelectorAll('button[data-i]')].forEach(b=>b.onclick=()=>{ q1c.dataset.choice=b.dataset.i; [...q1c.querySelectorAll('button[data-i]')].forEach(x=>x.classList.toggle('primary',x===b)); }); } q1fb.classList.add('hidden'); q1prog.textContent=`Vraag ${q1i+1} / ${q1Bank.length} · Goed: ${state.sections.q1.correct}`; q1Bar.style.width=Math.round((state.sections.q1.correct/q1Bank.length)*100)+'%'; q1Stars.textContent=stars3(state.sections.q1.correct/q1Bank.length); }
-renderQ1();
-document.getElementById('q1-check').onclick=()=>{ const q=q1Bank[q1i]; let ok=false; if(q.kind==='open'){ ok = checkOpen(q.check); } else { ok = Number(q1c.dataset.choice)==q.ans; }
-  if(ok) state.sections.q1.correct++; state.sections.q1.attempted++; save(state);
-  q1fb.className='feedback '+(ok?'good':'bad'); q1fb.textContent=(ok?'✅ Goed! ':'❌ Bijna… ')+q.exp; q1fb.classList.remove('hidden');
-  q1prog.textContent=`Vraag ${q1i+1} / ${q1Bank.length} · Goed: ${state.sections.q1.correct}`;
-  q1Bar.style.width=Math.round((state.sections.q1.correct/q1Bank.length)*100)+'%';
-  q1Stars.textContent=stars3(state.sections.q1.correct/q1Bank.length);
-  recomputeTotal(); };
-document.getElementById('q1-next').onclick=()=>{ if(q1i<q1Bank.length-1){ q1i++; delete q1c.dataset.choice; renderQ1(); } else { q1i=0; renderQ1(); } };
+  // ---------- QUESTION HELPERS ----------
+  function renderOpen(container, text){ container.innerHTML=`<div class='flashQ'>${text}</div><input id='ans' class='btn' style='width:100%;margin-top:8px' placeholder='Typ je antwoord in 1 zin'>`; }
+  function renderMC(container, text, opts){ const buttons=opts.map((o,i)=>`<button class='btn' data-i='${i}' style='display:block;width:100%;margin:6px 0'>${String.fromCharCode(65+i)}. ${o}</button>`).join(''); container.innerHTML=`<div class='flashQ'>${text}</div>${buttons}`; }
+  function checkOpen(regex){ const v=document.getElementById('ans')?.value||''; return regex.test(v); }
 
-// ---------- Deeltoets T2 ----------
-const q2Bank=[
-  {kind:'mc', t:'Wie zijn beroemde Griekse filosofen?', opts:['Herodotus, Caesar, Augustus','Socrates, Plato, Aristoteles','Pericles, Spartacus, Jezus','Leonardo, Michelangelo, Raphael'], ans:1, exp:'Socrates, Plato en Aristoteles.'},
-  {kind:'open', t:'Wat betekent romanisering?', check:/Romeins|taal|cultuur|recht|verspreiding/i, exp:'Overname/verspreiding van Romeinse taal, cultuur en recht.'},
-  {kind:'mc', t:'Wat was de Pax Romana?', opts:['Religieus feest','Periode van vrede en welvaart','Burgeroorlog','Val van het rijk'], ans:1, exp:'Vrede en welvaart bevorderden handel en verspreiding.'},
-  {kind:'mc', t:'Wat is een polis?', opts:['Romeinse provincie','Griekse stadstaat','Egyptische tempel','Germaans dorp'], ans:1, exp:'Polis = stadstaat.'},
-  {kind:'open', t:'Waarom zagen Romeinen het christendom eerst als bedreiging?', check:/weigerden|keizer|vereren|één god|monotheïsme/i, exp:'Christenen vereerden één God en weigerden de keizer te vereren.'},
-  {kind:'mc', t:'Wat verspreidde zich via het Romeinse rijk?', opts:['Grieks‑Romeinse cultuur','Islam','Perzische cultuur','Germaanse kunst'], ans:0, exp:'Romanisering = verspreiding Grieks‑Romeinse cultuur.'},
-  {kind:'mc', t:'Welke bouwstijl hoort bij de Grieken?', opts:['Gotisch','Barok','Klassiek (zuilen)','Renaissance'], ans:2, exp:'Klassieke vormentaal met zuilen.'},
-  {kind:'open', t:'Leg “monotheïsme” uit.', check:/één god|1 god/i, exp:'Geloof in één God.'}
-];
-let q2i=0; const q2c=document.getElementById('q2'); const q2fb=document.getElementById('q2-feedback'); const q2prog=document.getElementById('q2-progress'); const q2Bar=document.getElementById('q2Bar'); const q2Stars=document.getElementById('q2Stars');
-function renderQ2(){ const q=q2Bank[q2i]; if(q.kind==='open'){renderOpen(q2c,q.t)} else {renderMC(q2c,q.t,q.opts); [...q2c.querySelectorAll('button[data-i]')].forEach(b=>b.onclick=()=>{ q2c.dataset.choice=b.dataset.i; [...q2c.querySelectorAll('button[data-i]')].forEach(x=>x.classList.toggle('primary',x===b)); }); } q2fb.classList.add('hidden'); q2prog.textContent=`Vraag ${q2i+1} / ${q2Bank.length} · Goed: ${state.sections.q2.correct}`; q2Bar.style.width=Math.round((state.sections.q2.correct/q2Bank.length)*100)+'%'; q2Stars.textContent=stars3(state.sections.q2.correct/q2Bank.length); }
-renderQ2();
-document.getElementById('q2-check').onclick=()=>{ const q=q2Bank[q2i]; let ok=false; if(q.kind==='open'){ ok = checkOpen(q.check); } else { ok = Number(q2c.dataset.choice)==q.ans; }
-  if(ok) state.sections.q2.correct++; state.sections.q2.attempted++; save(state);
-  q2fb.className='feedback '+(ok?'good':'bad'); q2fb.textContent=(ok?'✅ Goed! ':'❌ Bijna… ')+q.exp; q2fb.classList.remove('hidden');
-  q2prog.textContent=`Vraag ${q2i+1} / ${q2Bank.length} · Goed: ${state.sections.q2.correct}`;
-  q2Bar.style.width=Math.round((state.sections.q2.correct/q2Bank.length)*100)+'%';
-  q2Stars.textContent=stars3(state.sections.q2.correct/q2Bank.length);
-  recomputeTotal(); };
-document.getElementById('q2-next').onclick=()=>{ if(q2i<q2Bank.length-1){ q2i++; delete q2c.dataset.choice; renderQ2(); } else { q2i=0; renderQ2(); } };
+  // ---------- QUIZ BANKS ----------
+  const q1Bank=[
+    {kind:'open', t:'Wat was de landbouwrevolutie?', check:/landbouw|overgang|veeteelt/i, exp:'Overgang van jagen/verzamelen naar landbouw en veeteelt; vaste woonplaatsen en overschotten.'},
+    {kind:'mc', t:'Wat betekent “sedentair”?', opts:['Rondtrekken','Op één plek wonen','In tenten wonen','In grotten wonen'], ans:1, exp:'Sedentair = vaste woonplaats.'},
+    {kind:'open', t:'Noem één gevolg van landbouw.', check:/dorpen|steden|overschot|specialisatie|handel|schrift|bevolking/i, exp:'Overschotten → specialisatie, handel, bevolkingsgroei, dorpen/steden, schrift.'},
+    {kind:'mc', t:'Wat markeert het einde van de prehistorie?', opts:['Ontstaan landbouw','Uitvinding schrift','Ontstaan steden','Ontdekking metaal'], ans:1, exp:'Rond 3000 v.Chr. met het schrift.'},
+    {kind:'mc', t:'Waarom leefden jagers-verzamelaars in kleine groepen?', opts:['Religie','Meer veiligheid','Makkelijker voedsel vinden','Om handel te drijven'], ans:2, exp:'Kleine groepen konden makkelijker trekken en voedsel vinden.'},
+    {kind:'open', t:'Leg “nomadisch” uit.', check:/rond?trekk|geen vaste/i, exp:'Nomadisch = rondtrekken, geen vaste woonplaats.'}
+  ];
+  const q2Bank=[
+    {kind:'mc', t:'Wie zijn beroemde Griekse filosofen?', opts:['Herodotus, Caesar, Augustus','Socrates, Plato, Aristoteles','Pericles, Spartacus, Jezus','Leonardo, Michelangelo, Raphael'], ans:1, exp:'Socrates, Plato en Aristoteles.'},
+    {kind:'open', t:'Wat betekent romanisering?', check:/Romeins|taal|cultuur|recht|verspreiding/i, exp:'Overname/verspreiding van Romeinse taal, cultuur en recht.'},
+    {kind:'mc', t:'Wat was de Pax Romana?', opts:['Religieus feest','Periode van vrede en welvaart','Burgeroorlog','Val van het rijk'], ans:1, exp:'Vrede en welvaart bevorderden handel en verspreiding.'},
+    {kind:'mc', t:'Wat is een polis?', opts:['Romeinse provincie','Griekse stadstaat','Egyptische tempel','Germaans dorp'], ans:1, exp:'Polis = stadstaat.'},
+    {kind:'open', t:'Waarom zagen Romeinen het christendom eerst als bedreiging?', check:/weigerden|keizer|vereren|één god|monotheïsme/i, exp:'Christenen vereerden één God en weigerden de keizer te vereren.'},
+    {kind:'mc', t:'Wat verspreidde zich via het Romeinse rijk?', opts:['Grieks‑Romeinse cultuur','Islam','Perzische cultuur','Germaanse kunst'], ans:0, exp:'Romanisering = verspreiding Grieks‑Romeinse cultuur.'},
+    {kind:'mc', t:'Welke bouwstijl hoort bij de Grieken?', opts:['Gotisch','Barok','Klassiek (zuilen)','Renaissance'], ans:2, exp:'Klassieke vormentaal met zuilen.'},
+    {kind:'open', t:'Leg “monotheïsme” uit.', check:/één god|1 god/i, exp:'Geloof in één God.'}
+  ];
+  const finalBank=[
+    {kind:'mc', t:'Wat markeert het einde van de prehistorie?', opts:['Ontstaan landbouw','Uitvinding schrift','Ontstaan steden','Uitvinding wiel'], ans:1, exp:'Schrift rond 3000 v.Chr.'},
+    {kind:'mc', t:'Wat is een polis?', opts:['Griekse stadstaat','Romeins legerkamp','Egyptische tempel','Germaanse stam'], ans:0, exp:'Polis = stadstaat.'},
+    {kind:'open', t:'Leg “romanisering” uit.', check:/Romeins|taal|cultuur|recht|overname|verspreiding/i, exp:'Overname/verspreiding van Romeinse cultuur en recht.'},
+    {kind:'mc', t:'Waardoor konden steden ontstaan?', opts:['Jacht','Voedseloverschotten','Migratie','Oorlog'], ans:1, exp:'Overschotten uit landbouw.'},
+    {kind:'mc', t:'Wie horen bij Griekse filosofie?', opts:['Pericles, Caesar, Augustinus','Socrates, Plato, Aristoteles','Leonardo, Michelangelo, Rafael','Tacitus, Seneca, Nero'], ans:1, exp:'De drie klassieke denkers.'},
+    {kind:'open', t:'Wat is het verschil tussen poly‑ en monotheïsme?', check:/meerder|veel.*goden.*één|1.*god/i, exp:'Poly = meerdere goden; mono = één God.'},
+    {kind:'mc', t:'Wat was de Pax Romana?', opts:['Vrede & welvaart','Burgeroorlog','Val van Rome','Religieuze strijd'], ans:0, exp:'Lange periode van rust → handel en verspreiding.'},
+    {kind:'mc', t:'Waarom leefden jagers-verzamelaars nomadisch?', opts:['Om handel te drijven','Ze volgden voedsel en dieren','Religieuze reden','Politiek systeem'], ans:1, exp:'Ze trokken achter voedsel aan.'},
+    {kind:'open', t:'Keten: landbouw → ______ → steden (vul het sleutelwoord in).', check:/overschot|voedseloverschot/i, exp:'Landbouw → overschot → specialisatie → steden.'},
+    {kind:'mc', t:'Welke factor hielp de verspreiding van het christendom?', opts:['Pax Romana & wegen','Feodalisme','Kruistochten','Vikingen'], ans:0, exp:'Rust en wegen in het rijk.'}
+  ];
 
-// ---------- Final ----------
-const finalBank=[
-  {kind:'mc', t:'Wat markeert het einde van de prehistorie?', opts:['Ontstaan landbouw','Uitvinding schrift','Ontstaan steden','Uitvinding wiel'], ans:1, exp:'Schrift rond 3000 v.Chr.'},
-  {kind:'mc', t:'Wat is een polis?', opts:['Griekse stadstaat','Romeins legerkamp','Egyptische tempel','Germaanse stam'], ans:0, exp:'Polis = stadstaat.'},
-  {kind:'open', t:'Leg “romanisering” uit.', check:/Romeins|taal|cultuur|recht|overname|verspreiding/i, exp:'Overname/verspreiding van Romeinse cultuur en recht.'},
-  {kind:'mc', t:'Waardoor konden steden ontstaan?', opts:['Jacht','Voedseloverschotten','Migratie','Oorlog'], ans:1, exp:'Overschotten uit landbouw.'},
-  {kind:'mc', t:'Wie horen bij Griekse filosofie?', opts:['Pericles, Caesar, Augustinus','Socrates, Plato, Aristoteles','Leonardo, Michelangelo, Rafael','Tacitus, Seneca, Nero'], ans:1, exp:'De drie klassieke denkers.'},
-  {kind:'open', t:'Wat is het verschil tussen poly‑ en monotheïsme?', check:/meerder|veel.*goden.*één|1.*god/i, exp:'Poly = meerdere goden; mono = één God.'},
-  {kind:'mc', t:'Wat was de Pax Romana?', opts:['Vrede & welvaart','Burgeroorlog','Val van Rome','Religieuze strijd'], ans:0, exp:'Lange periode van rust → handel en verspreiding.'},
-  {kind:'mc', t:'Waarom leefden jagers-verzamelaars nomadisch?', opts:['Om handel te drijven','Ze volgden voedsel en dieren','Religieuze reden','Politiek systeem'], ans:1, exp:'Ze trokken achter voedsel aan.'},
-  {kind:'open', t:'Keten: landbouw → ______ → steden (vul het sleutelwoord in).', check:/overschot|voedseloverschot/i, exp:'Landbouw → overschot → specialisatie → steden.'},
-  {kind:'mc', t:'Welke factor hielp de verspreiding van het christendom?', opts:['Pax Romana & wegen','Feodalisme','Kruistochten','Vikingen'], ans:0, exp:'Rust en wegen in het rijk.'}
-];
-let fi=0; const fC=document.getElementById('qfinal'); const fFb=document.getElementById('qfinal-feedback'); const fProg=document.getElementById('qfinal-progress'); const fBar=document.getElementById('finalBar'); const fStars=document.getElementById('finalStars');
-function renderFinal(){ const q=finalBank[fi]; if(q.kind==='open'){renderOpen(fC,q.t)} else {renderMC(fC,q.t,q.opts); [...fC.querySelectorAll('button[data-i]')].forEach(b=>b.onclick=()=>{ fC.dataset.choice=b.dataset.i; [...fC.querySelectorAll('button[data-i]')].forEach(x=>x.classList.toggle('primary',x===b)); }); } fFb.classList.add('hidden'); fProg.textContent=`Vraag ${fi+1} / ${finalBank.length} · Goed: ${state.sections.final.correct}`; fBar.style.width=Math.round((state.sections.final.correct/finalBank.length)*100)+'%'; fStars.textContent=stars3(state.sections.final.correct/finalBank.length); }
-renderFinal();
-document.getElementById('qfinal-check').onclick=()=>{ const q=finalBank[fi]; let ok=false; if(q.kind==='open'){ ok = checkOpen(q.check); } else { ok = Number(fC.dataset.choice)==q.ans; }
-  if(ok) state.sections.final.correct++; state.sections.final.attempted++; save(state);
-  fFb.className='feedback '+(ok?'good':'bad'); fFb.textContent=(ok?'✅ Goed! ':'❌ Bijna… ')+q.exp; fFb.classList.remove('hidden');
-  fProg.textContent=`Vraag ${fi+1} / ${finalBank.length} · Goed: ${state.sections.final.correct}`;
-  fBar.style.width=Math.round((state.sections.final.correct/finalBank.length)*100)+'%';
-  fStars.textContent=stars3(state.sections.final.correct/finalBank.length);
-  recomputeTotal(); };
-document.getElementById('qfinal-next').onclick=()=>{ if(fi<finalBank.length-1){ fi++; delete fC.dataset.choice; renderFinal(); } else { fi=0; renderFinal(); } };
+  // ---------- QUIZ RENDER/LOGIC (reusable) ----------
+  function makeQuiz(bank, ids){
+    const c=document.getElementById(ids.container), fb=document.getElementById(ids.feedback), prog=document.getElementById(ids.progress), bar=document.getElementById(ids.bar), stars=document.getElementById(ids.stars);
+    if(!c) return; let i=0; render();
+    function render(){ const q=bank[i]; if(q.kind==='open'){renderOpen(c,q.t)} else {renderMC(c,q.t,q.opts); [...c.querySelectorAll('button[data-i]')].forEach(b=>b.onclick=()=>{ c.dataset.choice=b.dataset.i; [...c.querySelectorAll('button[data-i]')].forEach(x=>x.classList.toggle('primary',x===b)); }); } if(fb) fb.classList.add('hidden'); if(prog) prog.textContent=`Vraag ${i+1} / ${bank.length} · Goed: ${ids.state.correct}`; if(bar) bar.style.width=pct(ids.state.correct,bank.length)+'%'; if(stars) stars.textContent=stars3(ids.state.correct/bank.length); }
+    document.getElementById(ids.check)?.addEventListener('click',()=>{ const q=bank[i]; let ok=false; if(q.kind==='open'){ ok=checkOpen(q.check); } else { ok=Number(c.dataset.choice)==q.ans; }
+      if(ok) ids.state.correct++; ids.state.attempted++; save(state);
+      if(fb){ fb.className='feedback '+(ok?'good':'bad'); fb.textContent=(ok?'✅ Goed! ':'❌ Bijna… ')+q.exp; fb.classList.remove('hidden'); }
+      if(prog) prog.textContent=`Vraag ${i+1} / ${bank.length} · Goed: ${ids.state.correct}`; if(bar) bar.style.width=pct(ids.state.correct,bank.length)+'%'; if(stars) stars.textContent=stars3(ids.state.correct/bank.length); recomputeTotal(); });
+    document.getElementById(ids.next)?.addEventListener('click',()=>{ if(i<bank.length-1){ i++; delete c.dataset.choice; render(); } else { i=0; render(); } });
+  }
 
-// mark read buttons
-const markRead1=document.getElementById('markRead1'); if(markRead1) markRead1.onclick=()=>{ state.sections.read1.done=true; save(state); recomputeTotal(); };
-const markRead2=document.getElementById('markRead2'); if(markRead2) markRead2.onclick=()=>{ state.sections.read2.done=true; save(state); recomputeTotal(); };
+  // Hook up quizzes
+  makeQuiz(q1Bank,{container:'q1',feedback:'q1-feedback',progress:'q1-progress',bar:'q1Bar',stars:'q1Stars',check:'q1-check',next:'q1-next',state:state.sections.q1});
+  makeQuiz(q2Bank,{container:'q2',feedback:'q2-feedback',progress:'q2-progress',bar:'q2Bar',stars:'q2Stars',check:'q2-check',next:'q2-next',state:state.sections.q2});
+  makeQuiz(finalBank,{container:'qfinal',feedback:'qfinal-feedback',progress:'qfinal-progress',bar:'finalBar',stars:'finalStars',check:'qfinal-check',next:'qfinal-next',state:state.sections.final});
 
-// Kennen & kunnen: checkboxes + train-knoppen
-const KK_KEY='geschiedenis_trainer_kk_v1';
-function loadKK(){ try{return JSON.parse(localStorage.getItem(KK_KEY))||{};}catch(e){return {}} }
-function saveKK(d){ localStorage.setItem(KK_KEY, JSON.stringify(d)); }
-let kk=loadKK();
-[...document.querySelectorAll('[data-kk]')].forEach(cb=>{ const k=cb.getAttribute('data-kk'); cb.checked = !!kk[k]; cb.addEventListener('change',()=>{ kk[k]=cb.checked; saveKK(kk); });});
-[...document.querySelectorAll('[data-train]')].forEach(btn=>btn.addEventListener('click',()=>{
-  const part=btn.getAttribute('data-train');
-  if(part==='A'||part==='B') showTab('quiz1'); else if(part==='E') showTab('final'); else showTab('quiz2');
-}));
-
-// Next buttons
-const go=(id,tab)=>{ const el=document.getElementById(id); if(el) el.onclick=()=>showTab(tab); };
-go('goRead1','read1');
-go('goT1','t1');
-go('goQuiz1','quiz1');
-go('goRead2','read2');
-go('goT2','t2');
-go('goQuiz2','quiz2');
-go('goFinal','final');
-
-// default tab
-showTab('overview');
+  // Initial compute
+  recomputeTotal();
+})();
 </script>
-  <footer class="dock">
-      <div class="row">
-        <div class="muted">Route: Overzicht → Kennen&kunnen → Lezen T1 → Flashcards T1 → Deeltoets T1 → Lezen T2 → Flashcards T2 → Deeltoets T2 → Eindtoets</div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <span class="muted">Sneltoetsen: <span class="kbd">←</span>/<span class="kbd">→</span></span>
-          <button class="btn" id="prevStep">◁ Vorige</button>
-          <button class="btn primary" id="nextStep">Volgende ▷</button>
-        </div>
-      </div>
-    </footer>
-
-    <script>
-    (function(){
-      const route=['overview','kennis','read1','t1','quiz1','read2','t2','quiz2','final'];
-      function setStepLabel(name){
-        const el=document.getElementById('stepLabel');
-        if(!el) return; const i=Math.max(0,route.indexOf(name));
-        el.textContent=`Stap ${i+1}/${route.length} · ${name.toUpperCase()}`;
-      }
-      window.showTab = function(name){
-        if(!route.includes(name)) name='overview';
-        route.forEach(t=>{const s=document.getElementById('tab-'+t); if(s) s.classList.add('hidden');});
-        const cur=document.getElementById('tab-'+name); if(cur) cur.classList.remove('hidden');
-        document.querySelectorAll('nav.tabs .btn').forEach(b=>b.classList.toggle('primary',b.dataset.tab===name));
-        localStorage.setItem('trainer_current_tab', name);
-        setStepLabel(name);
-        const idx=route.indexOf(name);
-        const prev=document.getElementById('prevStep'), next=document.getElementById('nextStep');
-        if(prev) prev.disabled = idx<=0; if(next) next.disabled = idx>=route.length-1;
-        location.hash = '#'+name;
-      };
-      function goRel(d){ const cur=localStorage.getItem('trainer_current_tab')||'overview'; const i=route.indexOf(cur); const j=Math.min(route.length-1,Math.max(0,i+d)); window.showTab(route[j]); }
-      const prev=document.getElementById('prevStep'), next=document.getElementById('nextStep');
-      if(prev) prev.onclick=()=>goRel(-1); if(next) next.onclick=()=>goRel(+1);
-      document.addEventListener('click',e=>{
-        const t=e.target.closest('[data-tab]'); if(t){ e.preventDefault(); window.showTab(t.dataset.tab);} 
-        const nx=e.target.closest('[data-next]'); if(nx){ e.preventDefault(); goRel(+1);} 
-      });
-      window.addEventListener('keydown',e=>{ if(e.target.tagName==='INPUT') return; if(e.key==='ArrowRight') goRel(+1); if(e.key==='ArrowLeft') goRel(-1); });
-      const initial=(location.hash? location.hash.replace('#','') : localStorage.getItem('trainer_current_tab'))||'overview';
-      window.showTab(initial);
-    })();
-    </script>
 </body>
 </html>
