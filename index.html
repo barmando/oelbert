@@ -60,9 +60,11 @@
 
     <nav class="tabs">
       <button class="btn primary" data-tab="overview">📚 Overzicht</button>
-      <button class="btn" data-tab="t1">🌾 Tijdvak 1</button>
+      <button class="btn" data-tab="read1">📖 Lezen T1</button>
+      <button class="btn" data-tab="t1">🌾 Flashcards T1</button>
       <button class="btn" data-tab="quiz1">🧪 Deeltoets T1</button>
-      <button class="btn" data-tab="t2">🏛️ Tijdvak 2</button>
+      <button class="btn" data-tab="read2">📖 Lezen T2</button>
+      <button class="btn" data-tab="t2">🏛️ Flashcards T2</button>
       <button class="btn" data-tab="quiz2">🧪 Deeltoets T2</button>
       <button class="btn" data-tab="final">🏁 Eindtoets</button>
     </nav>
@@ -74,7 +76,48 @@
         <li><b>Tijdvak 1:</b> Jagers en boeren — tot 3000 v.Chr. (landbouw, dorpen, steden)</li>
         <li><b>Tijdvak 2:</b> Grieken en Romeinen — 3000 v.Chr. – 500 n.Chr. (wetenschap, democratie, Romeins rijk)</li>
       </ul>
-      <div class="muted" style="margin-top:8px">Lees deze hardop. Klaar? Ga door naar Tijdvak 1.</div>
+      <div class="muted" style="margin-top:8px">Stapvolgorde: <b>Lezen → Oefenen → Toetsen</b>. Klaar met het overzicht? Ga door naar <b>Lezen T1</b>.</div>
+    </section>
+
+    <!-- READ 1 -->
+    <section class="card hidden" id="tab-read1">
+      <h2>📖 Lezen — Tijdvak 1 (Jagers en boeren)</h2>
+      <details open>
+        <summary><b>1. Levenswijze jagers‑verzamelaars</b></summary>
+        <ul>
+          <li>Nomadisch: kleine groepen trekken rond; geen vaste woonplaats.</li>
+          <li>Gebruik van stenen werktuigen, vuur, kleding; basis: jagen & verzamelen.</li>
+          <li>Gelijkheid relatief groot; taakverdeling naar leeftijd/geslacht.</li>
+        </ul>
+      </details>
+      <details>
+        <summary><b>2. Landbouwrevolutie (v.a. ca. 10.000 v.Chr.)</b></summary>
+        <ul>
+          <li>Overgang naar akkerbouw en veeteelt → <b>sedentair</b> leven.</li>
+          <li>Gevolgen: voedseloverschot → <b>specialisatie</b>, <b>handel</b>, bevolkingsgroei.</li>
+          <li><b>Sociale gelaagdheid</b> (verschillen in rijkdom/macht) neemt toe.</li>
+        </ul>
+      </details>
+      <details>
+        <summary><b>3. Dorpen, steden en schrift</b></summary>
+        <ul>
+          <li>Megastructuren (hunebedden) en eerste dorpen → later steden.</li>
+          <li>Voor administratie ontstaat <b>schrift</b> (einde prehistorie rond 3000 v.Chr.).</li>
+        </ul>
+      </details>
+      <details>
+        <summary><b>4. Kenmerkende aspecten T1</b></summary>
+        <ol>
+          <li>Levenswijze van jagers‑verzamelaars.</li>
+          <li>Ontstaan van landbouw en landbouwsamenlevingen.</li>
+          <li>Ontstaan van de eerste stedelijke gemeenschappen.</li>
+        </ol>
+      </details>
+      <details>
+        <summary><b>5. Oorzaak → gevolg‑keten</b></summary>
+        <div class="muted">Landbouw → voedseloverschot → specialisatie → handel → stedenvorming → bestuur & schrift.</div>
+      </details>
+      <button class="btn" id="markRead1">Markeer gelezen</button>
     </section>
 
     <!-- T1 -->
@@ -109,6 +152,59 @@
         <div class="progress"><i id="q1Bar"></i></div>
         <div class="muted">⭐️ <span id="q1Stars" class="stars">☆☆☆</span></div>
       </div>
+    </section>
+
+    <!-- READ 2 -->
+    <section class="card hidden" id="tab-read2">
+      <h2>📖 Lezen — Tijdvak 2 (Grieken en Romeinen)</h2>
+      <details open>
+        <summary><b>1. De Griekse polis & politiek</b></summary>
+        <ul>
+          <li>Polis = stadstaat met eigen leger, munt en wetten.</li>
+          <li>Bestuurstypen: monarchie → aristocratie → tirannie → <b>democratie</b> (Athene).</li>
+          <li><b>Burgerschap</b> in Athene: vrije mannen met Atheense ouders; rechten & plichten.</li>
+        </ul>
+      </details>
+      <details>
+        <summary><b>2. Wetenschappelijk denken & filosofen</b></summary>
+        <ul>
+          <li>Verklaren met <b>rede en logica</b> i.p.v. mythes.</li>
+          <li>Socrates, Plato, Aristoteles; geschiedschrijving: Herodotos.</li>
+        </ul>
+      </details>
+      <details>
+        <summary><b>3. Romeins imperium & romanisering</b></summary>
+        <ul>
+          <li>Uitbreiding: Italië → Middellandse Zee → NW‑Europa; grenzen: <b>limes</b>.</li>
+          <li><b>Pax Romana</b>: rust & handel; wegen en zeevaart.</li>
+          <li><b>Romanisering</b>: veroverde volkeren nemen taal, recht en cultuur over.</li>
+        </ul>
+      </details>
+      <details>
+        <summary><b>4. Kunst & architectuur</b></summary>
+        <ul>
+          <li>Griekse zuilen: <b>Dorisch</b>, <b>Ionisch</b>, <b>Korinthisch</b>.</li>
+          <li>Romeinen bouwen bogen, koepels, aquaducten; realistische beeldhouwkunst.</li>
+        </ul>
+      </details>
+      <details>
+        <summary><b>5. Religie: jodendom & christendom</b></summary>
+        <ul>
+          <li><b>Monotheïsme</b> t.o.v. polytheïsme; vervolging → later staatsgodsdienst.</li>
+          <li>Verspreiding door Pax Romana, wegen en gemeenschappelijke talen (Grieks/Latijn).</li>
+        </ul>
+      </details>
+      <details>
+        <summary><b>6. Kenmerkende aspecten T2</b></summary>
+        <ol>
+          <li>Wetenschappelijk denken en burgerschap in de Griekse stadstaat.</li>
+          <li>Klassieke vormentaal.</li>
+          <li>Groei Romeins imperium & romanisering.</li>
+          <li>Confrontatie Romeinen en Germanen.</li>
+          <li>Ontstaan jodendom & christendom.</li>
+        </ol>
+      </details>
+      <button class="btn" id="markRead2">Markeer gelezen</button>
     </section>
 
     <!-- T2 -->
@@ -166,11 +262,19 @@ const KEY='geschiedenis_trainer_progress_v1';
 function load(){ try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {}} }
 function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
 let state=load();
-if(!state.sections){ state={sections:{t1:{done:false,fcDone:0,fcTotal:5}, q1:{correct:0,total:6,attempted:0}, t2:{done:false,fcDone:0,fcTotal:7}, q2:{correct:0,total:8,attempted:0}, final:{correct:0,total:10,attempted:0}}, stepsCompleted:0}; }
+if(!state.sections){ state={sections:{
+  read1:{done:false},
+  t1:{done:false,fcDone:0,fcTotal:5},
+  q1:{correct:0,total:6,attempted:0},
+  read2:{done:false},
+  t2:{done:false,fcDone:0,fcTotal:7},
+  q2:{correct:0,total:8,attempted:0},
+  final:{correct:0,total:10,attempted:0}
+}, stepsCompleted:0}; }
 save(state);
 
 // ---------- Tabs ----------
-const tabs=['overview','t1','quiz1','t2','quiz2','final'];
+const tabs=['overview','read1','t1','quiz1','read2','t2','quiz2','final'];
 const buttons=[...document.querySelectorAll('nav.tabs .btn')];
 function showTab(name){tabs.forEach(t=>document.getElementById('tab-'+t).classList.add('hidden'));document.getElementById('tab-'+name).classList.remove('hidden');buttons.forEach(b=>b.classList.toggle('primary',b.dataset.tab===name));}
 buttons.forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
@@ -180,14 +284,13 @@ function stars3(pct){ if(pct>=0.85) return '★★★'; if(pct>=0.6) return '★
 
 // ---------- Total progress ----------
 function recomputeTotal(){
-  // completion by sections: fc T1, quiz1, fc T2, quiz2, final, overview read
   const s=state.sections;
-  const completed = (s.t1.fcDone>=s.t1.fcTotal?1:0) + (s.q1.attempted>=s.q1.total?1:0) + (s.t2.fcDone>=s.t2.fcTotal?1:0) + (s.q2.attempted>=s.q2.total?1:0) + (s.final.attempted>=s.final.total?1:0) + 1; // overview always counted zodra site open is
-  const pct = Math.min(100, Math.round((completed/6)*100));
+  const completed = (s.read1.done?1:0) + (s.t1.fcDone>=s.t1.fcTotal?1:0) + (s.q1.attempted>=s.q1.total?1:0) + (s.read2.done?1:0) + (s.t2.fcDone>=s.t2.fcTotal?1:0) + (s.q2.attempted>=s.q2.total?1:0) + (s.final.attempted>=s.final.total?1:0);
+  const totalSteps = 7;
+  const pct = Math.min(100, Math.round((completed/totalSteps)*100));
   document.getElementById('totalBar').style.width=pct+'%';
   document.getElementById('totalPct').textContent=pct+'%';
   document.getElementById('stepsDone').textContent=completed;
-  // overall accuracy stars = average of available sections
   const parts=[];
   if(s.q1.total>0) parts.push(s.q1.correct/s.q1.total);
   if(s.q2.total>0) parts.push(s.q2.correct/s.q2.total);
@@ -290,6 +393,10 @@ document.getElementById('qfinal-check').onclick=()=>{ const q=finalBank[fi]; let
   fStars.textContent=stars3(state.sections.final.correct/finalBank.length);
   recomputeTotal(); };
 document.getElementById('qfinal-next').onclick=()=>{ if(fi<finalBank.length-1){ fi++; delete fC.dataset.choice; renderFinal(); } else { fi=0; renderFinal(); } };
+
+// mark read buttons
+const markRead1=document.getElementById('markRead1'); if(markRead1) markRead1.onclick=()=>{ state.sections.read1.done=true; save(state); recomputeTotal(); };
+const markRead2=document.getElementById('markRead2'); if(markRead2) markRead2.onclick=()=>{ state.sections.read2.done=true; save(state); recomputeTotal(); };
 
 // default tab
 showTab('overview');
