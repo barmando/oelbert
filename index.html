@@ -1,3 +1,32 @@
+<style>
+  :root{--bg:#fffdf9;--ink:#222;--muted:#6b7280;--accent:#4f8a8b;--accent-600:#3f6f70;--card:#fff;--border:#e5e7eb;--good:#1b873e;--bad:#b91c1c;--focus:#f59e0b}
+  html{scroll-behavior:smooth}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); color:var(--ink); line-height:1.65; margin:0}
+  main{max-width:900px;margin:0 auto;padding:24px}
+  h1,h2,h3{color:var(--accent);margin:0 0 12px}
+  h1{font-size:clamp(1.6rem,2.5vw,2rem)} h2{font-size:clamp(1.4rem,2.2vw,1.6rem)} h3{font-size:1.1rem;color:#355a5b}
+  p,li,details{font-size:1.05rem}
+  .samenvatting,.reflectie,.tijdlijn,.verbanden,.continuiteit,.inleving,.bronnen,.flashcards,.question,.period-table,details{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin:12px 0; box-shadow:0 1px 0 rgba(0,0,0,.02)}
+  details summary{cursor:pointer;font-weight:600}
+  details[open]{border-color:#d8dee4}
+  table{width:100%;border-collapse:collapse}
+  th,td{border:1px solid var(--border);padding:8px;text-align:left}
+  thead th{background:#f7faf9}
+  select,textarea,input[type="text"],button{font:inherit}
+  textarea,select,input[type="text"]{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#fff}
+  select:focus,textarea:focus,input:focus{outline:3px solid var(--focus);outline-offset:1px}
+  button{display:block;margin:18px auto 6px;padding:12px 20px;background:var(--accent);color:#fff;border:none;border-radius:999px;cursor:pointer;transition:.15s}
+  button:hover{transform:translateY(-1px);background:var(--accent-600)}
+  button:focus{outline:3px solid var(--focus)}
+  .question{position:relative}
+  .feedback{display:inline-block;margin-left:10px;font-weight:600}
+  .feedback.good{color:var(--good)} .feedback.bad{color:var(--bad)}
+  .sortable{list-style:none;padding:0;margin:0}
+  .sortable li{background:#fff;border:1px solid var(--border);padding:10px 12px;margin:8px 0;border-radius:10px}
+  .sortable li.dragging{opacity:.6}
+  .flashcards p{margin:10px 0 0}
+  .muted{color:var(--muted)}
+</style>
 <section id="periodisering" class="hidden">
   <h2>Periodisering – Overzicht (B1)</h2>
   <p>Dit zijn de grote periodes en tijdvakken. Leer deze basis goed; je gebruikt dit om gebeurtenissen op de tijdlijn te plaatsen.</p>
@@ -239,11 +268,18 @@
 
   <script>
     function checkAnswer(select, correct){
-      const feedback = select.nextElementSibling;
-      if(select.value === correct){
-        feedback.textContent = '✅ Juist!';
-        feedback.style.color = 'green';
-      } else {
+  const feedback = select.nextElementSibling;
+  feedback.classList?.remove('good','bad');
+  if(select.value === correct){
+    feedback.textContent = '✅ Juist!';
+    feedback.classList?.add('good');
+  } else if(select.value==='–' || select.selectedIndex===0){
+    feedback.textContent = '';
+  } else {
+    feedback.textContent = '❌ Onjuist';
+    feedback.classList?.add('bad');
+  }
+} else {
         feedback.textContent = '❌ Onjuist';
         feedback.style.color = 'red';
       }
