@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import { Shuffle, RotateCcw } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Trophy, RotateCcw, Users, PlayCircle, Sparkles, BookOpen } from "lucide-react";
+import { motion } from "framer-motion";
 
 const allCards = [
   { lesson: 1, front: "flumen", back: "rivier" },
@@ -22,26 +23,49 @@ function shuffle(array) {
   return [...array].sort(() => Math.random() - 0.5);
 }
 
-export default function FlashcardsGame() {
+function getWinner(score1, score2) {
+  if (score1 > score2) return "Speler 1 wint!";
+  if (score2 > score1) return "Speler 2 wint!";
+  return "Gelijkspel!";
+}
+
+export default function FlashcardsGameWebsite() {
+  const [screen, setScreen] = useState("home");
   const [cards, setCards] = useState(shuffle(allCards));
   const [index, setIndex] = useState(0);
   const [showBack, setShowBack] = useState(false);
-
   const [player, setPlayer] = useState(1);
   const [score1, setScore1] = useState(0);
   const [score2, setScore2] = useState(0);
 
   const current = cards[index];
+  const totalCards = cards.length;
+  const progress = totalCards ? ((index + 1) / totalCards) * 100 : 0;
+  const isLastCard = index === totalCards - 1;
+
+  const startGame = () => {
+    setCards(shuffle(allCards));
+    setIndex(0);
+    setShowBack(false);
+    setPlayer(1);
+    setScore1(0);
+    setScore2(0);
+    setScreen("game");
+  };
 
   const nextTurn = () => {
     setShowBack(false);
-    setIndex((prev) => (prev + 1 < cards.length ? prev + 1 : 0));
+    if (isLastCard) {
+      setScreen("winner");
+      return;
+    }
+    setIndex((prev) => prev + 1);
     setPlayer((prev) => (prev === 1 ? 2 : 1));
   };
 
   const correct = () => {
-    if (player === 1) setScore1(score1 + 1);
-    else setScore2(score2 + 1);
+    if (player === 1) setScore1((s) => s + 1);
+    else setScore2((s) => s + 1);
     nextTurn();
   };
 
@@ -49,56 +73,148 @@ export default function FlashcardsGame() {
     nextTurn();
   };
 
-  const resetGame = () => {
-    setCards(shuffle(allCards));
-    setIndex(0);
-    setScore1(0);
-    setScore2(0);
-    setPlayer(1);
-    setShowBack(false);
-  };
+  const winnerText = useMemo(() => getWinner(score1, score2), [score1, score2]);
 
   return (
-    <div className="min-h-screen p-6 bg-slate-50">
-      <div className="max-w-3xl mx-auto space-y-6">
-
-        <Card>
-          <CardHeader>
-            <CardTitle>🎮 Latijn 2-Speler Spel</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-
-            <div className="flex justify-between text-lg">
-              <div>Speler 1: {score1}</div>
-              <div>Speler 2: {score2}</div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-slate-200 text-slate-900">
+      <div className="mx-auto max-w-5xl p-4 md:p-8">
+        {screen === "home" && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+            <div className="rounded-3xl bg-slate-900 p-8 text-white shadow-2xl md:p-12">
+              <div className="mb-4 flex items-center gap-3">
+                <Badge className="rounded-full bg-white/20 px-4 py-1 text-white hover:bg-white/20">SPQR Latijn</Badge>
+                <Badge className="rounded-full bg-white/20 px-4 py-1 text-white hover:bg-white/20">2 spelers</Badge>
+              </div>
+              <h1 className="text-4xl font-bold md:text-6xl">Latijn Duel</h1>
+              <p className="mt-4 max-w-2xl text-base text-slate-200 md:text-lg">
+                Een echte websiteversie van jouw flashcard-spel. Speel om de beurt, draai de kaart,
+                zeg het antwoord hardop en verzamel punten.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button onClick={startGame} className="rounded-2xl px-6 py-6 text-base">
+                  <PlayCircle className="mr-2 h-5 w-5" /> Start spel
+                </Button>
+              </div>
             </div>
 
-            <div className="text-center text-xl font-semibold">
-              Beurt: Speler {player}
+            <div className="grid gap-4 md:grid-cols-3">
+              <Card className="rounded-3xl shadow-lg">
+                <CardContent className="p-6">
+                  <Users className="mb-3 h-8 w-8" />
+                  <h2 className="text-xl font-semibold">Twee spelers</h2>
+                  <p className="mt-2 text-sm text-slate-600">Speel om de beurt en houd automatisch de score bij.</p>
+                </CardContent>
+              </Card>
+              <Card className="rounded-3xl shadow-lg">
+                <CardContent className="p-6">
+                  <BookOpen className="mb-3 h-8 w-8" />
+                  <h2 className="text-xl font-semibold">Latijn oefenen</h2>
+                  <p className="mt-2 text-sm text-slate-600">Oefen woorden van les 1 t/m 4 op een speelse manier.</p>
+                </CardContent>
+              </Card>
+              <Card className="rounded-3xl shadow-lg">
+                <CardContent className="p-6">
+                  <Sparkles className="mb-3 h-8 w-8" />
+                  <h2 className="text-xl font-semibold">Website-stijl</h2>
+                  <p className="mt-2 text-sm text-slate-600">Met startscherm, spelpagina en een winnaarsscherm.</p>
+                </CardContent>
+              </Card>
+            </div>
+          </motion.div>
+        )}
+
+        {screen === "game" && current && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
+            <div className="grid gap-4 md:grid-cols-3">
+              <Card className="rounded-3xl shadow-lg md:col-span-2">
+                <CardContent className="p-6">
+                  <div className="mb-3 flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-slate-500">Huidige beurt</p>
+                      <h2 className="text-2xl font-bold">Speler {player}</h2>
+                    </div>
+                    <Badge className="rounded-full px-4 py-1">Kaart {index + 1} / {totalCards}</Badge>
+                  </div>
+                  <Progress value={progress} />
+                </CardContent>
+              </Card>
+
+              <Card className="rounded-3xl shadow-lg">
+                <CardContent className="p-6">
+                  <div className="space-y-3 text-lg font-semibold">
+                    <div className="flex items-center justify-between"><span>Speler 1</span><span>{score1}</span></div>
+                    <div className="flex items-center justify-between"><span>Speler 2</span><span>{score2}</span></div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
-            <Progress value={((index + 1) / cards.length) * 100} />
+            <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
+              <Card onClick={() => setShowBack((s) => !s)} className="cursor-pointer rounded-3xl border-2 shadow-2xl">
+                <CardContent className="flex min-h-[340px] flex-col items-center justify-center p-8 text-center md:min-h-[420px]">
+                  <Badge className="mb-6 rounded-full px-4 py-1">Klik om om te draaien</Badge>
+                  <div className="text-4xl font-bold md:text-6xl">
+                    {showBack ? current.back : current.front}
+                  </div>
+                  <p className="mt-6 text-sm text-slate-500">
+                    {showBack ? "Betekenis" : "Latijns woord"}
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-          </CardContent>
-        </Card>
+            <div className="grid gap-4 sm:grid-cols-3">
+              <Button onClick={() => setShowBack((s) => !s)} className="rounded-2xl py-6 text-base">Draai kaart</Button>
+              <Button onClick={correct} className="rounded-2xl py-6 text-base">Goed</Button>
+              <Button variant="outline" onClick={wrong} className="rounded-2xl py-6 text-base">Fout</Button>
+            </div>
 
-        <Card onClick={() => setShowBack(!showBack)} className="cursor-pointer text-center p-10">
-          <div className="text-4xl font-bold">
-            {showBack ? current.back : current.front}
-          </div>
-          <div className="mt-4 text-sm text-gray-500">Klik om om te draaien</div>
-        </Card>
+            <div className="flex flex-wrap gap-3">
+              <Button variant="outline" onClick={startGame} className="rounded-2xl">
+                <RotateCcw className="mr-2 h-4 w-4" /> Opnieuw beginnen
+              </Button>
+              <Button variant="ghost" onClick={() => setScreen("home")} className="rounded-2xl">
+                Terug naar start
+              </Button>
+            </div>
+          </motion.div>
+        )}
 
-        <div className="grid grid-cols-3 gap-4">
-          <Button onClick={() => setShowBack(!showBack)}>Draai</Button>
-          <Button onClick={correct}>Goed</Button>
-          <Button onClick={wrong}>Fout</Button>
-        </div>
+        {screen === "winner" && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <Card className="rounded-3xl shadow-2xl">
+              <CardContent className="p-8 text-center md:p-14">
+                <Trophy className="mx-auto mb-4 h-14 w-14" />
+                <h1 className="text-4xl font-bold md:text-5xl">{winnerText}</h1>
+                <p className="mt-4 text-slate-600">Eindscore: speler 1 = {score1} · speler 2 = {score2}</p>
 
-        <Button variant="outline" onClick={resetGame}>
-          <RotateCcw className="mr-2 h-4 w-4" /> Reset spel
-        </Button>
+                <div className="mx-auto mt-8 grid max-w-xl gap-4 md:grid-cols-2">
+                  <Card className="rounded-2xl">
+                    <CardContent className="p-6">
+                      <p className="text-sm text-slate-500">Speler 1</p>
+                      <p className="text-3xl font-bold">{score1}</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="rounded-2xl">
+                    <CardContent className="p-6">
+                      <p className="text-sm text-slate-500">Speler 2</p>
+                      <p className="text-3xl font-bold">{score2}</p>
+                    </CardContent>
+                  </Card>
+                </div>
 
+                <div className="mt-8 flex flex-wrap justify-center gap-3">
+                  <Button onClick={startGame} className="rounded-2xl px-6 py-6 text-base">
+                    <RotateCcw className="mr-2 h-4 w-4" /> Nog een keer
+                  </Button>
+                  <Button variant="outline" onClick={() => setScreen("home")} className="rounded-2xl px-6 py-6 text-base">
+                    Naar startscherm
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
       </div>
     </div>
   );
