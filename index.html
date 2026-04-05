@@ -5,214 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Oelbert Studiehulp</title>
   <style>
-    :root {
-      --bg1: #0f172a;
-      --bg2: #1e3a8a;
-      --card: rgba(255, 255, 255, 0.1);
-      --card-border: rgba(255, 255, 255, 0.18);
-      --text: #ffffff;
-      --muted: rgba(255, 255, 255, 0.78);
-      --button-bg: #ffffff;
-      --button-text: #17306b;
-      --button-hover: #e8eefc;
-      --shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-      --radius: 24px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: var(--text);
-      background: linear-gradient(160deg, var(--bg1), var(--bg2));
-      min-height: 100vh;
-    }
-
-    .page {
-      width: 100%;
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 24px 16px 48px;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 24px 12px 10px;
-    }
-
-    .hero h1 {
-      margin: 0;
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      line-height: 1.1;
-    }
-
-    .hero p {
-      margin: 12px auto 0;
-      max-width: 620px;
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-
-    .sections {
-      display: grid;
-      gap: 18px;
-      margin-top: 28px;
-    }
-
-    .section {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      padding: 18px;
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
-    }
-
-    .section h2 {
-      margin: 0 0 14px;
-      font-size: 1.2rem;
-    }
-
-    .button-list {
-      display: grid;
-      gap: 12px;
-    }
-
-    .button {
-      display: block;
-      width: 100%;
-      padding: 16px 18px;
-      text-decoration: none;
-      color: var(--button-text);
-      background: var(--button-bg);
-      border-radius: 16px;
-      font-weight: 700;
-      font-size: 1rem;
-      text-align: center;
-      transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
-      box-shadow: 0 10px 24px rgba(11, 24, 58, 0.16);
-    }
-
-    .button:hover,
-    .button:focus {
-      background: var(--button-hover);
-      transform: translateY(-2px);
-      outline: none;
-    }
-
-    .footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-top: 24px;
-    }
-
-    @media (min-width: 720px) {
-      .page {
-        padding: 36px 24px 56px;
-      }
-
-      .sections {
-        grid-template-columns: repeat(3, 1fr);
-        align-items: start;
-      }
-
-      .section {
-        padding: 22px;
-      }
-    }
+    body { margin:0; font-family: Arial, sans-serif; background: linear-gradient(160deg,#0f172a,#1e3a8a); color:white; }
+    .page { max-width:900px; margin:auto; padding:20px; }
+    h1 { text-align:center; }
+    h2 { margin-top:30px; }
+    .button { display:block; margin:10px 0; padding:14px; background:white; color:#1e3a8a; text-decoration:none; border-radius:12px; text-align:center; font-weight:bold; }
+    .button:hover { background:#e5e7eb; }
   </style>
 </head>
 <body>
-  <main class="page">
-    <section class="hero">
-      <h1>Oelbert Studiehulp</h1>
-      <p>Games, infographics en podcasts op één plek.</p>
-    </section>
+<div class="page">
+  <h1>Oelbert Studiehulp</h1>
 
-    <section class="sections">
-      <div class="section">
-        <h2>Games</h2>
-        <div class="button-list">
-          <a class="button" href="https://latijn-duel.vercel.app/" target="_blank" rel="noopener noreferrer">
-            Latijn Duel
-          </a>
-          <a class="button" href="https://notebooklm.google.com/notebook/a1ed4461-cc65-4933-8829-7d8624bd51af?artifactId=b22a2f3c-dd66-44d8-b9fb-1df59c91e16c" target="_blank" rel="noopener noreferrer">
-            Meetkunde Quiz
-          </a>
-                  <a class="button" href="https://notebooklm.google.com/notebook/51611b08-604f-49ae-9ea4-1a9c6a5335c0?artifactId=6da14588-3c4a-450a-9223-369492db706f" target="_blank" rel="noopener noreferrer">
-            Regnum
-          </a>
-          <a class="button" href="https://notebooklm.google.com/notebook/b73a2393-7ba3-4156-a909-3d2d8e0cca56?artifactId=ac2d13a5-1681-4da6-8281-f6a678b554a3" target="_blank" rel="noopener noreferrer">
-            Aardrijkskunde hfst 3
-          </a>
-        </div>
-      </div>
+  <h2>Games</h2>
+  <a class="button" href="https://latijn-duel.vercel.app/" target="_blank">Latijn Duel</a>
+  <a class="button" href="https://notebooklm.google.com/notebook/a1ed4461-cc65-4933-8829-7d8624bd51af?artifactId=b22a2f3c-dd66-44d8-b9fb-1df59c91e16c" target="_blank">Meetkunde Quiz</a>
 
-      <div class="section">
-        <h2>Infographics</h2>
-        <div class="button-list">
-          <a class="button" href="https://notebooklm.google.com/notebook/b73a2393-7ba3-4156-a909-3d2d8e0cca56?artifactId=3b754eab-12a1-486c-987d-95f72fd516d5" target="_blank" rel="noopener noreferrer">
-            Aardrijkskunde hfst 3
-          </a>
-          <a class="button" href="inhoudaanzicht.png" target="_blank" rel="noopener noreferrer">
-            Wiskunde inhoud 9.4 en aanzichten 9.5
-          </a>
-          <a class="button" href="3Kronos.png" target="_blank" rel="noopener noreferrer">
-            Kronos
-          </a>
-          <a class="button" href="4Zeus.png" target="_blank" rel="noopener noreferrer">
-            Zeus
-          </a>
-        </div>
-      </div>
+  <h2>Infographics</h2>
+  <a class="button" href="3Kronos.png" target="_blank">Kronos</a>
+  <a class="button" href="4Zeus.png" target="_blank">Zeus</a>
+  <a class="button" href="inhoudaanzicht.png" target="_blank">Wiskunde 9.4 / 9.5</a>
+  <a class="button" href="https://notebooklm.google.com/notebook/b73a2393-7ba3-4156-a909-3d2d8e0cca56?artifactId=3b754eab-12a1-486c-987d-95f72fd516d5" target="_blank">Aardrijkskunde hfst 3</a>
 
-      <div class="section">
-        <h2>Podcasts</h2>
-        <div class="button-list">
-          <a class="button" href="https://notebooklm.google.com/notebook/c23c12bb-ddf3-4cf4-9214-60404ca574fe?artifactId=bee21f46-c7a0-4627-8809-aa54934f94fe" target="_blank" rel="noopener noreferrer">
-            Podcast Kronos
-          </a>
-          <a class="button" href="https://notebooklm.google.com/notebook/72242292-62bb-4b3f-b30c-e1b16c24b96d?artifactId=e4891ab4-b0f0-4f18-98e7-ec8a2af43bf7" target="_blank" rel="noopener noreferrer">
-            Podcast Zeus
-          </a>
-          <a class="button" href="https://notebooklm.google.com/notebook/a2817997-94d2-45e4-b51a-d1b444e2c206?artifactId=43c4b829-a9a4-4337-bb8d-04ed6b7dd58f" target="_blank" rel="noopener noreferrer">
-            Capitolium
-          </a>
-          <a class="button" href="https://notebooklm.google.com/notebook/51611b08-604f-49ae-9ea4-1a9c6a5335c0?artifactId=6da14588-3c4a-450a-9223-369492db706f" target="_blank" rel="noopener noreferrer">
-            Regnum
-          </a>
-        </div>
-      </div>
-    </section>
+  <h2>Podcasts</h2>
+  <a class="button" href="https://notebooklm.google.com/notebook/c23c12bb-ddf3-4cf4-9214-60404ca574fe?artifactId=bee21f46-c7a0-4627-8809-aa54934f94fe" target="_blank">Podcast Kronos</a>
+  <a class="button" href="https://notebooklm.google.com/notebook/72242292-62bb-4b3f-b30c-e1b16c24b96d?artifactId=e4891ab4-b0f0-4f18-98e7-ec8a2af43bf7" target="_blank">Podcast Zeus</a>
+  <a class="button" href="https://notebooklm.google.com/notebook/a2817997-94d2-45e4-b51a-d1b444e2c206?artifactId=43c4b829-a9a4-4337-bb8d-04ed6b7dd58f" target="_blank">Capitolium</a>
+  <a class="button" href="https://notebooklm.google.com/notebook/51611b08-604f-49ae-9ea4-1a9c6a5335c0?artifactId=6da14588-3c4a-450a-9223-369492db706f" target="_blank">Regnum</a>
+  <a class="button" href="https://notebooklm.google.com/notebook/b73a2393-7ba3-4156-a909-3d2d8e0cca56?artifactId=ac2d13a5-1681-4da6-8281-f6a678b554a3" target="_blank">Aardrijkskunde hfst 3</a>
+  <a class="button" href="https://notebooklm.google.com/notebook/b73a2393-7ba3-4156-a909-3d2d8e0cca56?artifactId=0c16fcaf-2019-4ca7-8894-91b1d6ef7952" target="_blank">Intro hfst 3 aardrijkskunde</a>
 
-    <section class="sections" style="margin-top:18px;">
-      <div class="section" style="grid-column: 1 / -1;">
-        <h2>Video</h2>
-        <div class="button-list">
-          <a class="button" href="https://notebooklm.google.com/notebook/a1ed4461-cc65-4933-8829-7d8624bd51af?artifactId=4ec8c264-021e-4d7e-8198-f0bf82322ba8" target="_blank" rel="noopener noreferrer">
-            Wiskunde inhoud en aanzichten – supersnelle uitleg (hfst 9.4 / 9.5)
-          </a>
-          <a class="button" href="https://notebooklm.google.com/notebook/eafce1a0-77ec-4da2-9a6b-90fbe0322f18?artifactId=9704424f-a079-4894-aff1-eaf8b12c9c54" target="_blank" rel="noopener noreferrer">
-            Kwadratische formules hfst 6.1 6.2 6.3
-          </a>
-          <a class="button" href="https://notebooklm.google.com/notebook/068c794a-8131-4121-a5e7-57ae30f22b1b?artifactId=01f4f89d-2ac0-4849-915e-3408e6dae92f" target="_blank" rel="noopener noreferrer">
-            Latijnse woorden 1-4
-          </a>
-          <a class="button" href="https://notebooklm.google.com/notebook/b73a2393-7ba3-4156-a909-3d2d8e0cca56?artifactId=0c16fcaf-2019-4ca7-8894-91b1d6ef7952" target="_blank" rel="noopener noreferrer">
-            Intro hfst 3 aardrijkskunde, wat moet je weten?
-          </a>
-        </div>
-      </div>
-    </section>
+  <h2>Video</h2>
+  <a class="button" href="https://notebooklm.google.com/notebook/a1ed4461-cc65-4933-8829-7d8624bd51af?artifactId=4ec8c264-021e-4d7e-8198-f0bf82322ba8" target="_blank">Wiskunde 9.4 / 9.5</a>
+  <a class="button" href="https://notebooklm.google.com/notebook/eafce1a0-77ec-4da2-9a6b-90fbe0322f18?artifactId=9704424f-a079-4894-aff1-eaf8b12c9c54" target="_blank">Kwadratische formules 6.1-6.3</a>
+  <a class="button" href="https://notebooklm.google.com/notebook/068c794a-8131-4121-a5e7-57ae30f22b1b?artifactId=01f4f89d-2ac0-4849-915e-3408e6dae92f" target="_blank">Latijnse woorden 1-4</a>
+  
 
-    <div class="footer">
-      Open in een nieuw tabblad
-    </div>
-  </main>
+</div>
 </body>
 </html>
