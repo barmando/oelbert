@@ -1,263 +1,274 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Oelbert Studiehulp - Periode 4</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oelbert Studiehulp - Periode 4</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(160deg,#0f172a,#1e3a8a);
-      color: white;
-    }
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(160deg,#0f172a,#1e3a8a);
+    color:white;
+}
 
-    .page {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-    }
+.page{
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+}
 
-    h1 {
-      text-align: center;
-    }
+h1{
+    text-align:center;
+}
 
-    h2 {
-      margin-top: 30px;
-    }
+h2{
+    margin-top:35px;
+    border-bottom:2px solid rgba(255,255,255,0.2);
+    padding-bottom:8px;
+}
 
-    .button {
-      display: block;
-      margin: 10px 0;
-      padding: 14px;
-      background: white;
-      color: #1e3a8a;
-      text-decoration: none;
-      border-radius: 12px;
-      text-align: center;
-      font-weight: bold;
-      transition: 0.2s;
-    }
+.button{
+    display:block;
+    margin:10px 0;
+    padding:14px;
+    background:white;
+    color:#1e3a8a;
+    text-decoration:none;
+    border-radius:12px;
+    text-align:center;
+    font-weight:bold;
+    transition:0.2s;
+}
 
-    .button:hover {
-      background: #e5e7eb;
-    }
+.button:hover{
+    background:#e5e7eb;
+}
 
-    .nav-button {
-      background: #fbbf24;
-      color: #111827;
-    }
+.nav-button{
+    background:#fbbf24;
+    color:#111827;
+}
 
-    .nav-button:hover {
-      background: #f59e0b;
-    }
-  </style>
+.nav-button:hover{
+    background:#f59e0b;
+}
+
+.overview-table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    color:#1e3a8a;
+    border-radius:12px;
+    overflow:hidden;
+    margin:20px 0;
+}
+
+.overview-table th{
+    background:#fbbf24;
+    color:#111827;
+    padding:12px;
+    text-align:left;
+}
+
+.overview-table td{
+    padding:12px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.overview-table tr:last-child td{
+    border-bottom:none;
+}
+
+@media(max-width:768px){
+
+.overview-table,
+.overview-table thead,
+.overview-table tbody,
+.overview-table th,
+.overview-table td,
+.overview-table tr{
+    display:block;
+}
+
+.overview-table thead{
+    display:none;
+}
+
+.overview-table tr{
+    background:white;
+    margin-bottom:15px;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.overview-table td{
+    border:none;
+}
+
+.overview-table td:before{
+    display:block;
+    font-weight:bold;
+    margin-bottom:4px;
+}
+
+.overview-table td:nth-child(1):before{content:"Vak";}
+.overview-table td:nth-child(2):before{content:"Onderwerpen";}
+.overview-table td:nth-child(3):before{content:"Hoofdstuk";}
+.overview-table td:nth-child(4):before{content:"Hulpmiddelen";}
+}
+</style>
+
 </head>
-
 <body>
 
 <div class="page">
 
-  <h1>Oelbert Studiehulp</h1>
-  <p style="text-align:center; opacity:0.8;">
-    Toetsweek Periode 4
-  </p>
+<h1>Oelbert Studiehulp</h1>
 
-  <a class="button nav-button" href="index.html">
-    ⬅ Terug naar Periode 3
-  </a>
+<p style="text-align:center;opacity:0.8;">
+Toetsweek Periode 4
+</p>
+
+<a class="button nav-button" href="index.html">
+⬅ Terug naar Periode 3
+</a>
+
 <h2>📚 Overzicht Toetsweek 4</h2>
 
-<style>
-.overview-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  color: #1e3a8a;
-  border-radius: 12px;
-  overflow: hidden;
-  margin: 20px 0;
-}
-
-.overview-table th {
-  background: #fbbf24;
-  color: #111827;
-  padding: 12px;
-  text-align: left;
-}
-
-.overview-table td {
-  padding: 12px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.overview-table tr:last-child td {
-  border-bottom: none;
-}
-
-@media (max-width: 768px) {
-  .overview-table,
-  .overview-table thead,
-  .overview-table tbody,
-  .overview-table th,
-  .overview-table td,
-  .overview-table tr {
-    display: block;
-  }
-
-  .overview-table thead {
-    display: none;
-  }
-
-  .overview-table tr {
-    background: white;
-    margin-bottom: 15px;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .overview-table td {
-    border: none;
-    padding: 8px 12px;
-  }
-
-  .overview-table td:before {
-    font-weight: bold;
-    display: block;
-    color: #111827;
-    margin-bottom: 4px;
-  }
-
-  .overview-table td:nth-child(1):before { content: "Vak"; }
-  .overview-table td:nth-child(2):before { content: "Onderwerpen"; }
-  .overview-table td:nth-child(3):before { content: "Hoofdstuk"; }
-  .overview-table td:nth-child(4):before { content: "Hulpmiddelen"; }
-}
-</style>
-
 <table class="overview-table">
-  <thead>
-    <tr>
-      <th>Vak</th>
-      <th>Onderwerpen</th>
-      <th>Hoofdstuk</th>
-      <th>Hulpmiddelen</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Aardrijkskunde</td>
-      <td>Ongelijkheid + vaardigheden</td>
-      <td>H4.1 t/m H4.4</td>
-      <td>Grote Bosatlas</td>
-    </tr>
+<thead>
+<tr>
+<th>Vak</th>
+<th>Onderwerpen</th>
+<th>Hoofdstuk</th>
+<th>Hulpmiddelen</th>
+</tr>
+</thead>
 
-    <tr>
-      <td>Biologie</td>
-      <td>Levenskenmerk waarnemen</td>
-      <td>H4.1 t/m H4.4</td>
-      <td>Geen</td>
-    </tr>
+<tbody>
 
-    <tr>
-      <td>Engels</td>
-      <td>Tenses</td>
-      <td>Grammar</td>
-      <td>Geen</td>
-    </tr>
+<tr>
+<td>Aardrijkskunde</td>
+<td>Ongelijkheid + vaardigheden</td>
+<td>H4.1 t/m H4.4</td>
+<td>Grote Bosatlas</td>
+</tr>
 
-    <tr>
-      <td>Frans</td>
-      <td>Unité 6 en 7, passé composé</td>
-      <td>Unité 5 t/m 7</td>
-      <td>Geen</td>
-    </tr>
+<tr>
+<td>Biologie</td>
+<td>Levenskenmerk waarnemen</td>
+<td>H4.1 t/m H4.4</td>
+<td>Geen</td>
+</tr>
 
-    <tr>
-      <td>Geschiedenis</td>
-      <td>Middeleeuwen</td>
-      <td>KA 9, 12, 13, 14 (+8)</td>
-      <td>Geen</td>
-    </tr>
+<tr>
+<td>Engels</td>
+<td>Tenses</td>
+<td>Grammar</td>
+<td>Geen</td>
+</tr>
 
-    <tr>
-      <td>Grieks</td>
-      <td>Argo les 7</td>
-      <td>Woordjes, grammatica, tekst en cultuur</td>
-      <td>Geen</td>
-    </tr>
+<tr>
+<td>Frans</td>
+<td>Unité 6 en 7, passé composé</td>
+<td>Unité 5 t/m 7</td>
+<td>Geen</td>
+</tr>
 
-    <tr>
-      <td>Latijn</td>
-      <td>SPQR t/m les 8</td>
-      <td>Woordjes, grammatica, cultuur en tekst</td>
-      <td>Geen</td>
-    </tr>
+<tr>
+<td>Geschiedenis</td>
+<td>Middeleeuwen</td>
+<td>KA 9,12,13,14 (+8)</td>
+<td>Geen</td>
+</tr>
 
-    <tr>
-      <td>Nederlands</td>
-      <td>Grammatica</td>
-      <td>Heel GSI klas 1</td>
-      <td>Aabc-kaartje, potlood, gum, geodriehoek/liniaal</td>
-    </tr>
+<tr>
+<td>Grieks</td>
+<td>Argo les 7</td>
+<td>Woordjes, grammatica, tekst en cultuur</td>
+<td>Geen</td>
+</tr>
 
-    <tr>
-      <td>Wiskunde</td>
-      <td>Herleiden en machten</td>
-      <td>H8</td>
-      <td>Geen</td>
-    </tr>
-  </tbody>
+<tr>
+<td>Latijn</td>
+<td>SPQR t/m les 8</td>
+<td>Woordjes, grammatica, cultuur en tekst</td>
+<td>Geen</td>
+</tr>
+
+<tr>
+<td>Nederlands</td>
+<td>Grammatica</td>
+<td>Heel GSI klas 1</td>
+<td>Aabc-kaartje, potlood, gum, geodriehoek/liniaal</td>
+</tr>
+
+<tr>
+<td>Wiskunde</td>
+<td>Herleiden en machten</td>
+<td>H8</td>
+<td>Geen</td>
+</tr>
+
+</tbody>
 </table>
 
-  <h2>Infographics</h2>
-<a class="button" href="Basis_van_algebra_en_machten.png" target="_blank">
-  Basis van algebra en machten
-</a>
-  
-  <h2>Video</h2>
-  <a class="button" href="https://notebooklm.google.com/notebook/e65a807b-2ac4-48e5-acda-276af078e2d3/artifact/3bc83abf-7f50-4b72-9bbe-769a293b6ace?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">
-  Wiskunde periode 4
-</a>
-  <a class="button" href="https://notebooklm.google.com/notebook/d48e1426-7310-443b-8899-1a6d7dfe4f0d/artifact/9ca7c3f1-27e2-4919-8863-412ff1b51666?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">
-  Geschiedenis periode 4
-</a>
-  <a class="button" href="https://notebooklm.google.com/notebook/944c86ff-b28a-4e4d-9f3f-f23287317f8a/artifact/0183ad36-5749-48bd-af19-1ec2e63d89ea?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">
-  Latijn periode 4
-</a>
-  <a class="button" href="https://notebooklm.google.com/notebook/51d39b77-2b18-4dc0-95d4-048faf9301f5/artifact/7a2d3529-4180-4ac5-8f9b-01faddd4ed30?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">
-  Aardrijkskunde periode 4
-</a>
-  <a class="button" href="https://notebooklm.google.com/notebook/27fe239d-1297-4c29-921f-21d0b4afeeb8/artifact/4ee74408-7d1c-490d-a6d4-69d73406dde3?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">
-  Grieks periode 4
-</a>
-  <h2>Podcasts</h2>
-<a class="button" href="https://notebooklm.google.com/notebook/d48e1426-7310-443b-8899-1a6d7dfe4f0d/artifact/bd39b8d1-01d9-459a-973b-565305a1a8d5?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">
-  Geschiedenis periode 4
-</a>
-  <a class="button" href="https://notebooklm.google.com/notebook/944c86ff-b28a-4e4d-9f3f-f23287317f8a/artifact/69e1d9da-991e-4e48-86fe-e31d9370e222?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">
-  Latijn periode 4
-</a>
-  <a class="button" href="https://notebooklm.google.com/notebook/e65a807b-2ac4-48e5-acda-276af078e2d3/artifact/439e248f-0c8d-4fdb-9abd-4e4235a9e193?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">
-  Wiskunde periode 4
-</a>
-  <a class="button" href="https://notebooklm.google.com/notebook/51d39b77-2b18-4dc0-95d4-048faf9301f5/artifact/d16bea6d-6893-43e4-aaae-7107b40d2fe4?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">
-  Aardrijkskunde periode 4
-</a>
-  <a class="button" href="https://notebooklm.google.com/notebook/27fe239d-1297-4c29-921f-21d0b4afeeb8/artifact/be0d9269-8a0a-41df-bfba-6a8d8f432647?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">
-  Grieks periode 4
-</a>
-  <h2>Flashcards</h2>
-<a class="button" href="https://notebooklm.google.com/notebook/b1275bcc-1fc2-4dc0-bc3c-83a7e77052f7?artifactId=18a42ca1-4f4e-43d8-b86b-c4a538fb3816" target="_blank">
-  Flashcards Frans
-</a>
-  <a class="button" href="https://studygo.com/nl/learn/lists/187287467/grieks-periode-4" target="_blank">
-  Flashcards Grieks Periode 4
-</a>
-  <a class="button" href="https://studygo.com/nl/learn/lists/187288049/latijn-periode-4" target="_blank">
-  Flashcards Latijn
-</a>
+<h2>🌍 Aardrijkskunde</h2>
+
+<a class="button" href="https://notebooklm.google.com/notebook/51d39b77-2b18-4dc0-95d4-048faf9301f5/artifact/7a2d3529-4180-4ac5-8f9b-01faddd4ed30?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">🎥 Video</a>
+
+<a class="button" href="https://notebooklm.google.com/notebook/51d39b77-2b18-4dc0-95d4-048faf9301f5/artifact/d16bea6d-6893-43e4-aaae-7107b40d2fe4?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">🎧 Podcast</a>
+
+<h2>🧬 Biologie</h2>
+
+<p>Nog geen materiaal toegevoegd.</p>
+
+<h2>🇬🇧 Engels</h2>
+
+<p>Nog geen materiaal toegevoegd.</p>
+
+<h2>🇫🇷 Frans</h2>
+
+<a class="button" href="https://studygo.com/nl/learn/lists/187287265/frans-periode-4" target="_blank">📝 Woordjes oefenen</a>
+
+<a class="button" href="https://notebooklm.google.com/notebook/b1275bcc-1fc2-4dc0-bc3c-83a7e77052f7?artifactId=18a42ca1-4f4e-43d8-b86b-c4a538fb3816" target="_blank">🃏 Flashcards</a>
+
+<h2>🏰 Geschiedenis</h2>
+
+<a class="button" href="https://notebooklm.google.com/notebook/d48e1426-7310-443b-8899-1a6d7dfe4f0d/artifact/9ca7c3f1-27e2-4919-8863-412ff1b51666?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">🎥 Video</a>
+
+<a class="button" href="https://notebooklm.google.com/notebook/d48e1426-7310-443b-8899-1a6d7dfe4f0d/artifact/bd39b8d1-01d9-459a-973b-565305a1a8d5?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">🎧 Podcast</a>
+
+<h2>🇬🇷 Grieks</h2>
+
+<a class="button" href="https://studygo.com/nl/learn/lists/187287467/grieks-periode-4" target="_blank">🃏 Flashcards</a>
+
+<a class="button" href="https://notebooklm.google.com/notebook/27fe239d-1297-4c29-921f-21d0b4afeeb8/artifact/4ee74408-7d1c-490d-a6d4-69d73406dde3?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">🎥 Video</a>
+
+<a class="button" href="https://notebooklm.google.com/notebook/27fe239d-1297-4c29-921f-21d0b4afeeb8/artifact/be0d9269-8a0a-41df-bfba-6a8d8f432647?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">🎧 Podcast</a>
+
+<h2>🏛️ Latijn</h2>
+
+<a class="button" href="https://studygo.com/nl/learn/lists/187288049/latijn-periode-4" target="_blank">🃏 Flashcards</a>
+
+<a class="button" href="https://notebooklm.google.com/notebook/944c86ff-b28a-4e4d-9f3f-f23287317f8a/artifact/0183ad36-5749-48bd-af19-1ec2e63d89ea?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">🎥 Video</a>
+
+<a class="button" href="https://notebooklm.google.com/notebook/944c86ff-b28a-4e4d-9f3f-f23287317f8a/artifact/69e1d9da-991e-4e48-86fe-e31d9370e222?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">🎧 Podcast</a>
+
+<h2>🇳🇱 Nederlands</h2>
+
+<p>Nog geen materiaal toegevoegd.</p>
+
+<h2>📐 Wiskunde</h2>
+
+<a class="button" href="Basis_van_algebra_en_machten.png" target="_blank">🖼️ Infographic</a>
+
+<a class="button" href="https://notebooklm.google.com/notebook/e65a807b-2ac4-48e5-acda-276af078e2d3/artifact/3bc83abf-7f50-4b72-9bbe-769a293b6ace?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">🎥 Video</a>
+
+<a class="button" href="https://notebooklm.google.com/notebook/e65a807b-2ac4-48e5-acda-276af078e2d3/artifact/439e248f-0c8d-4fdb-9abd-4e4235a9e193?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_" target="_blank">🎧 Podcast</a>
+
 </div>
 
 </body>
